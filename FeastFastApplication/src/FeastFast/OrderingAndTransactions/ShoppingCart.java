@@ -12,8 +12,8 @@ public class ShoppingCart {
     private double totalPrice;
     private boolean isCartFinal;
 
-    public ShoppingCart(int shoppingCartId) {
-        this.shoppingCartId = shoppingCartId;
+    public ShoppingCart() {
+        this.shoppingCartId = 1;
         this.itemsInCart = new HashMap<>();
         this.totalPrice = 0.0;
         this.isCartFinal = false;
@@ -31,6 +31,10 @@ public class ShoppingCart {
     public void removeItem(MenuItem item) {
         itemsInCart.remove(item);
         calculateTotalPrice();
+    }
+
+    public boolean containsItem(MenuItem item) {
+        return itemsInCart.containsKey(item);
     }
 
     public void updateQuantity(MenuItem item, int quantity) {

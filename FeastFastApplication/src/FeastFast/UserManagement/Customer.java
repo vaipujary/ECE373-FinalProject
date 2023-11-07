@@ -14,11 +14,21 @@ public class Customer {
     private String lastEmailReceived;
     private boolean askedToUpdateContactInfo;
 
+    public Customer() {
+        this.name = "";
+        this.phoneNumber = "";
+        this.email = "";
+        this.shoppingCart = new ShoppingCart();
+        this.lastSMSReceived = "";
+        this.lastEmailReceived = "";
+        this.askedToUpdateContactInfo = false;
+    }
+
     public Customer(String name, String phoneNumber, String email) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.shoppingCart = new ShoppingCart(1);
+        this.shoppingCart = new ShoppingCart();
         this.lastSMSReceived = "";
         this.lastEmailReceived = "";
         this.askedToUpdateContactInfo = false;
@@ -34,6 +44,14 @@ public class Customer {
             shoppingCart.transferItemsToOrder(order);
             shoppingCart.clear(); // Clear the cart after placing the order
         }
+    }
+
+    // Method to place an order from the shopping cart
+    public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
+        CustomerOrder order = new CustomerOrder();
+        shoppingCart.transferItemsToOrder(order);
+        shoppingCart.clear(); // Clear the shopping cart after placing the order
+        return order; // Return the newly created order
     }
 
     public void receiveSMSNotification(String message) {

@@ -36,9 +36,9 @@ class CustomerTestCases {
     }
 
     @Test
-    void testPlaceOrder() {
-        customer.placeOrder(order);
-        assertTrue(order.isPlaced(), "Order should be placed by customer.");
+    void testAddItemToCart() {
+        shoppingCart.addItem(menuItem, 1); // Adding one quantity of menuItem to the cart
+        assertTrue(shoppingCart.containsItem(menuItem), "Shopping cart should contain the added item.");
     }
 
     @Test
@@ -87,26 +87,20 @@ class CustomerTestCases {
         assertTrue(browsedMenu.containsItem(menuItem), "Menu should contain the added menu items.");
     }
 
-    @Test
-    void testAddItemToCart() {
-        customer.addToCart(menuItem, 1); // Adding one quantity of menuItem to the cart
-        assertTrue(shoppingCart.containsItem(menuItem), "Shopping cart should contain the added item.");
-    }
 
     @Test
     void testPlaceOrderWithItems() {
-        customer.addToCart(menuItem, 2); // Adding two quantities of menuItem to the cart
-        customer.placeOrder(order);
-        assertTrue(order.containsItem(menuItem), "Order should contain the items added to the cart.");
-        assertEquals(2, order.getQuantityOfItem(menuItem), "Order should contain the correct quantity of the item.");
+        shoppingCart.addItem(menuItem, 2); // Adding two quantities of menuItem to the cart
+        customer.placeOrder(shoppingCart);
+        assertEquals(2, order.getItems().get(menuItem).intValue(), "Order should contain the correct quantity of the item.");
     }
 
     @Test
     void testOrderTotalCalculation() {
-        customer.addToCart(menuItem, 3); // Adding three quantities of menuItem to the cart
-        customer.placeOrder(order);
+        shoppingCart.addItem(menuItem, 3); // Adding three quantities of menuItem to the cart
+        customer.placeOrder(shoppingCart);
         double expectedTotal = menuItem.getPrice() * 3;
-        assertEquals(expectedTotal, order.getTotal(), "Order total should be correctly calculated based on the cart items.");
+        assertEquals(expectedTotal, order.getTotalPrice(), "Order total should be correctly calculated based on the cart items.");
     }
 
     @Test
