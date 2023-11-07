@@ -1,5 +1,8 @@
 package FeastFast.RestaurantManagement;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CustomerOrder {
 
     private String status;
@@ -7,6 +10,8 @@ public class CustomerOrder {
     private String deliveryLocation;
     private String issueReported;
     private double tip;
+    private Map<MenuItem, Integer> items = new HashMap<>();
+    private double totalPrice;
 
     public CustomerOrder() {
         // Initialize default values
@@ -57,5 +62,28 @@ public class CustomerOrder {
         this.tip = tip;
     }
 
-    // Additional methods and logic as required by your application
+    // Method to add an item with its quantity to the order
+    public void addItem(MenuItem item, int quantity) {
+        items.put(item, items.getOrDefault(item, 0) + quantity);
+        calculateTotalPrice();
+    }
+
+    // Method to calculate the total price of the order
+    private void calculateTotalPrice() {
+        totalPrice = items.entrySet().stream()
+                          .mapToDouble(entry -> entry.getKey().getPrice() * entry.getValue())
+                          .sum() + tip;
+    }
+
+    // Method to get the total price of the order
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    // Method to clear all items from the order
+    public void clearItems() {
+        items.clear();
+        totalPrice = 0.0;
+    }
+
 }
