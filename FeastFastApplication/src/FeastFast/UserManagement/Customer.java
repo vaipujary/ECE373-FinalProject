@@ -2,5 +2,6 @@ package FeastFast.UserManagement;
 
 public class Customer {
 
-	String customerName;
+	private String customerName;
+	private int userId;
 }
