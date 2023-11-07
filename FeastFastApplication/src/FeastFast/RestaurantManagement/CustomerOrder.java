@@ -86,4 +86,12 @@ public class CustomerOrder {
         totalPrice = 0.0;
     }
 
+    public int getId() {
+        return 0;
+    }
+
+    public Map<MenuItem, Integer> getItems() {
+        return null;
+    }
+
 }

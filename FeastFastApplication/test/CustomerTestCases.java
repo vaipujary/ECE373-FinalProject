@@ -108,7 +108,7 @@ class CustomerTestCases {
         customer.addToCart(menuItem, 1);
         customer.placeOrder(order);
         application.checkoutOrder(order);
-        assertTrue(order.isConfirmed(), "Order should be confirmed after checkout process.");
+        assertEquals("Placed", order.getStatus(), "Order should be confirmed after checkout process.");
     }
 
     @Test

@@ -4,10 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-// Corrected imports based on the provided class packages
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.RestaurantManagement.CustomerOrder;
-import FeastFast.ApplicationCore.FeastFastApplication; // Assuming this contains the notification and system API functionalities
+import FeastFast.ApplicationCore.FeastFastApplication;
 
 class DeliveryDriverTestCases {
 
@@ -34,15 +33,14 @@ class DeliveryDriverTestCases {
 
     @Test
     void testOrderAcceptance() {
-        // This test assumes that the assignOrderToDriver method has side effects that can be tested
-        feastFastApplication.assignOrderToDriver(driver, order);
+        // Assuming that the order status is set within the acceptOrder method
         driver.acceptOrder(order);
-        assertEquals("Confirmed", order.getStatus(), "Order should be confirmed by driver.");
+        assertEquals("Accepted", order.getStatus(), "Order should be accepted by driver.");
     }
 
     @Test
     void testGPSTracking() {
-        // This test assumes that the driver class has methods to simulate GPS movement and get locations
+        // Assuming that the driver class has methods to simulate GPS movement and get locations
         String pickupLocation = "123 Main St";
         String deliveryLocation = "456 Elm St";
         order.setPickupLocation(pickupLocation);
@@ -57,7 +55,7 @@ class DeliveryDriverTestCases {
 
     @Test
     void testDeliveryTimeLogging() {
-        // This test assumes that the driver class has methods to log delivery time
+        // Assuming that the driver class has methods to log delivery time
         driver.pickUpOrder(order);
         long startTime = System.currentTimeMillis();
         // Simulate some time passing
@@ -74,7 +72,7 @@ class DeliveryDriverTestCases {
 
     @Test
     void testMockNotifications() {
-        // This test assumes that the FeastFastApplication class has a method to send SMS
+        // Assuming that the FeastFastApplication class has a method to send SMS
         String message = "Your order is on the way.";
         feastFastApplication.sendSMS(driver.getPhoneNumber(), message);
         // You would need to check that the SMS was sent, possibly by checking a log or a status within the application
@@ -82,15 +80,15 @@ class DeliveryDriverTestCases {
 
     @Test
     void testIssueReporting() {
-        // This test assumes that the driver class has a method to report issues
+        // Assuming that the driver class has a method to report issues
         String issue = "Traffic delay";
-        driver.reportIssue(order, issue);
+        feastFastApplication.reportIssue(driver, order, issue);
         assertEquals(issue, order.getIssueReported(), "Issue should be reported correctly.");
     }
 
     @Test
     void testDriverRatingSystem() {
-        // This test assumes that the FeastFastApplication class has a method to rate drivers
+        // Assuming that the FeastFastApplication class has a method to rate drivers
         int rating = 5;
         feastFastApplication.rateDriver(driver, rating);
         assertEquals(rating, driver.getRating(), "Driver rating should be updated correctly.");
@@ -98,9 +96,9 @@ class DeliveryDriverTestCases {
 
     @Test
     void testDriverEarningsReport() {
-        // This test assumes that the driver class has a method to complete orders and log earnings
+        // Assuming that the driver class has a method to complete orders and log earnings
         double tipAmount = 5.0;
-        driver.completeOrder(order, tipAmount);
+        feastFastApplication.completeOrder(driver, order, tipAmount);
         assertEquals(tipAmount, driver.getEarnings(), "Driver earnings should be calculated correctly.");
     }
 

@@ -118,5 +118,9 @@ public class Customer {
         return askedToUpdateContactInfo;
     }
 
+    public String getLastNotificationReceived() {
+        return null;
+    }
+
     // Additional methods as needed for further functionality
 }
