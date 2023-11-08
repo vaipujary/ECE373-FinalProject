@@ -7,7 +7,7 @@ import FeastFast.RestaurantManagement.CustomerOrder;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
-    //this is trinitys code
+    
     // Method to send SMS to a customer
     public void sendSMSToCustomer(Customer customer, String message) {
         // Implementation to send SMS
