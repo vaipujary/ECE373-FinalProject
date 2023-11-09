@@ -17,6 +17,7 @@ class UseCasesTestCases {
     private FeastFastApplication app;
     private Customer customer;
     private ShoppingCart cart;
+    private CustomerOrder order;
 
     @BeforeEach
     void setUp() {
@@ -80,5 +81,51 @@ class UseCasesTestCases {
         CustomerOrder order = customer.placeOrder(cart);
         assertNotNull(order, "Order should be created after checkout");
         assertEquals(29.97, order.getTotalPrice(), "Total price should be correct after checkout");
+    }
+
+    @Test
+    void testCreateAccount() {
+        String name = "John Doe";
+        String email = "john.doe@example.com";
+        String password = "SecurePassword123";
+
+        // Assuming app has a method to register a customer
+        Customer newCustomer = app.registerCustomer(name, email, password);
+        assertNotNull(newCustomer, "Customer account should be created");
+        assertTrue(newCustomer.isLoggedIn(), "Customer should be logged in after account creation");
+    }
+
+    @Test
+    void testModifyOrder() {
+        // Assuming the customer is logged in and has an active order
+        assertTrue(customer.isLoggedIn(), "Customer should be logged in");
+        assertNotNull(order, "There should be an active order");
+
+        // Customer modifies the order
+        // Assuming app has a method to modify an order
+        MenuItem pizza = new MenuItem("Pizza",9.13);
+        order.addItem(pizza, 1); // Add a new item
+        order.removeItem("Salad"); // Remove an item
+        order.updateQuantity("Burger", 3); // Update the quantity of an existing item
+    
+        // Assuming app has a method to submit the modified order
+        CustomerOrder modifiedOrder = order;
+        assertNotNull(modifiedOrder, "Modified order should not be null");
+        assertEquals(3, modifiedOrder.getQuantity("Burger"), "Quantity of Burger should be updated to 3");
+        assertTrue(modifiedOrder.containsItem("Pizza"), "Order should contain the new item Pizza");
+        assertFalse(modifiedOrder.containsItem("Salad"), "Order should not contain the removed item Salad");
+    }
+
+    @Test
+    void testTrackOrder() {
+        // Assuming the customer has placed an order
+        app.placeOrder(customer, order);
+        assertTrue(order.isPlaced(), "Order should be placed");
+
+        // Customer tracks the order
+        // Assuming app has a method to track an order
+        String orderStatus = app.trackOrder(order);
+        assertNotNull(orderStatus, "Order status should be retrievable");
+        assertTrue(orderStatus.matches("Order Received|Order being prepared|Order Complete|Order canceled|Order out for delivery|Order ready for pickup|Order delivered|Order picked up"), "Order status should be one of the defined states");
     }
 }

@@ -7,13 +7,13 @@ import FeastFast.UserManagement.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
-import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.CustomerOrder;
 // import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
     private List<Restaurant> restaurants = new ArrayList<>();;
+    // private List<Customer> customers = new ArrayList<>();;
 
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
@@ -81,6 +81,14 @@ public class FeastFastApplication {
         }
 
         return restaurants.get(0);
+    }
+    public Customer registerCustomer(String name, String email, String password) {
+        return new Customer(name, email, password);
+    }
+    public void placeOrder(Customer customer, CustomerOrder order) {
+    }
+    public String trackOrder(CustomerOrder order) {
+        return null;
     }
 
     

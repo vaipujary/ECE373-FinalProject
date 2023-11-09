@@ -2,6 +2,9 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.CustomerOrder;
 import FeastFast.RestaurantManagement.MenuItem;
+
+import java.util.function.BooleanSupplier;
+
 import FeastFast.OrderingAndTransactions.ShoppingCart;
 
 public class Customer {
@@ -121,6 +124,10 @@ public class Customer {
     }
 
     public String getLastNotificationReceived() {
+        return null;
+    }
+
+    public BooleanSupplier isLoggedIn() {
         return null;
     }
 
