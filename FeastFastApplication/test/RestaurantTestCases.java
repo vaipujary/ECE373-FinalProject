@@ -26,7 +26,7 @@ class RestaurantTestCases {
         // Set up a menu item
         menuItem.setName("Burger");
         menuItem.setPrice(8.99);
-
+        menuItem.setId("12345");
         // Add the item to the menu
         menu.addItem(menuItem);
 

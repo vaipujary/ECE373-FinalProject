@@ -5,7 +5,19 @@ import java.util.Map;
 
 public class CustomerOrder {
 
-    private String status;
+    enum Status {
+        NotPlaced,
+        Placed,
+        Receieved,
+        Preparing,
+        InDelivery,
+        Arrived,
+        Deliverd;
+
+        
+      }
+
+    private Status status;
     private String pickupLocation;
     private String deliveryLocation;
     private String issueReported;
@@ -15,19 +27,19 @@ public class CustomerOrder {
 
     public CustomerOrder() {
         // Initialize default values
-        this.status = "Pending";
+        this.status = Status.NotPlaced;
         this.pickupLocation = "";
         this.deliveryLocation = "";
         this.issueReported = "";
         this.tip = 0.0;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = Status.valueOf(status);
     }
 
     public String getPickupLocation() {

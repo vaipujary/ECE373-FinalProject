@@ -8,6 +8,7 @@ import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
     
+
     // Method to send SMS to a customer
     public void sendSMSToCustomer(Customer customer, String message) {
         // Implementation to send SMS
@@ -58,4 +59,6 @@ public class FeastFastApplication {
         driver.addEarnings(tipAmount);
         order.setStatus("Completed");
     }
+
+    
 }
