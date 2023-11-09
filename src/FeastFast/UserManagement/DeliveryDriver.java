@@ -14,7 +14,7 @@ public class DeliveryDriver {
         // Initialize default values
         this.isAvailable = true;
         this.currentLocation = "";
-        this.phoneNumber = "000-000-0000"; // Placeholder value
+        // this.phoneNumber = "000-000-0000"; // Placeholder value
         this.rating = 0;
         this.earnings = 0.0;
     }
