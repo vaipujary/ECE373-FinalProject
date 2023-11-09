@@ -12,7 +12,7 @@ public class DeliveryDriver {
 
     public DeliveryDriver() {
         // Initialize default values
-        this.isAvailable = false;
+        this.isAvailable = true;
         this.currentLocation = "";
         this.phoneNumber = "000-000-0000"; // Placeholder value
         this.rating = 0;
