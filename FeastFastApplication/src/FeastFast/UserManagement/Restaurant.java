@@ -102,10 +102,12 @@ public class Restaurant {
     // Method to receive an order
     public void receiveOrder(CustomerOrder order) {
         this.customerOrders.add(order);
+
+        order.setStatus(CustomerOrder.Status.RestaurantReceieved);
     }
 
     // Method to update the status of an order
-    public void updateOrderStatus(CustomerOrder order, String status) {
+    public void updateOrderStatus(CustomerOrder order, CustomerOrder.Status status) {
         order.setStatus(status);
     }
 

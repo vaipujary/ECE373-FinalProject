@@ -5,16 +5,14 @@ import java.util.Map;
 
 public class CustomerOrder {
 
-    enum Status {
+    public static enum Status {
         NotPlaced,
-        Placed,
-        Receieved,
-        Preparing,
+        SubmittedToRestuarant,
+        RestaurantReceieved,
+        PreparingFood,
         InDelivery,
-        Arrived,
-        Deliverd;
-
-        
+        ArrivedToDestination,
+        DeliverdToCustomer
       }
 
     private Status status;
@@ -38,8 +36,8 @@ public class CustomerOrder {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = Status.valueOf(status);
+    public void setStatus(Status s) {
+        this.status = s;
     }
 
     public String getPickupLocation() {

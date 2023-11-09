@@ -24,7 +24,7 @@ public class FeastFastApplication {
     // Method to confirm an order
     public void confirmOrder(CustomerOrder order) {
         // Implementation to confirm the order
-        order.setStatus("Confirmed");
+        order.setStatus(CustomerOrder.Status.RestaurantReceieved);
     }
 
     // Method to get the menu
@@ -36,7 +36,7 @@ public class FeastFastApplication {
     // Method to checkout an order
     public void checkoutOrder(CustomerOrder order) {
         // Implementation to checkout the order
-        order.setStatus("Checked out");
+        order.setStatus(CustomerOrder.Status.SubmittedToRestuarant);
     }
 
     public void sendSMS(String phoneNumber, String message) {
@@ -57,7 +57,7 @@ public class FeastFastApplication {
     public void completeOrder(DeliveryDriver driver, CustomerOrder order, double tipAmount) {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
-        order.setStatus("Completed");
+        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
     }
 
     

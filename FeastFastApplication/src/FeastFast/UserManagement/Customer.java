@@ -37,7 +37,7 @@ public class Customer {
     public void placeOrder(CustomerOrder order) {
         // Assuming the ShoppingCart has a method to calculate the total and return items
         if (!shoppingCart.isEmpty()) {
-            order.setStatus("Placed");
+            order.setStatus(CustomerOrder.Status.SubmittedToRestuarant);
             // Transfer items from the shopping cart to the order
             // and calculate the total price, etc.
             // This is a simplified version of what would be a more complex process

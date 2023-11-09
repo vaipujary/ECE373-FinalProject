@@ -1,5 +1,7 @@
 package FeastFast.UserManagement;
 
+import FeastFast.RestaurantManagement.CustomerOrder;
+
 public class DeliveryDriver {
 
     private boolean isAvailable;
@@ -61,7 +63,7 @@ public class DeliveryDriver {
     // Method to simulate accepting an order
     public void acceptOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
         if (isAvailable) {
-            order.setStatus("Confirmed");
+            order.setStatus(CustomerOrder.Status.InDelivery);
         }
     }
 
@@ -74,6 +76,8 @@ public class DeliveryDriver {
     public void deliverOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
         // Logic to handle order delivery
         addEarnings(order.getTip()); // Assuming there is a getTip method in CustomerOrder
+        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+
     }
 
     // Method to simulate reporting an issue
