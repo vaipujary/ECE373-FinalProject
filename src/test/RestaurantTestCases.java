@@ -69,7 +69,7 @@ class RestaurantTestCases {
     void testUpdateOrderStatus() {
         restaurant.receiveOrder(order);
 
-        assertEquals(CustomerOrder.Status.RestaurantReceieved, order.getStatus(), "Order status should be updated to 'Preparing'.");
+        assertEquals(CustomerOrder.Status.RestaurantReceived, order.getStatus(), "Order status should be updated to 'Preparing'.");
     }
 
     @Test

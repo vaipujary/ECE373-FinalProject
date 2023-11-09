@@ -103,7 +103,7 @@ public class Restaurant {
     public void receiveOrder(CustomerOrder order) {
         this.customerOrders.add(order);
 
-        order.setStatus(CustomerOrder.Status.RestaurantReceieved);
+        order.setStatus(CustomerOrder.Status.RestaurantReceived);
     }
 
     // Method to update the status of an order

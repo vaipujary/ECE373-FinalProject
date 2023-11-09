@@ -8,8 +8,8 @@ public class CustomerOrder {
 
     public static enum Status {
         NotPlaced,
-        SubmittedToRestuarant,
-        RestaurantReceieved,
+        SubmittedToRestaurant,
+        RestaurantReceived,
         PreparingFood,
         InDelivery,
         ArrivedToDestination,
@@ -33,8 +33,8 @@ public class CustomerOrder {
         this.tip = 0.0;
     }
 
-    public Status getStatus() {
-        return status;
+    public String getStatus() {
+        return status.name();
     }
 
     public void setStatus(Status s) {
@@ -102,7 +102,7 @@ public class CustomerOrder {
     }
 
     public Map<MenuItem, Integer> getItems() {
-        return null;
+        return items;
     }
 
     public void removeItem(String string) {

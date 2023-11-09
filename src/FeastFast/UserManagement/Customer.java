@@ -40,7 +40,7 @@ public class Customer {
     public void placeOrder(CustomerOrder order) {
         // Assuming the ShoppingCart has a method to calculate the total and return items
         if (!shoppingCart.isEmpty()) {
-            order.setStatus(CustomerOrder.Status.SubmittedToRestuarant);
+            order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
             // Transfer items from the shopping cart to the order
             // and calculate the total price, etc.
             // This is a simplified version of what would be a more complex process
@@ -79,7 +79,7 @@ public class Customer {
 
     public void addToCart(MenuItem item, int quantity) {
         // Logic to add an item to the shopping cart
-        shoppingCart.addItem(item, quantity);
+        this.shoppingCart.addItem(item, quantity);
     }
 
     // Getters and Setters

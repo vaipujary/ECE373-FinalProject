@@ -33,7 +33,7 @@ public class FeastFastApplication {
     // Method to confirm an order
     public void confirmOrder(CustomerOrder order) {
         // Implementation to confirm the order
-        order.setStatus(CustomerOrder.Status.RestaurantReceieved);
+        order.setStatus(CustomerOrder.Status.RestaurantReceived);
     }
 
     // Method to get the menu
@@ -45,7 +45,7 @@ public class FeastFastApplication {
     // Method to checkout an order
     public void checkoutOrder(CustomerOrder order) {
         // Implementation to checkout the order
-        order.setStatus(CustomerOrder.Status.SubmittedToRestuarant);
+        order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
     }
 
     public void sendSMS(String phoneNumber, String message) {
