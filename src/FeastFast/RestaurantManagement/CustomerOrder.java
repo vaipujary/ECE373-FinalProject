@@ -33,8 +33,8 @@ public class CustomerOrder {
         this.tip = 0.0;
     }
 
-    public String getStatus() {
-        return status.name();
+    public Status getStatus() {
+        return status;
     }
 
     public void setStatus(Status s) {

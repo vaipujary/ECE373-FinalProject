@@ -62,9 +62,9 @@ public class DeliveryDriver {
 
     // Method to simulate accepting an order
     public void acceptOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
-        if (isAvailable) {
-            order.setStatus(CustomerOrder.Status.InDelivery);
-        }
+        
+        order.setStatus(CustomerOrder.Status.InDelivery);
+        
     }
 
     // Method to simulate picking up an order
