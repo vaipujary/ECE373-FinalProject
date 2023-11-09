@@ -2,6 +2,7 @@ package FeastFast.RestaurantManagement;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
 
 public class CustomerOrder {
 
@@ -102,6 +103,24 @@ public class CustomerOrder {
 
     public Map<MenuItem, Integer> getItems() {
         return items;
+    }
+
+    public void removeItem(String string) {
+    }
+
+    public void updateQuantity(String string, int i) {
+    }
+
+    public BooleanSupplier isPlaced() {
+        return null;
+    }
+
+    public BooleanSupplier containsItem(String string) {
+        return null;
+    }
+
+    public Integer getQuantity(String string) {
+        return null;
     }
 
 }

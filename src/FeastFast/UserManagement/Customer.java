@@ -2,6 +2,9 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.CustomerOrder;
 import FeastFast.RestaurantManagement.MenuItem;
+
+import java.util.function.BooleanSupplier;
+
 import FeastFast.OrderingAndTransactions.ShoppingCart;
 
 public class Customer {
@@ -49,6 +52,8 @@ public class Customer {
     // Method to place an order from the shopping cart
     public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
         CustomerOrder order = new CustomerOrder();
+
+        shoppingCart.finalizeCart();
         shoppingCart.transferItemsToOrder(order);
         shoppingCart.clear(); // Clear the shopping cart after placing the order
         return order; // Return the newly created order
@@ -119,6 +124,10 @@ public class Customer {
     }
 
     public String getLastNotificationReceived() {
+        return null;
+    }
+
+    public BooleanSupplier isLoggedIn() {
         return null;
     }
 
