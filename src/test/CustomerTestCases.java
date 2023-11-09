@@ -80,7 +80,7 @@ class CustomerTestCases {
     	shoppingCart.finalizeCart();
     	order = customer.placeOrder(shoppingCart);
         application.confirmOrder(order);
-        assertTrue(order.getStatus().equals("RestaurantReceived"), "Customer should receive a confirmation notification.");
+        assertTrue(order.getStatus().equals(CustomerOrder.Status.RestaurantReceived), "Customer should receive a confirmation notification.");
     }
 
     @Test
@@ -116,7 +116,7 @@ class CustomerTestCases {
         shoppingCart.finalizeCart();
         order = customer.placeOrder(shoppingCart);
         application.checkoutOrder(order);
-        assertEquals("SubmittedToRestaurant", order.getStatus(), "Order should be confirmed after checkout process.");
+        assertEquals(CustomerOrder.Status.SubmittedToRestaurant, order.getStatus(), "Order should be confirmed after checkout process.");
     }
 
 }
