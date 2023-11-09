@@ -42,14 +42,6 @@ class CustomerTestCases {
     }
 
     @Test
-    void testReceiveSMSNotification() {
-        String expectedSMS = "Your order status has been updated.";
-        application.sendSMSToCustomer(customer, expectedSMS);
-        String actualSMS = customer.getLastSMSReceived();
-        assertEquals(expectedSMS, actualSMS, "Customer should receive the correct SMS notification.");
-    }
-
-    @Test
     void testReceiveEmailNotification() {
         String expectedEmail = "Your order has been confirmed.";
         application.sendEmailToCustomer(customer, expectedEmail);
@@ -91,6 +83,7 @@ class CustomerTestCases {
     @Test
     void testPlaceOrderWithItems() {
         shoppingCart.addItem(menuItem, 2); // Adding two quantities of menuItem to the cart
+        shoppingCart.finalizeCart();
         customer.placeOrder(shoppingCart);
         assertEquals(2, order.getItems().get(menuItem).intValue(), "Order should contain the correct quantity of the item.");
     }

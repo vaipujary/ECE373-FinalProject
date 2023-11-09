@@ -35,7 +35,7 @@ class DeliveryDriverTestCases {
     void testOrderAcceptance() {
         // Assuming that the order status is set within the acceptOrder method
         driver.acceptOrder(order);
-        assertEquals("Accepted", order.getStatus(), "Order should be accepted by driver.");
+        assertEquals(CustomerOrder.Status.InDelivery, order.getStatus(), "Order should be accepted by driver.");
     }
 
     @Test

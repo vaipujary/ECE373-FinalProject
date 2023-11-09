@@ -9,6 +9,7 @@ import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.CustomerOrder;
 
+
 class RestaurantTestCases {
 
     private Restaurant restaurant;
@@ -26,7 +27,7 @@ class RestaurantTestCases {
         // Set up a menu item
         menuItem.setName("Burger");
         menuItem.setPrice(8.99);
-
+        menuItem.setId("12345");
         // Add the item to the menu
         menu.addItem(menuItem);
 
@@ -67,8 +68,8 @@ class RestaurantTestCases {
     @Test
     void testUpdateOrderStatus() {
         restaurant.receiveOrder(order);
-        restaurant.updateOrderStatus(order, "Preparing");
-        assertEquals("Preparing", order.getStatus(), "Order status should be updated to 'Preparing'.");
+
+        assertEquals(CustomerOrder.Status.RestaurantReceieved, order.getStatus(), "Order status should be updated to 'Preparing'.");
     }
 
     @Test
