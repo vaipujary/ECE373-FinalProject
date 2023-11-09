@@ -1,14 +1,17 @@
 package FeastFast.OrderingAndTransactions;
 
 import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.UserManagement.Customer;
 
 public class Receipt {
     
+	private Customer customer;
 	private ShoppingCart shoppingCart;
 	private CustomerOrder order;
 	
 	public Receipt() {
 		
+		this.customer = new Customer();
 		shoppingCart = new ShoppingCart();
 		order = new CustomerOrder();
 		
@@ -28,6 +31,10 @@ public class Receipt {
 	
 	public void setOrder(CustomerOrder co) {
 		this.order = co;
+	}
+
+	public Customer getCustomer() {
+		return this.customer;
 	}
 	
 }

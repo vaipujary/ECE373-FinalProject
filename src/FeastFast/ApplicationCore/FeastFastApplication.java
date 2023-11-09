@@ -2,13 +2,22 @@ package FeastFast.ApplicationCore;
 
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
+import FeastFast.UserManagement.Restaurant;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import FeastFast.RestaurantManagement.CustomerOrder;
 // import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
-    
+    private List<Restaurant> restaurants = new ArrayList<>();;
+    // private List<Customer> customers = new ArrayList<>();;
 
+    public void addRestaurant(Restaurant r) {
+        restaurants.add(r);
+    }
     // Method to send SMS to a customer
     public void sendSMSToCustomer(Customer customer, String message) {
         // Implementation to send SMS
@@ -58,6 +67,28 @@ public class FeastFastApplication {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
         order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+    }
+    public List<Restaurant> getRestaurants() {
+        return restaurants;
+    }
+
+    public Restaurant selectRestaurant(String restaurantName) {
+        for(Restaurant r: restaurants) {
+            if (restaurantName == r.getName()) {
+                return r;
+            }
+            
+        }
+
+        return restaurants.get(0);
+    }
+    public Customer registerCustomer(String name, String email, String password) {
+        return new Customer(name, email, password);
+    }
+    public void placeOrder(Customer customer, CustomerOrder order) {
+    }
+    public String trackOrder(CustomerOrder order) {
+        return null;
     }
 
     
