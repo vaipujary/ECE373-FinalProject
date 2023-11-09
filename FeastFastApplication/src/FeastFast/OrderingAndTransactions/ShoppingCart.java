@@ -103,5 +103,13 @@ public class ShoppingCart {
         this.clear(); // Optionally clear the cart after transferring items
     }
 
+    public Integer getQuantityOfItem(MenuItem item) {
+        if (itemsInCart.containsKey(item)) {
+            return itemsInCart.get(item);
+        }
+
+        return -1;
+    }
+
     
 }

@@ -49,6 +49,8 @@ public class Customer {
     // Method to place an order from the shopping cart
     public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
         CustomerOrder order = new CustomerOrder();
+
+        shoppingCart.finalizeCart();
         shoppingCart.transferItemsToOrder(order);
         shoppingCart.clear(); // Clear the shopping cart after placing the order
         return order; // Return the newly created order
