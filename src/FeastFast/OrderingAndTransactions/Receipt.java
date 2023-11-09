@@ -11,7 +11,7 @@ public class Receipt {
 	
 	public Receipt() {
 		
-		customer = new Customer();
+		this.customer = new Customer();
 		shoppingCart = new ShoppingCart();
 		order = new CustomerOrder();
 		
@@ -31,6 +31,10 @@ public class Receipt {
 	
 	public void setOrder(CustomerOrder co) {
 		this.order = co;
+	}
+
+	public Customer getCustomer() {
+		return this.customer;
 	}
 	
 }
