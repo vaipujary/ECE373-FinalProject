@@ -13,7 +13,8 @@ public class CustomerOrder {
         PreparingFood,
         InDelivery,
         ArrivedToDestination,
-        DeliverdToCustomer
+        DeliverdToCustomer,
+        Cancelled
       }
 
     private Status status;

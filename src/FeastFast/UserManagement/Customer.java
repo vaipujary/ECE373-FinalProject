@@ -49,8 +49,30 @@ public class Customer {
         }
     }
 
+    public boolean cancelOrder(CustomerOrder order) {
+
+        
+        order.setStatus(CustomerOrder.Status.Cancelled);
+
+        if (order.getStatus() == CustomerOrder.Status.Cancelled) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     // Method to place an order from the shopping cart
     public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
+        CustomerOrder order = new CustomerOrder();
+
+        shoppingCart.finalizeCart();
+        shoppingCart.transferItemsToOrder(order);
+        shoppingCart.clear(); // Clear the shopping cart after placing the order
+        return order; // Return the newly created order
+    }
+
+    public CustomerOrder placeOrder() {
         CustomerOrder order = new CustomerOrder();
 
         shoppingCart.finalizeCart();
@@ -81,6 +103,12 @@ public class Customer {
         // Logic to add an item to the shopping cart
         this.shoppingCart.addItem(item, quantity);
     }
+
+    public void addToCart(MenuItem item) {
+        // Logic to add an item to the shopping cart
+        this.shoppingCart.addItem(item, 1);
+    }
+
 
     // Getters and Setters
     public String getName() {

@@ -18,6 +18,7 @@ class UseCasesTestCases {
     private Customer customer;
     private ShoppingCart cart;
     private CustomerOrder order;
+    private Restaurant restaurant;
 
     @BeforeEach
     void setUp() {
@@ -26,7 +27,7 @@ class UseCasesTestCases {
         customer.setName("John Doe");
         
         cart = new ShoppingCart();
-        
+        order = new CustomerOrder();
         // Set up the application with some restaurants
         Restaurant italianRestaurant = new Restaurant();
         italianRestaurant.setName("Italian Place");
@@ -128,4 +129,55 @@ class UseCasesTestCases {
         assertNotNull(orderStatus, "Order status should be retrievable");
         assertTrue(orderStatus.matches("Order Received|Order being prepared|Order Complete|Order canceled|Order out for delivery|Order ready for pickup|Order delivered|Order picked up"), "Order status should be one of the defined states");
     }
+
+    @Test
+    void testCancelOrder() {
+        // Preconditions
+        customer.placeOrder(order);
+        restaurant.receiveOrder(order);
+        order.setStatus(CustomerOrder.Status.Cancelled);
+
+        // Action
+        boolean cancelResult = customer.cancelOrder(order);
+
+        // Post conditions
+        if (order.getStatus().equals(CustomerOrder.Status.Cancelled)) {
+            assertTrue(cancelResult, "Order should be successfully canceled.");
+        } else {
+            assertFalse(cancelResult, "Order should not be canceled if it's already being prepared or prepared.");
+        }
+    }
+
+    @Test
+    void testReorder() {
+        // Preconditions
+        // CustomerOrder pastOrder = customer.getPreviousOrder();
+        // assertNotNull(pastOrder, "There should be a past order for reordering.");
+
+        // // Action
+        // // CustomerOrder newOrder = customer.reorder(pastOrder);
+
+        // // Post conditions
+        // assertNotNull(newOrder, "A new order should be created for the reorder.");
+        // assertEquals(pastOrder.getItems(), newOrder.getItems(), "Reordered items should match the past order.");
+    }
+
+    @Test
+    void testPlaceOrder() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        MenuItem burger = new MenuItem("burger", 7.99);
+
+        customer.addToCart(pizza, 2);
+        customer.addToCart(burger);
+
+        // Action
+        CustomerOrder placedOrder = customer.placeOrder();
+
+        // Post conditions
+        assertNotNull(placedOrder, "An order should be successfully placed.");
+        assertEquals(1, placedOrder.getItems().get("pizza"), "First item in the order should be Pizza.");
+        assertEquals(2, placedOrder.getItems().get("burger"), "Quantity of Pizza should be 2.");
+    }
+
 }
