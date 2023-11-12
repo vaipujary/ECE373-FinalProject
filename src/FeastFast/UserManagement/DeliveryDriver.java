@@ -1,6 +1,6 @@
 package FeastFast.UserManagement;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 
 public class DeliveryDriver {
 
@@ -61,32 +61,32 @@ public class DeliveryDriver {
     }
 
     // Method to simulate accepting an order
-    public void acceptOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
+    public void acceptOrder(FeastFast.RestaurantManagement.Order order) {
         
-        order.setStatus(CustomerOrder.Status.InDelivery);
+        order.setStatus(Order.Status.InDelivery);
         
     }
 
     // Method to simulate picking up an order
-    public void pickUpOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
+    public void pickUpOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order pickup
     }
 
     // Method to simulate delivering an order
-    public void deliverOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
+    public void deliverOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order delivery
-        addEarnings(order.getTip()); // Assuming there is a getTip method in CustomerOrder
-        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+        addEarnings(order.getTip()); // Assuming there is a getTip method in Order
+        order.setStatus(Order.Status.DeliverdToCustomer);
 
     }
 
     // Method to simulate reporting an issue
-    public void reportIssue(FeastFast.RestaurantManagement.CustomerOrder order, String issue) {
-        order.setIssueReported(issue); // Assuming there is a setIssueReported method in CustomerOrder
+    public void reportIssue(FeastFast.RestaurantManagement.Order order, String issue) {
+        order.setIssueReported(issue); // Assuming there is a setIssueReported method in Order
     }
 
     // Method to simulate completing an order
-    public void completeOrder(FeastFast.RestaurantManagement.CustomerOrder order, double tipAmount) {
+    public void completeOrder(FeastFast.RestaurantManagement.Order order, double tipAmount) {
         // Logic to complete the order
         addEarnings(tipAmount);
     }

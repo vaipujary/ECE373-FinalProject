@@ -2,7 +2,7 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,11 +15,11 @@ public class Restaurant {
     private String address;
     private String password;
     private Menu menu;
-    private Set<CustomerOrder> customerOrders;
+    private Set<Order> Orders;
     private boolean loggedIn;
 
     public Restaurant() {
-        this.customerOrders = new HashSet<>();
+        this.Orders = new HashSet<>();
         this.menu = new Menu();
     }
 
@@ -72,8 +72,8 @@ public class Restaurant {
         this.menu = menu;
     }
 
-    public Set<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
+    public Set<Order> getOrders() {
+        return Orders;
     }
 
     public boolean isLoggedIn() {
@@ -100,14 +100,14 @@ public class Restaurant {
     }
 
     // Method to receive an order
-    public void receiveOrder(CustomerOrder order) {
-        this.customerOrders.add(order);
+    public void receiveOrder(Order order) {
+        this.Orders.add(order);
 
-        order.setStatus(CustomerOrder.Status.RestaurantReceived);
+        order.setStatus(Order.Status.RestaurantReceived);
     }
 
     // Method to update the status of an order
-    public void updateOrderStatus(CustomerOrder order, CustomerOrder.Status status) {
+    public void updateOrderStatus(Order order, Order.Status status) {
         order.setStatus(status);
     }
 

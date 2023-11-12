@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 
 
 class RestaurantTestCases {
@@ -15,14 +15,14 @@ class RestaurantTestCases {
     private Restaurant restaurant;
     private Menu menu;
     private MenuItem menuItem;
-    private CustomerOrder order;
+    private Order order;
 
     @BeforeEach
     void setUp() {
         restaurant = new Restaurant();
         menu = new Menu();
         menuItem = new MenuItem();
-        order = new CustomerOrder();
+        order = new Order();
 
         // Set up a menu item
         menuItem.setName("Burger");
@@ -62,14 +62,14 @@ class RestaurantTestCases {
     @Test
     void testReceiveOrder() {
         restaurant.receiveOrder(order);
-        assertTrue(restaurant.getCustomerOrders().contains(order), "Restaurant should have the received order in its list.");
+        assertTrue(restaurant.getOrders().contains(order), "Restaurant should have the received order in its list.");
     }
 
     @Test
     void testUpdateOrderStatus() {
         restaurant.receiveOrder(order);
 
-        assertEquals(CustomerOrder.Status.RestaurantReceived, order.getStatus(), "Order status should be updated to 'Preparing'.");
+        assertEquals(Order.Status.RestaurantReceived, order.getStatus(), "Order status should be updated to 'Preparing'.");
     }
 
     @Test

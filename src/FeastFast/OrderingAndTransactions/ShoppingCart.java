@@ -1,6 +1,6 @@
 package FeastFast.OrderingAndTransactions;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.MenuItem;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class ShoppingCart {
         return isCartFinal;
     }
 
-    public void transferItemsToOrder(CustomerOrder order) {
+    public void transferItemsToOrder(Order order) {
         if (!isCartFinal) {
             throw new IllegalStateException("Cart must be finalized before transferring items to an order.");
         }
@@ -99,7 +99,7 @@ public class ShoppingCart {
             order.addItem(item, quantity); // Add each item and its quantity to the order
         }
 
-        // Assuming the total price is calculated within the CustomerOrder class
+        // Assuming the total price is calculated within the Order class
         this.clear(); // Optionally clear the cart after transferring items
     }
 

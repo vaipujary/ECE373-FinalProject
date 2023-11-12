@@ -7,7 +7,7 @@ import FeastFast.UserManagement.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 // import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.Menu;
 
@@ -31,9 +31,9 @@ public class FeastFastApplication {
     }
 
     // Method to confirm an order
-    public void confirmOrder(CustomerOrder order) {
+    public void confirmOrder(Order order) {
         // Implementation to confirm the order
-        order.setStatus(CustomerOrder.Status.RestaurantReceived);
+        order.setStatus(Order.Status.RestaurantReceived);
     }
 
     // Method to get the menu
@@ -43,9 +43,9 @@ public class FeastFastApplication {
     }
 
     // Method to checkout an order
-    public void checkoutOrder(CustomerOrder order) {
+    public void checkoutOrder(Order order) {
         // Implementation to checkout the order
-        order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
+        order.setStatus(Order.Status.SubmittedToRestaurant);
     }
 
     public void sendSMS(String phoneNumber, String message) {
@@ -53,7 +53,7 @@ public class FeastFastApplication {
         // This could involve interacting with an SMS API
     }
 
-    public void reportIssue(DeliveryDriver driver, CustomerOrder order, String issue) {
+    public void reportIssue(DeliveryDriver driver, Order order, String issue) {
         // Implementation to report an issue
         order.setIssueReported(issue);
     }
@@ -63,10 +63,10 @@ public class FeastFastApplication {
         driver.setRating(rating);
     }
 
-    public void completeOrder(DeliveryDriver driver, CustomerOrder order, double tipAmount) {
+    public void completeOrder(DeliveryDriver driver, Order order, double tipAmount) {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
-        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+        order.setStatus(Order.Status.DeliverdToCustomer);
     }
     public List<Restaurant> getRestaurants() {
         return restaurants;
@@ -85,9 +85,9 @@ public class FeastFastApplication {
     public Customer registerCustomer(String name, String email, String password) {
         return new Customer(name, email, password);
     }
-    public void placeOrder(Customer customer, CustomerOrder order) {
+    public void placeOrder(Customer customer, Order order) {
     }
-    public String trackOrder(CustomerOrder order) {
+    public String trackOrder(Order order) {
         return null;
     }
 

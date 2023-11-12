@@ -1,6 +1,6 @@
 package FeastFast.UserManagement;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.MenuItem;
 
 import java.util.function.BooleanSupplier;
@@ -37,10 +37,10 @@ public class Customer {
         this.askedToUpdateContactInfo = false;
     }
 
-    public void placeOrder(CustomerOrder order) {
+    public void placeOrder(Order order) {
         // Assuming the ShoppingCart has a method to calculate the total and return items
         if (!shoppingCart.isEmpty()) {
-            order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
+            order.setStatus(Order.Status.SubmittedToRestaurant);
             // Transfer items from the shopping cart to the order
             // and calculate the total price, etc.
             // This is a simplified version of what would be a more complex process
@@ -49,12 +49,12 @@ public class Customer {
         }
     }
 
-    public boolean cancelOrder(CustomerOrder order) {
+    public boolean cancelOrder(Order order) {
 
         
-        order.setStatus(CustomerOrder.Status.Cancelled);
+        order.setStatus(Order.Status.Cancelled);
 
-        if (order.getStatus() == CustomerOrder.Status.Cancelled) {
+        if (order.getStatus() == Order.Status.Cancelled) {
             return true;
         }
         else {
@@ -63,8 +63,8 @@ public class Customer {
     }
 
     // Method to place an order from the shopping cart
-    public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
-        CustomerOrder order = new CustomerOrder();
+    public Order placeOrder(ShoppingCart shoppingCart) {
+        Order order = new Order();
 
         shoppingCart.finalizeCart();
         shoppingCart.transferItemsToOrder(order);
@@ -72,8 +72,8 @@ public class Customer {
         return order; // Return the newly created order
     }
 
-    public CustomerOrder placeOrder() {
-        CustomerOrder order = new CustomerOrder();
+    public Order placeOrder() {
+        Order order = new Order();
 
         shoppingCart.finalizeCart();
         shoppingCart.transferItemsToOrder(order);
@@ -93,10 +93,10 @@ public class Customer {
         this.lastEmailReceived = message;
     }
 
-    public CustomerOrder viewOrderDetails(int orderId) {
+    public Order viewOrderDetails(int orderId) {
         // Logic to view order details, possibly from a list of orders
         // For simplicity, returning a new order object
-        return new CustomerOrder(); // This would be replaced with actual order retrieval logic
+        return new Order(); // This would be replaced with actual order retrieval logic
     }
 
     public void addToCart(MenuItem item, int quantity) {

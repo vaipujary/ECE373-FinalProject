@@ -5,20 +5,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import FeastFast.UserManagement.DeliveryDriver;
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.ApplicationCore.FeastFastApplication;
 
 class DeliveryDriverTestCases {
 
     private DeliveryDriver driver;
-    private CustomerOrder order;
+    private Order order;
     private FeastFastApplication feastFastApplication;
 
     @BeforeEach
     void setUp() {
         // Initialize your test objects here with actual implementations
         driver = new DeliveryDriver();
-        order = new CustomerOrder();
+        order = new Order();
         feastFastApplication = new FeastFastApplication(); // This needs to be an actual instance with real behavior
     }
 
@@ -35,7 +35,7 @@ class DeliveryDriverTestCases {
     void testOrderAcceptance() {
         // Assuming that the order status is set within the acceptOrder method
         driver.acceptOrder(order);
-        assertEquals(CustomerOrder.Status.InDelivery, order.getStatus(), "Order should be accepted by driver.");
+        assertEquals(Order.Status.InDelivery, order.getStatus(), "Order should be accepted by driver.");
     }
 
     @Test

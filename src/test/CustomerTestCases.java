@@ -8,7 +8,7 @@ import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.OrderingAndTransactions.Receipt;
 import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.ApplicationCore.FeastFastApplication;
@@ -19,7 +19,7 @@ class CustomerTestCases {
     //private Menu menu;
     private MenuItem menuItem;
     private ShoppingCart shoppingCart;
-    private CustomerOrder order;
+    private Order order;
     private Restaurant restaurant;
     private FeastFastApplication application;
     private Receipt receipt;
@@ -32,7 +32,7 @@ class CustomerTestCases {
         //menu = new Menu();
         menuItem = new MenuItem("Pizza", 9.99);
         shoppingCart = new ShoppingCart();
-        order = new CustomerOrder();
+        order = new Order();
         application = new FeastFastApplication();
         restaurant = new Restaurant();
         receipt = new Receipt();
@@ -80,7 +80,7 @@ class CustomerTestCases {
     	shoppingCart.finalizeCart();
     	order = customer.placeOrder(shoppingCart);
         application.confirmOrder(order);
-        assertTrue(order.getStatus().equals(CustomerOrder.Status.RestaurantReceived), "Customer should receive a confirmation notification.");
+        assertTrue(order.getStatus().equals(Order.Status.RestaurantReceived), "Customer should receive a confirmation notification.");
     }
 
     @Test
@@ -116,7 +116,7 @@ class CustomerTestCases {
         shoppingCart.finalizeCart();
         order = customer.placeOrder(shoppingCart);
         application.checkoutOrder(order);
-        assertEquals(CustomerOrder.Status.SubmittedToRestaurant, order.getStatus(), "Order should be confirmed after checkout process.");
+        assertEquals(Order.Status.SubmittedToRestaurant, order.getStatus(), "Order should be confirmed after checkout process.");
     }
 
 }
