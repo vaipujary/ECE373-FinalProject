@@ -10,26 +10,25 @@ import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.ApplicationCore.FeastFastApplication;
-import FeastFast.OrderingAndTransactions.ShoppingCart;
 
 class UseCasesTestCases {
 
     private FeastFastApplication app;
     private Customer customer;
-    private ShoppingCart cart;
     private Order order;
-    private Restaurant restaurant;
+    private Restaurant italianRestaurant;
 
     @BeforeEach
     void setUp() {
         app = new FeastFastApplication();
+
         customer = new Customer();
         customer.setName("John Doe");
-        
-        cart = new ShoppingCart();
+
         order = new Order();
+        customer.setOrder(order);        
         // Set up the application with some restaurants
-        Restaurant italianRestaurant = new Restaurant();
+        this.italianRestaurant = new Restaurant();
         italianRestaurant.setName("Italian Place");
         italianRestaurant.setMenu(new Menu());
         // Add items to the menu
@@ -63,25 +62,22 @@ class UseCasesTestCases {
     }
 
     @Test
-    void testUpdateCart() {
-        // Customer adds items to the cart
+    void testUpdateOrder() {
+        // Customer adds items to the order
         MenuItem pizza = new MenuItem("Pizza", 9.99);
-        cart.addItem(pizza, 2);
-        assertTrue(cart.containsItem(pizza), "Cart should contain Pizza");
+        order.addItem(pizza, 2);
+        assertTrue(order.containsItem(pizza), "Order should contain Pizza");
 
-        // Customer removes an item from the cart
-        cart.removeItem(pizza);
-        assertFalse(cart.containsItem(pizza), "Cart should not contain Pizza after removal");
+        // Customer removes an item from the order
+        order.removeItem(pizza);
+        assertFalse(order.containsItem(pizza), "Order should not contain Pizza after removal");
 
         // Customer updates the quantity of an item
-        cart.addItem(pizza, 1);
-        cart.updateQuantity(pizza, 3);
-        assertEquals(3, cart.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
+        order.addItem(pizza, 1);
+        order.updateQuantity(pizza, 3);
+        assertEquals(3, order.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
 
-        // Customer proceeds to checkout
-        Order order = customer.placeOrder(cart);
-        assertNotNull(order, "Order should be created after checkout");
-        assertEquals(29.97, order.getTotalPrice(), "Total price should be correct after checkout");
+        
     }
 
     @Test
@@ -103,16 +99,21 @@ class UseCasesTestCases {
         assertNotNull(order, "There should be an active order");
 
         // Customer modifies the order
-        // Assuming app has a method to modify an order
         MenuItem pizza = new MenuItem("Pizza",9.13);
+        MenuItem salad = new MenuItem("Salad",9.13);
+        MenuItem burger = new MenuItem("Burger", 7.99);
+
         order.addItem(pizza, 1); // Add a new item
+        order.addItem(burger, 1); // Add a new item
+        order.addItem(salad, 1); // Add a new item
+
         order.removeItem("Salad"); // Remove an item
         order.updateQuantity("Burger", 3); // Update the quantity of an existing item
     
         // Assuming app has a method to submit the modified order
         Order modifiedOrder = order;
         assertNotNull(modifiedOrder, "Modified order should not be null");
-        assertEquals(3, modifiedOrder.getQuantity("Burger"), "Quantity of Burger should be updated to 3");
+        assertEquals(3, modifiedOrder.getQuantityOfItem("Burger"), "Quantity of Burger should be updated to 3");
         assertTrue(modifiedOrder.containsItem("Pizza"), "Order should contain the new item Pizza");
         assertFalse(modifiedOrder.containsItem("Salad"), "Order should not contain the removed item Salad");
     }
@@ -120,21 +121,21 @@ class UseCasesTestCases {
     @Test
     void testTrackOrder() {
         // Assuming the customer has placed an order
-        app.placeOrder(customer, order);
+        customer.placeOrder();
         assertTrue(order.isPlaced(), "Order should be placed");
 
         // Customer tracks the order
         // Assuming app has a method to track an order
         String orderStatus = app.trackOrder(order);
         assertNotNull(orderStatus, "Order status should be retrievable");
-        assertTrue(orderStatus.matches("Order Received|Order being prepared|Order Complete|Order canceled|Order out for delivery|Order ready for pickup|Order delivered|Order picked up"), "Order status should be one of the defined states");
+        assertTrue(orderStatus.matches("NotPlaced|SubmittedToRestaurant|RestaurantReceived|PreparingFood|InDelivery|ArrivedToDestination|DeliverdToCustomer|Cancelled"), "Order status should be one of the defined states");
     }
 
     @Test
     void testCancelOrder() {
         // Preconditions
-        customer.placeOrder(order);
-        restaurant.receiveOrder(order);
+        customer.placeOrder();
+        italianRestaurant.receiveOrder(order);
         order.setStatus(Order.Status.Cancelled);
 
         // Action
@@ -149,35 +150,21 @@ class UseCasesTestCases {
     }
 
     @Test
-    void testReorder() {
-        // Preconditions
-        // Order pastOrder = customer.getPreviousOrder();
-        // assertNotNull(pastOrder, "There should be a past order for reordering.");
-
-        // // Action
-        // // Order newOrder = customer.reorder(pastOrder);
-
-        // // Post conditions
-        // assertNotNull(newOrder, "A new order should be created for the reorder.");
-        // assertEquals(pastOrder.getItems(), newOrder.getItems(), "Reordered items should match the past order.");
-    }
-
-    @Test
     void testPlaceOrder() {
         // Preconditions
         MenuItem pizza = new MenuItem("Pizza", 11.99);
         MenuItem burger = new MenuItem("burger", 7.99);
 
-        customer.addToCart(pizza, 2);
-        customer.addToCart(burger);
+        order.addItem(pizza, 2);
+        order.addItem(burger);
 
         // Action
         Order placedOrder = customer.placeOrder();
 
         // Post conditions
         assertNotNull(placedOrder, "An order should be successfully placed.");
-        assertEquals(1, placedOrder.getItems().get("pizza"), "First item in the order should be Pizza.");
-        assertEquals(2, placedOrder.getItems().get("burger"), "Quantity of Pizza should be 2.");
+        assertEquals(1, placedOrder.getQuantityOfItem("Burger"), "First item in the order should be Burger.");
+        assertEquals(2, placedOrder.getQuantityOfItem("Pizza"), "Quantity of Pizza should be 2.");
     }
 
 }

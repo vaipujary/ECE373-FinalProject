@@ -1,7 +1,6 @@
 package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
-import FeastFast.RestaurantManagement.MenuItem;
 
 import java.util.function.BooleanSupplier;
 
@@ -12,16 +11,14 @@ public class Customer {
     private String phoneNumber;
     private String email;
     private Order order;
-    private String lastEmailReceived;
-    private boolean askedToUpdateContactInfo;
-
+    private Boolean isLoggedIn;
+    
     public Customer() {
         this.name = "";
         this.phoneNumber = "";
         this.email = "";
         this.order = new Order();
-        this.lastEmailReceived = "";
-        this.askedToUpdateContactInfo = false;
+        this.isLoggedIn = true;
     }
 
     public Customer(String name, String phoneNumber, String email) {
@@ -29,8 +26,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.order = new Order();
-        this.lastEmailReceived = "";
-        this.askedToUpdateContactInfo = false;
+        this.isLoggedIn = true;
     }
 
     public boolean cancelOrder(Order order) {
@@ -53,16 +49,13 @@ public class Customer {
         return order;
     }
 
-
+    public void setOrder(Order o) {
+        this.order = o;
+    }
     public Order viewOrderDetails(int orderId) {
         // Logic to view order details, possibly from a list of orders
         // For simplicity, returning a new order object
         return new Order(); // This would be replaced with actual order retrieval logic
-    }
-
-    public void addToOrder(MenuItem item, int quantity) {
-        // Logic to add an item to the shopping cart
-        
     }
 
 
@@ -96,8 +89,8 @@ public class Customer {
         return null;
     }
 
-    public BooleanSupplier isLoggedIn() {
-        return null;
+    public Boolean isLoggedIn() {
+        return this.isLoggedIn;
     }
 
     // Additional methods as needed for further functionality

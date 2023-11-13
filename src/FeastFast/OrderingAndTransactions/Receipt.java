@@ -1,7 +1,7 @@
 package FeastFast.OrderingAndTransactions;
 
 import FeastFast.RestaurantManagement.Order;
-import FeastFast.UserManagement.Customer;
+// import FeastFast.UserManagement.Customer;
 
 public class Receipt {
     
@@ -9,6 +9,14 @@ public class Receipt {
 	
 	public Receipt() {
 		
+	}
+
+	public void setOrder(Order o) {
+		this.order = o;
+	}
+
+	public Order getOrder() {
+		return this.order;
 	}
 	
 	

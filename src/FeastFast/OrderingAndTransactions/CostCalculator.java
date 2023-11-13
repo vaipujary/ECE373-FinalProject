@@ -16,4 +16,8 @@ public class CostCalculator {
         return 0.0;
     }
 
+    public Double calculateTotal() {
+        return 0.0;
+    }
+
 }

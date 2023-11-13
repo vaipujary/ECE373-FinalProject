@@ -77,7 +77,7 @@ public class FeastFastApplication {
     public void placeOrder(Customer customer, Order order) {
     }
     public String trackOrder(Order order) {
-        return null;
+        return order.getStatus().name();
     }
 
     
