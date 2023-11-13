@@ -167,4 +167,26 @@ class UseCasesTestCases {
         assertEquals(2, placedOrder.getQuantityOfItem("Pizza"), "Quantity of Pizza should be 2.");
     }
 
+    @Test
+    void testSelectOrderType() {
+        // Preconditions
+        assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
+        customer.selectRestaurant(italianRestaurant);
+
+        // Action
+        customer.selectOrderType(Order.Type.HOME_DELIVERY);
+
+        // Post conditions
+        assertEquals(Order.Type.HOME_DELIVERY, order.getOrderType(), "Order type should be Home Delivery");
+        assertNotNull(order.getDeliveryAddress(), "Delivery address should be provided for Home Delivery");
+
+        // Repeat for Pickup option
+        customer.selectOrderType(Order.Type.PICKUP);
+        customer.specifyPickupTime("12:00 PM");
+
+        // Post conditions for Pickup
+        assertEquals(Order.Type.PICKUP, order.getOrderType(), "Order type should be Pickup");
+        assertEquals("12:00 PM", order.getPickupTime(), "Pickup time should be specified");
+    }
+
 }

@@ -18,15 +18,22 @@ public class Order {
         ArrivedToDestination,
         DeliverdToCustomer,
         Cancelled
-      }
+    }
+
+    public static enum Type {
+        HOME_DELIVERY,
+        PICKUP
+    }
     
     private Customer customer;
     private DeliveryDriver deliveryDriver;
     private Restaurant restaurant;
 
     private Status status;
-
+    private Type type;
     private String comments;
+    private String deliveryAddress;
+    private String pickUpTime;
 
     private HashMap<MenuItem, Integer> foodOrder;
     
@@ -56,6 +63,16 @@ public class Order {
         this.deliveryDriver = deliveryDriver;
     }
 
+    // Getter for deliveryAddress
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    // Setter for deliveryAddress
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
     // Getter and setter for restaurant
     public Restaurant getRestaurant() {
         return restaurant;
@@ -72,6 +89,16 @@ public class Order {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public Type getOrderType() {
+        return type;
+    }
+
+    public void setOrderType(Type t) {
+        this.type = t;
+
+        
     }
 
     // Getter and setter for comments
@@ -182,11 +209,18 @@ public class Order {
         return this.status != Status.NotPlaced;
     }
 
-    // Existing setStatus method...
 
     // Method to get a copy of the items in the order
     public HashMap<MenuItem, Integer> getItems() {
         return new HashMap<>(foodOrder);
+    }
+
+    public String getPickupTime() {
+        return this.pickUpTime;
+    }
+
+    public void setPickupTime(String s) {
+        this.pickUpTime = s;
     }
     
 

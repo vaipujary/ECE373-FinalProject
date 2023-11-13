@@ -1,8 +1,8 @@
 package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
+import FeastFast.RestaurantManagement.Order.Type;
 
-import java.util.function.BooleanSupplier;
 
 
 public class Customer {
@@ -12,6 +12,8 @@ public class Customer {
     private String email;
     private Order order;
     private Boolean isLoggedIn;
+    private Restaurant restaurantInView;
+    private String Address;
     
     public Customer() {
         this.name = "";
@@ -58,6 +60,10 @@ public class Customer {
         return new Order(); // This would be replaced with actual order retrieval logic
     }
 
+    public void selectRestaurant(Restaurant r) {
+        this.restaurantInView = r;
+    }
+
 
     // Getters and Setters
     public String getName() {
@@ -93,5 +99,36 @@ public class Customer {
         return this.isLoggedIn;
     }
 
-    // Additional methods as needed for further functionality
+    public void selectOrderType(Order.Type t) {
+
+        switch (t) {
+            case HOME_DELIVERY:
+                order.setDeliveryAddress(Address);
+                break;
+
+            case PICKUP:
+                order.setDeliveryAddress("null");
+                break;
+
+            default:
+                order.setDeliveryAddress("null");
+
+                break;
+        }
+        this.order.setOrderType(t);
+    }
+
+    public void setAddress(String address) {
+        this.Address = address;
+    }
+
+    public String getAddress() {
+        return this.Address;
+    }
+
+    public void specifyPickupTime(String time) {
+        selectOrderType(Order.Type.PICKUP);
+
+        this.order.setPickupTime(time);
+    }
 }
