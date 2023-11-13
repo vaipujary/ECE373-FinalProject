@@ -1,8 +1,6 @@
 package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
-import FeastFast.RestaurantManagement.Order.Type;
-
 
 
 public class Customer {
@@ -62,6 +60,10 @@ public class Customer {
 
     public void selectRestaurant(Restaurant r) {
         this.restaurantInView = r;
+    }
+
+    public Restaurant getCurrentRestaurant() {
+        return this.restaurantInView;
     }
 
 
