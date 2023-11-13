@@ -75,14 +75,14 @@ public class DeliveryDriver {
     // Method to simulate delivering an order
     public void deliverOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order delivery
-        addEarnings(order.getTip()); // Assuming there is a getTip method in Order
+        addEarnings(order.getCostCalculator().calculateTip()); // Assuming there is a getTip method in Order
         order.setStatus(Order.Status.DeliverdToCustomer);
 
     }
 
     // Method to simulate reporting an issue
     public void reportIssue(FeastFast.RestaurantManagement.Order order, String issue) {
-        order.setIssueReported(issue); // Assuming there is a setIssueReported method in Order
+        order.setComments(issue); // Assuming there is a setIssueReported method in Order
     }
 
     // Method to simulate completing an order

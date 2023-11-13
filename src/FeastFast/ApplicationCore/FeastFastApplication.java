@@ -18,17 +18,6 @@ public class FeastFastApplication {
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
     }
-    // Method to send SMS to a customer
-    public void sendSMSToCustomer(Customer customer, String message) {
-        // Implementation to send SMS
-        customer.receiveSMSNotification(message);
-    }
-
-    // Method to send Email to a customer
-    public void sendEmailToCustomer(Customer customer, String message) {
-        // Implementation to send Email
-        customer.receiveEmailNotification(message);
-    }
 
     // Method to confirm an order
     public void confirmOrder(Order order) {
@@ -55,7 +44,7 @@ public class FeastFastApplication {
 
     public void reportIssue(DeliveryDriver driver, Order order, String issue) {
         // Implementation to report an issue
-        order.setIssueReported(issue);
+        order.setComments(issue);
     }
 
     public void rateDriver(DeliveryDriver driver, int rating) {

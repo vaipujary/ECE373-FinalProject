@@ -2,8 +2,6 @@ package FeastFast.RestaurantManagement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.function.BooleanSupplier;
 
 import FeastFast.OrderingAndTransactions.CostCalculator;
 import FeastFast.UserManagement.Customer;
@@ -31,7 +29,7 @@ public class Order {
 
     private String comments;
 
-    private ArrayList<MenuItem> foodItems = new ArrayList<>();
+    private HashMap<MenuItem, Integer> foodOrder = new HashMap<MenuItem, Integer>();
     
     private CostCalculator costCalculator;
 
@@ -87,13 +85,10 @@ public class Order {
     }
 
     // Getter and setter for foodItems
-    public ArrayList<MenuItem> getFoodItems() {
-        return new ArrayList<>(foodItems); // Return a copy for encapsulation
+    public HashMap<MenuItem, Integer> getFoodItems() {
+        return this.foodOrder; // Return a copy for encapsulation
     }
 
-    public void setFoodItems(ArrayList<MenuItem> foodItems) {
-        this.foodItems = new ArrayList<>(foodItems); // Create a new list for encapsulation
-    }
 
     // Getter and setter for costCalculator
     public CostCalculator getCostCalculator() {
