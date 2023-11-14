@@ -168,7 +168,7 @@ class UseCasesTestCases {
     }
 
     @Test
-    void testSelectOrderType() {
+    void testSelectOrderTypeDelivery() {
         // Preconditions
         assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
         customer.selectRestaurant(italianRestaurant);
@@ -180,6 +180,15 @@ class UseCasesTestCases {
         // Post conditions
         assertEquals(Order.Type.HOME_DELIVERY, order.getOrderType(), "Order type should be Home Delivery");
         assertNotNull(order.getDeliveryAddress(), "Delivery address should be provided for Home Delivery");
+
+
+    }
+
+    @Test
+    void testSelectOrderTypePickup() {
+        // Preconditions
+        assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
+        customer.selectRestaurant(italianRestaurant);
 
         // Repeat for Pickup option
         customer.selectOrderType(Order.Type.PICKUP);
