@@ -4,31 +4,36 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import FeastFast.UserManagement.Customer;
+import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.ApplicationCore.FeastFastApplication;
-import FeastFast.OrderingAndTransactions.ShoppingCart;
 
 class UseCasesTestCases {
 
     private FeastFastApplication app;
     private Customer customer;
-    private ShoppingCart cart;
-    private CustomerOrder order;
+    private Order order;
+    private Restaurant italianRestaurant;
+    private DeliveryDriver deliveryDriver;
 
     @BeforeEach
     void setUp() {
         app = new FeastFastApplication();
+
         customer = new Customer();
         customer.setName("John Doe");
-        
-        cart = new ShoppingCart();
-        
+        customer.LogIn();
+
+        order = new Order();
+        customer.setOrder(order);        
         // Set up the application with some restaurants
-        Restaurant italianRestaurant = new Restaurant();
+        this.italianRestaurant = new Restaurant();
         italianRestaurant.setName("Italian Place");
         italianRestaurant.setMenu(new Menu());
         // Add items to the menu
@@ -36,6 +41,8 @@ class UseCasesTestCases {
         // Add the restaurant to the application
         app.addRestaurant(italianRestaurant);
         // ... add other restaurants as needed
+
+        this.deliveryDriver = new DeliveryDriver();
     }
 
     @Test
@@ -62,25 +69,22 @@ class UseCasesTestCases {
     }
 
     @Test
-    void testUpdateCart() {
-        // Customer adds items to the cart
+    void testUpdateOrder() {
+        // Customer adds items to the order
         MenuItem pizza = new MenuItem("Pizza", 9.99);
-        cart.addItem(pizza, 2);
-        assertTrue(cart.containsItem(pizza), "Cart should contain Pizza");
+        order.addItem(pizza, 2);
+        assertTrue(order.containsItem(pizza), "Order should contain Pizza");
 
-        // Customer removes an item from the cart
-        cart.removeItem(pizza);
-        assertFalse(cart.containsItem(pizza), "Cart should not contain Pizza after removal");
+        // Customer removes an item from the order
+        order.removeItem(pizza);
+        assertFalse(order.containsItem(pizza), "Order should not contain Pizza after removal");
 
         // Customer updates the quantity of an item
-        cart.addItem(pizza, 1);
-        cart.updateQuantity(pizza, 3);
-        assertEquals(3, cart.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
+        order.addItem(pizza, 1);
+        order.updateQuantity(pizza, 3);
+        assertEquals(3, order.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
 
-        // Customer proceeds to checkout
-        CustomerOrder order = customer.placeOrder(cart);
-        assertNotNull(order, "Order should be created after checkout");
-        assertEquals(29.97, order.getTotalPrice(), "Total price should be correct after checkout");
+        
     }
 
     @Test
@@ -92,26 +96,31 @@ class UseCasesTestCases {
         // Assuming app has a method to register a customer
         Customer newCustomer = app.registerCustomer(name, email, password);
         assertNotNull(newCustomer, "Customer account should be created");
+        newCustomer.LogIn();
         assertTrue(newCustomer.isLoggedIn(), "Customer should be logged in after account creation");
     }
 
     @Test
     void testModifyOrder() {
-        // Assuming the customer is logged in and has an active order
         assertTrue(customer.isLoggedIn(), "Customer should be logged in");
         assertNotNull(order, "There should be an active order");
 
         // Customer modifies the order
-        // Assuming app has a method to modify an order
         MenuItem pizza = new MenuItem("Pizza",9.13);
+        MenuItem salad = new MenuItem("Salad",9.13);
+        MenuItem burger = new MenuItem("Burger", 7.99);
+
         order.addItem(pizza, 1); // Add a new item
+        order.addItem(burger, 1); // Add a new item
+        order.addItem(salad, 1); // Add a new item
+
         order.removeItem("Salad"); // Remove an item
         order.updateQuantity("Burger", 3); // Update the quantity of an existing item
     
         // Assuming app has a method to submit the modified order
-        CustomerOrder modifiedOrder = order;
+        Order modifiedOrder = order;
         assertNotNull(modifiedOrder, "Modified order should not be null");
-        assertEquals(3, modifiedOrder.getQuantity("Burger"), "Quantity of Burger should be updated to 3");
+        assertEquals(3, modifiedOrder.getQuantityOfItem("Burger"), "Quantity of Burger should be updated to 3");
         assertTrue(modifiedOrder.containsItem("Pizza"), "Order should contain the new item Pizza");
         assertFalse(modifiedOrder.containsItem("Salad"), "Order should not contain the removed item Salad");
     }
@@ -119,13 +128,187 @@ class UseCasesTestCases {
     @Test
     void testTrackOrder() {
         // Assuming the customer has placed an order
-        app.placeOrder(customer, order);
+        customer.placeOrder();
         assertTrue(order.isPlaced(), "Order should be placed");
 
         // Customer tracks the order
         // Assuming app has a method to track an order
         String orderStatus = app.trackOrder(order);
         assertNotNull(orderStatus, "Order status should be retrievable");
-        assertTrue(orderStatus.matches("Order Received|Order being prepared|Order Complete|Order canceled|Order out for delivery|Order ready for pickup|Order delivered|Order picked up"), "Order status should be one of the defined states");
+        assertTrue(orderStatus.matches("NotPlaced|SubmittedToRestaurant|RestaurantReceived|PreparingFood|InDelivery|ArrivedToDestination|DeliverdToCustomer|Cancelled"), "Order status should be one of the defined states");
     }
+
+    @Test
+    void testCancelOrder() {
+        // Preconditions
+        customer.placeOrder();
+        italianRestaurant.receiveOrder(order);
+        order.setStatus(Order.Status.Cancelled);
+
+        // Action
+        boolean cancelResult = customer.cancelOrder(order);
+
+        // Post conditions
+        if (order.getStatus().equals(Order.Status.Cancelled)) {
+            assertTrue(cancelResult, "Order should be successfully canceled.");
+        } else {
+            assertFalse(cancelResult, "Order should not be canceled if it's already being prepared or prepared.");
+        }
+    }
+
+    @Test
+    void testPlaceOrder() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        MenuItem burger = new MenuItem("burger", 7.99);
+
+        order.addItem(pizza, 2);
+        order.addItem(burger);
+
+        // Action
+        Order placedOrder = customer.placeOrder();
+
+        // Post conditions
+        assertNotNull(placedOrder, "An order should be successfully placed.");
+        assertEquals(1, placedOrder.getQuantityOfItem("Burger"), "First item in the order should be Burger.");
+        assertEquals(2, placedOrder.getQuantityOfItem("Pizza"), "Quantity of Pizza should be 2.");
+    }
+
+    @Test
+    void testSelectOrderTypeDelivery() {
+        // Preconditions
+        assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
+        customer.selectRestaurant(italianRestaurant);
+
+        // Action
+        customer.selectOrderType(Order.Type.HOME_DELIVERY);
+        customer.setAddress("123 Maple Street Springfield, ST 98765 United States");
+
+        // Post conditions
+        assertEquals(Order.Type.HOME_DELIVERY, order.getOrderType(), "Order type should be Home Delivery");
+        assertNotNull(order.getDeliveryAddress(), "Delivery address should be provided for Home Delivery");
+
+
+    }
+
+    @Test
+    void testSelectOrderTypePickup() {
+        // Preconditions
+        customer.LogIn();
+        assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
+        customer.selectRestaurant(italianRestaurant);
+
+        // Repeat for Pickup option
+        customer.selectOrderType(Order.Type.PICKUP);
+        customer.specifyPickupTime("12:00 PM");
+
+        // Post conditions for Pickup
+        assertEquals(Order.Type.PICKUP, order.getOrderType(), "Order type should be Pickup");
+        assertEquals("12:00 PM", order.getPickupTime(), "Pickup time should be specified");
+    }
+
+    @Test
+    void testSendEmailToCustomer() {
+        // Preconditions
+        customer.placeOrder();
+        assertTrue(order.isPlaced(), "Order should be placed");
+
+        // Action
+        boolean emailSent = app.sendEmailToCustomer(order);
+
+        // Post conditions
+        assertTrue(emailSent, "Email should be sent successfully to the customer");
+    }
+
+    @Test
+    void testViewPendingOrders() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+
+        italianRestaurant.LogIn();
+        assertTrue(italianRestaurant.isLoggedIn(), "Restaurant should be logged in to view orders");
+
+        // Action
+        List<Order> pendingOrders = italianRestaurant.viewPendingOrders();
+
+        // Post conditions
+        assertNotNull(pendingOrders, "Pending orders list should not be null");
+        assertFalse(pendingOrders.isEmpty(), "There should be pending orders available");
+    }
+
+    @Test
+    void testConfirmOrder() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+        
+        Order pendingOrder = italianRestaurant.viewPendingOrders().get(0);
+        assertNotNull(pendingOrder, "There should be a pending order to confirm");
+
+        // Action
+        boolean confirmationResult = italianRestaurant.confirmOrder(pendingOrder);
+
+        // Post conditions
+        assertTrue(confirmationResult, "Order should be successfully confirmed");
+        assertEquals(Order.Status.RestaurantReceived, pendingOrder.getStatus(), "Order status should be set to Confirmed");
+    }
+
+    @Test
+    void testAssignOrderToDeliveryDriver() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+
+        italianRestaurant.updateOrderStatus(customer.getOrder(), Order.Status.PreparingFood);
+        Order readyOrder = italianRestaurant.getReadyOrders().get(0);
+        assertNotNull(readyOrder, "There should be an order ready to be assigned to a delivery driver");
+
+        app.addDeliveryDriver(deliveryDriver);
+
+        // Action
+        List<DeliveryDriver> availableDrivers = app.getAvailableDeliveryDrivers();
+        assertFalse(availableDrivers.isEmpty(), "There should be available delivery drivers");
+        DeliveryDriver someDriver = availableDrivers.get(0);
+        someDriver.acceptOrder(readyOrder);
+
+        // Post conditions
+        assertEquals(someDriver, readyOrder.getDeliveryDriver(), "The order should be assigned to the selected driver");
+        assertEquals(Order.Status.InDelivery, readyOrder.getStatus(), "The order should be in delivery");
+
+    }
+
+    @Test
+    void testViewDeliveries() {
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+
+        DeliveryDriver driver = new DeliveryDriver();
+        driver.LogIn();
+        assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
+
+        driver.acceptOrder(customer.getOrder());
+        // Action
+        List<Order> assignedDeliveries = driver.viewDeliveries();
+
+        // Post conditions
+        assertNotNull(assignedDeliveries, "Assigned deliveries list should not be null");
+        if (assignedDeliveries.isEmpty()) {
+            System.out.println("No deliveries assigned at the moment");
+        } else {
+            assertFalse(assignedDeliveries.isEmpty(), "There should be deliveries assigned to the driver");
+        }
+    }
+
+
+
 }

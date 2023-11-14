@@ -1,86 +1,75 @@
 package FeastFast.UserManagement;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
-import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
 
-import java.util.function.BooleanSupplier;
 
-import FeastFast.OrderingAndTransactions.ShoppingCart;
+public class Customer extends User{
 
-public class Customer {
-
-    private String name;
     private String phoneNumber;
     private String email;
-    private ShoppingCart shoppingCart;
-    private String lastSMSReceived;
-    private String lastEmailReceived;
-    private boolean askedToUpdateContactInfo;
-
+    private Order order;
+    private Restaurant restaurantInView;
+    private String Address;
+    
     public Customer() {
         this.name = "";
+        this.Address = "";
         this.phoneNumber = "";
         this.email = "";
-        this.shoppingCart = new ShoppingCart();
-        this.lastSMSReceived = "";
-        this.lastEmailReceived = "";
-        this.askedToUpdateContactInfo = false;
+        this.order = new Order();
     }
 
     public Customer(String name, String phoneNumber, String email) {
         this.name = name;
+        this.Address = "";
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.shoppingCart = new ShoppingCart();
-        this.lastSMSReceived = "";
-        this.lastEmailReceived = "";
-        this.askedToUpdateContactInfo = false;
+        this.order = new Order();
     }
 
-    public void placeOrder(CustomerOrder order) {
-        // Assuming the ShoppingCart has a method to calculate the total and return items
-        if (!shoppingCart.isEmpty()) {
-            order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
-            // Transfer items from the shopping cart to the order
-            // and calculate the total price, etc.
-            // This is a simplified version of what would be a more complex process
-            shoppingCart.transferItemsToOrder(order);
-            shoppingCart.clear(); // Clear the cart after placing the order
+    public boolean cancelOrder(Order order) {
+
+        
+        order.setStatus(Order.Status.Cancelled);
+
+        if (order.getStatus() == Order.Status.Cancelled) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
     // Method to place an order from the shopping cart
-    public CustomerOrder placeOrder(ShoppingCart shoppingCart) {
-        CustomerOrder order = new CustomerOrder();
+    public Order placeOrder() {
 
-        shoppingCart.finalizeCart();
-        shoppingCart.transferItemsToOrder(order);
-        shoppingCart.clear(); // Clear the shopping cart after placing the order
-        return order; // Return the newly created order
+        order.setStatus(Order.Status.SubmittedToRestaurant);
+        return order;
     }
 
-    public void receiveSMSNotification(String message) {
-        this.lastSMSReceived = message;
-        // If the phone number is unreachable, simulate asking to update contact info
-        if ("unreachable_number".equals(this.phoneNumber)) {
-            this.askedToUpdateContactInfo = true;
-        }
+    public void setOrder(Order o) {
+        this.order = o;
     }
 
-    public void receiveEmailNotification(String message) {
-        this.lastEmailReceived = message;
+    public Order getOrder() {
+        return this.order;
     }
-
-    public CustomerOrder viewOrderDetails(int orderId) {
+    public Order viewOrderDetails(int orderId) {
         // Logic to view order details, possibly from a list of orders
         // For simplicity, returning a new order object
-        return new CustomerOrder(); // This would be replaced with actual order retrieval logic
+        return new Order(); // This would be replaced with actual order retrieval logic
     }
 
-    public void addToCart(MenuItem item, int quantity) {
-        // Logic to add an item to the shopping cart
-        this.shoppingCart.addItem(item, quantity);
+    public void selectRestaurant(Restaurant r) {
+        this.restaurantInView = r;
+
+        r.receiveOrder(order);
     }
+
+    public Restaurant getCurrentRestaurant() {
+        return this.restaurantInView;
+    }
+
 
     // Getters and Setters
     public String getName() {
@@ -107,29 +96,42 @@ public class Customer {
         this.email = email;
     }
 
-    public ShoppingCart getShoppingCart() {
-        return shoppingCart;
-    }
-
-    public String getLastSMSReceived() {
-        return lastSMSReceived;
-    }
-
-    public String getLastEmailReceived() {
-        return lastEmailReceived;
-    }
-
-    public boolean isAskedToUpdateContactInfo() {
-        return askedToUpdateContactInfo;
-    }
-
+    
     public String getLastNotificationReceived() {
         return null;
     }
 
-    public BooleanSupplier isLoggedIn() {
-        return null;
+    public void selectOrderType(Order.Type t) {
+
+        switch (t) {
+            case HOME_DELIVERY:
+                order.setDeliveryAddress(this.Address);
+                System.out.println("got to here");
+                break;
+
+            case PICKUP:
+                order.setDeliveryAddress("null");
+                break;
+
+            default:
+                order.setDeliveryAddress("null");
+
+                break;
+        }
+        this.order.setOrderType(t);
     }
 
-    // Additional methods as needed for further functionality
+    public void setAddress(String address) {
+        this.Address = address;
+    }
+
+    public String getAddress() {
+        return this.Address;
+    }
+
+    public void specifyPickupTime(String time) {
+        selectOrderType(Order.Type.PICKUP);
+
+        this.order.setPickupTime(time);
+    }
 }

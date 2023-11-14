@@ -1,5 +1,5 @@
 package FeastFast.UserManagement;
 
-public class Admin {
+public class Admin extends User{
 
 }

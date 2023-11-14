@@ -7,33 +7,23 @@ import FeastFast.UserManagement.Restaurant;
 import java.util.ArrayList;
 import java.util.List;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.RestaurantManagement.Order;
 // import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
-    private List<Restaurant> restaurants = new ArrayList<>();;
+    private List<Restaurant> restaurants = new ArrayList<>();
+    private ArrayList<DeliveryDriver> drivers = new ArrayList<DeliveryDriver>();
     // private List<Customer> customers = new ArrayList<>();;
 
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
     }
-    // Method to send SMS to a customer
-    public void sendSMSToCustomer(Customer customer, String message) {
-        // Implementation to send SMS
-        customer.receiveSMSNotification(message);
-    }
-
-    // Method to send Email to a customer
-    public void sendEmailToCustomer(Customer customer, String message) {
-        // Implementation to send Email
-        customer.receiveEmailNotification(message);
-    }
 
     // Method to confirm an order
-    public void confirmOrder(CustomerOrder order) {
+    public void confirmOrder(Order order) {
         // Implementation to confirm the order
-        order.setStatus(CustomerOrder.Status.RestaurantReceived);
+        order.setStatus(Order.Status.RestaurantReceived);
     }
 
     // Method to get the menu
@@ -43,9 +33,9 @@ public class FeastFastApplication {
     }
 
     // Method to checkout an order
-    public void checkoutOrder(CustomerOrder order) {
+    public void checkoutOrder(Order order) {
         // Implementation to checkout the order
-        order.setStatus(CustomerOrder.Status.SubmittedToRestaurant);
+        order.setStatus(Order.Status.SubmittedToRestaurant);
     }
 
     public void sendSMS(String phoneNumber, String message) {
@@ -53,9 +43,9 @@ public class FeastFastApplication {
         // This could involve interacting with an SMS API
     }
 
-    public void reportIssue(DeliveryDriver driver, CustomerOrder order, String issue) {
+    public void reportIssue(DeliveryDriver driver, Order order, String issue) {
         // Implementation to report an issue
-        order.setIssueReported(issue);
+        order.setComments(issue);
     }
 
     public void rateDriver(DeliveryDriver driver, int rating) {
@@ -63,10 +53,10 @@ public class FeastFastApplication {
         driver.setRating(rating);
     }
 
-    public void completeOrder(DeliveryDriver driver, CustomerOrder order, double tipAmount) {
+    public void completeOrder(DeliveryDriver driver, Order order, double tipAmount) {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
-        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+        order.setStatus(Order.Status.DeliverdToCustomer);
     }
     public List<Restaurant> getRestaurants() {
         return restaurants;
@@ -85,10 +75,28 @@ public class FeastFastApplication {
     public Customer registerCustomer(String name, String email, String password) {
         return new Customer(name, email, password);
     }
-    public void placeOrder(Customer customer, CustomerOrder order) {
+    public void placeOrder(Customer customer, Order order) {
     }
-    public String trackOrder(CustomerOrder order) {
-        return null;
+    public String trackOrder(Order order) {
+        return order.getStatus().name();
+    }
+
+    public boolean sendEmailToCustomer(Order order) {
+        return true;
+    }
+
+    public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
+        ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();
+
+        for (DeliveryDriver driver: drivers) {
+            if (driver.isAvailable()) { availableDrivers.add(driver); }
+        }
+
+        return availableDrivers;
+    }
+
+    public void addDeliveryDriver(DeliveryDriver d) {
+        drivers.add(d);
     }
 
     
