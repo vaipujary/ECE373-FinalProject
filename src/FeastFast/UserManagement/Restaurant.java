@@ -3,7 +3,9 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.CustomerOrder;
+import FeastFast.OrderingAndTransactions.Review;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ public class Restaurant {
     private String password;
     private Menu menu;
     private Set<CustomerOrder> customerOrders;
+    private ArrayList<Review> restaurantReviews;
     private boolean loggedIn;
 
     public Restaurant() {
