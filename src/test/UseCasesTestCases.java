@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.RestaurantManagement.Menu;
@@ -198,5 +200,46 @@ class UseCasesTestCases {
         assertEquals(Order.Type.PICKUP, order.getOrderType(), "Order type should be Pickup");
         assertEquals("12:00 PM", order.getPickupTime(), "Pickup time should be specified");
     }
+
+    @Test
+    void testSendEmailToCustomer() {
+        // Preconditions
+        customer.placeOrder();
+        assertTrue(order.isPlaced(), "Order should be placed");
+
+        // Action
+        boolean emailSent = app.sendEmailToCustomer(order);
+
+        // Post conditions
+        assertTrue(emailSent, "Email should be sent successfully to the customer");
+    }
+
+    @Test
+    void testViewPendingOrders() {
+        // Preconditions
+        assertTrue(italianRestaurant.isLoggedIn(), "Restaurant should be logged in to view orders");
+
+        // Action
+        List<Order> pendingOrders = italianRestaurant.viewPendingOrders();
+
+        // Post conditions
+        assertNotNull(pendingOrders, "Pending orders list should not be null");
+        assertFalse(pendingOrders.isEmpty(), "There should be pending orders available");
+    }
+
+    @Test
+    void testConfirmOrder() {
+        // Preconditions
+        Order pendingOrder = italianRestaurant.viewPendingOrders().get(0);
+        assertNotNull(pendingOrder, "There should be a pending order to confirm");
+
+        // Action
+        boolean confirmationResult = italianRestaurant.confirmOrder(pendingOrder);
+
+        // Post conditions
+        assertTrue(confirmationResult, "Order should be successfully confirmed");
+        assertEquals(Order.Status.Confirmed, pendingOrder.getStatus(), "Order status should be set to Confirmed");
+    }
+
 
 }
