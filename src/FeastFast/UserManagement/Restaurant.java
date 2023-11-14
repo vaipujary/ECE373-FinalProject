@@ -81,7 +81,9 @@ public class Restaurant {
         return this.isLoggedIn;
     }
 
-    
+    public void setLoggedIn(Boolean b) {
+        this.isLoggedIn = b;
+    }
 
     // Method to add a menu item
     public void addMenuItem(MenuItem item) {
