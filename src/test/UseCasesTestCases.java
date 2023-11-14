@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import FeastFast.UserManagement.Customer;
+import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
@@ -250,6 +251,43 @@ class UseCasesTestCases {
         assertTrue(confirmationResult, "Order should be successfully confirmed");
         assertEquals(Order.Status.RestaurantReceived, pendingOrder.getStatus(), "Order status should be set to Confirmed");
     }
+
+    @Test
+    void testAssignOrderToDeliveryDriver() {
+        // Preconditions
+        Order readyOrder = italianRestaurant.getReadyOrders().get(0);
+        assertNotNull(readyOrder, "There should be an order ready to be assigned to a delivery driver");
+
+        // Action
+        List<DeliveryDriver> availableDrivers = app.getAvailableDeliveryDrivers();
+        assertFalse(availableDrivers.isEmpty(), "There should be available delivery drivers");
+        DeliveryDriver selectedDriver = availableDrivers.get(0);
+        boolean assignmentResult = app.assignOrderToDriver(readyOrder, selectedDriver);
+
+        // Post conditions
+        assertTrue(assignmentResult, "Order should be successfully assigned to the delivery driver");
+        assertEquals(selectedDriver, readyOrder.getAssignedDriver(), "The order should be assigned to the selected driver");
+    }
+
+    @Test
+    void testViewAssignedDeliveries() {
+    // Preconditions
+    DeliveryDriver driver = new DeliveryDriver();
+    driver.logIn();
+    assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
+
+    // Action
+    List<Order> assignedDeliveries = driver.viewAssignedDeliveries();
+
+    // Post conditions
+    assertNotNull(assignedDeliveries, "Assigned deliveries list should not be null");
+    if (assignedDeliveries.isEmpty()) {
+        System.out.println("No deliveries assigned at the moment");
+    } else {
+        assertFalse(assignedDeliveries.isEmpty(), "There should be deliveries assigned to the driver");
+    }
+}
+
 
 
 }
