@@ -55,15 +55,18 @@ class DeliveryDriverTestCases {
 
     @Test
     void testDeliveryTimeLogging() {
+    	
         // Assuming that the driver class has methods to log delivery time
         driver.pickUpOrder(order);
         long startTime = System.currentTimeMillis();
+        
         // Simulate some time passing
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        
         driver.deliverOrder(order);
         long endTime = System.currentTimeMillis();
 
@@ -83,7 +86,7 @@ class DeliveryDriverTestCases {
         // Assuming that the driver class has a method to report issues
         String issue = "Traffic delay";
         feastFastApplication.reportIssue(driver, order, issue);
-        // assertEquals(issue, order.getIssueReported(), "Issue should be reported correctly.");
+        assertEquals(issue, order.getComments(), "Issue should be reported correctly.");
     }
 
     @Test

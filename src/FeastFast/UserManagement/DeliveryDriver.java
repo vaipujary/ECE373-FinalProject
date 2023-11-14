@@ -80,10 +80,10 @@ public class DeliveryDriver extends User{
     }
 
     // Method to simulate delivering an order
-    public void deliverOrder(FeastFast.RestaurantManagement.Order order) {
+    public void deliverOrder(Order order) {
         // Logic to handle order delivery
-        addEarnings(order.getCostCalculator().calculateTip()); // Assuming there is a getTip method in Order
-        order.setStatus(Order.Status.DeliverdToCustomer);
+        this.addEarnings(order.getCostCalculator().calculateTip()); // Assuming there is a getTip method in Order
+        order.setStatus(Order.Status.DeliveredToCustomer);
 
     }
 

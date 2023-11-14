@@ -16,7 +16,7 @@ public class Order {
         PreparingFood,
         InDelivery,
         ArrivedToDestination,
-        DeliverdToCustomer,
+        DeliveredToCustomer,
         Cancelled
     }
 
@@ -43,6 +43,7 @@ public class Order {
         // Initialize default values
         this.status = Status.NotPlaced;
         foodOrder = new HashMap<MenuItem, Integer>();
+        costCalculator = new CostCalculator();
     }
 
     // Getter and setter for customer
@@ -223,5 +224,9 @@ public class Order {
         this.pickUpTime = s;
     }
     
-
+//    public String getIssueReported() {
+//    	
+//    	return this.getComments();
+//    }
+//    
 }

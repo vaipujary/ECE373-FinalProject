@@ -55,7 +55,7 @@ public class FeastFastApplication {
     public void completeOrder(DeliveryDriver driver, Order order, double tipAmount) {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
-        order.setStatus(Order.Status.DeliverdToCustomer);
+        order.setStatus(Order.Status.DeliveredToCustomer);
     }
     public List<Restaurant> getRestaurants() {
         return restaurants;
