@@ -2,7 +2,7 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
 
-public class DeliveryDriver {
+public class DeliveryDriver extends Person{
 
     private boolean isAvailable;
     private String currentLocation;
@@ -94,6 +94,9 @@ public class DeliveryDriver {
     // Method to simulate rating a driver
     public void rateDriver(int newRating) {
         setRating(newRating);
+    }
+
+    public void logIn() {
     }
 }
 

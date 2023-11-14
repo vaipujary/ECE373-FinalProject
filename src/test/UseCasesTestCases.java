@@ -27,6 +27,7 @@ class UseCasesTestCases {
 
         customer = new Customer();
         customer.setName("John Doe");
+        customer.LogIn();
 
         order = new Order();
         customer.setOrder(order);        
@@ -92,12 +93,12 @@ class UseCasesTestCases {
         // Assuming app has a method to register a customer
         Customer newCustomer = app.registerCustomer(name, email, password);
         assertNotNull(newCustomer, "Customer account should be created");
+        newCustomer.LogIn();
         assertTrue(newCustomer.isLoggedIn(), "Customer should be logged in after account creation");
     }
 
     @Test
     void testModifyOrder() {
-        // Assuming the customer is logged in and has an active order
         assertTrue(customer.isLoggedIn(), "Customer should be logged in");
         assertNotNull(order, "There should be an active order");
 
@@ -190,6 +191,7 @@ class UseCasesTestCases {
     @Test
     void testSelectOrderTypePickup() {
         // Preconditions
+        customer.LogIn();
         assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
         customer.selectRestaurant(italianRestaurant);
 
@@ -255,38 +257,50 @@ class UseCasesTestCases {
     @Test
     void testAssignOrderToDeliveryDriver() {
         // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+
+        italianRestaurant.updateOrderStatus(customer.getOrder(), Order.Status.PreparingFood);
         Order readyOrder = italianRestaurant.getReadyOrders().get(0);
         assertNotNull(readyOrder, "There should be an order ready to be assigned to a delivery driver");
 
         // Action
         List<DeliveryDriver> availableDrivers = app.getAvailableDeliveryDrivers();
         assertFalse(availableDrivers.isEmpty(), "There should be available delivery drivers");
-        DeliveryDriver selectedDriver = availableDrivers.get(0);
-        boolean assignmentResult = app.assignOrderToDriver(readyOrder, selectedDriver);
+        DeliveryDriver someDriver = availableDrivers.get(0);
+        someDriver.acceptOrder(readyOrder);
 
         // Post conditions
-        assertTrue(assignmentResult, "Order should be successfully assigned to the delivery driver");
-        assertEquals(selectedDriver, readyOrder.getAssignedDriver(), "The order should be assigned to the selected driver");
+        assertEquals(someDriver, readyOrder.getDeliveryDriver(), "The order should be assigned to the selected driver");
+        assertEquals(Order.Status.InDelivery, readyOrder.getStatus(), "The order should be in delivery");
+
     }
 
     @Test
     void testViewAssignedDeliveries() {
-    // Preconditions
-    DeliveryDriver driver = new DeliveryDriver();
-    driver.logIn();
-    assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
+        // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
 
-    // Action
-    List<Order> assignedDeliveries = driver.viewAssignedDeliveries();
+        DeliveryDriver driver = new DeliveryDriver();
+        driver.logIn();
+        assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
 
-    // Post conditions
-    assertNotNull(assignedDeliveries, "Assigned deliveries list should not be null");
-    if (assignedDeliveries.isEmpty()) {
-        System.out.println("No deliveries assigned at the moment");
-    } else {
-        assertFalse(assignedDeliveries.isEmpty(), "There should be deliveries assigned to the driver");
+        // Action
+        List<Order> assignedDeliveries = driver.viewAssignedDeliveries();
+
+        // Post conditions
+        assertNotNull(assignedDeliveries, "Assigned deliveries list should not be null");
+        if (assignedDeliveries.isEmpty()) {
+            System.out.println("No deliveries assigned at the moment");
+        } else {
+            assertFalse(assignedDeliveries.isEmpty(), "There should be deliveries assigned to the driver");
+        }
     }
-}
 
 
 

@@ -3,13 +3,12 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Order;
 
 
-public class Customer {
+public class Customer extends Person{
 
     private String name;
     private String phoneNumber;
     private String email;
     private Order order;
-    private Boolean isLoggedIn;
     private Restaurant restaurantInView;
     private String Address;
     
@@ -19,7 +18,6 @@ public class Customer {
         this.phoneNumber = "";
         this.email = "";
         this.order = new Order();
-        this.isLoggedIn = true;
     }
 
     public Customer(String name, String phoneNumber, String email) {
@@ -28,7 +26,6 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.order = new Order();
-        this.isLoggedIn = true;
     }
 
     public boolean cancelOrder(Order order) {
@@ -53,6 +50,10 @@ public class Customer {
 
     public void setOrder(Order o) {
         this.order = o;
+    }
+
+    public Order getOrder() {
+        return this.order;
     }
     public Order viewOrderDetails(int orderId) {
         // Logic to view order details, possibly from a list of orders
@@ -99,10 +100,6 @@ public class Customer {
     
     public String getLastNotificationReceived() {
         return null;
-    }
-
-    public Boolean isLoggedIn() {
-        return this.isLoggedIn;
     }
 
     public void selectOrderType(Order.Type t) {

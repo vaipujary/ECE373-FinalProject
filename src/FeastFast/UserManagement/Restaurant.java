@@ -132,5 +132,14 @@ public class Restaurant {
         return false;
     }
 
-    // Additional methods and logic as required by your application
+    public ArrayList<Order> getReadyOrders() {
+        ArrayList<Order> readyOrders = new ArrayList<Order>();
+        for (Order o: Orders) {
+            if (o.getStatus() == Order.Status.PreparingFood) {
+                readyOrders.add(o);
+            }
+        }
+        return readyOrders;
+    }
+
 }

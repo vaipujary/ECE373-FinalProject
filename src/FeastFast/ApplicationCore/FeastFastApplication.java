@@ -12,7 +12,8 @@ import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
-    private List<Restaurant> restaurants = new ArrayList<>();;
+    private List<Restaurant> restaurants = new ArrayList<>();
+    private ArrayList<DeliveryDriver> drivers = new ArrayList<DeliveryDriver>();
     // private List<Customer> customers = new ArrayList<>();;
 
     public void addRestaurant(Restaurant r) {
@@ -82,6 +83,16 @@ public class FeastFastApplication {
 
     public boolean sendEmailToCustomer(Order order) {
         return true;
+    }
+
+    public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
+        ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();
+
+        for (DeliveryDriver driver: drivers) {
+            if (driver.isAvailable()) { availableDrivers.add(driver); }
+        }
+
+        return availableDrivers;
     }
 
     
