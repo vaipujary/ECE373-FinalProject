@@ -1,22 +1,27 @@
 package FeastFast.UserManagement;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DeliveryDriver {
+import FeastFast.RestaurantManagement.Order;
+
+public class DeliveryDriver extends User{
 
     private boolean isAvailable;
     private String currentLocation;
     private String phoneNumber;
     private int rating;
     private double earnings;
+    private ArrayList<Order> previousOrders = new ArrayList<Order>();
 
     public DeliveryDriver() {
         // Initialize default values
         this.isAvailable = true;
         this.currentLocation = "";
-        this.phoneNumber = "000-000-0000"; // Placeholder value
+        // this.phoneNumber = "000-000-0000"; // Placeholder value
         this.rating = 0;
         this.earnings = 0.0;
+
     }
 
     public boolean isAvailable() {
@@ -61,32 +66,34 @@ public class DeliveryDriver {
     }
 
     // Method to simulate accepting an order
-    public void acceptOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
-        if (isAvailable) {
-            order.setStatus(CustomerOrder.Status.InDelivery);
-        }
+    public void acceptOrder(FeastFast.RestaurantManagement.Order order) {
+        
+        order.setStatus(Order.Status.InDelivery);
+        order.setDeliveryDriver(this);
+
+        previousOrders.add(order);
     }
 
     // Method to simulate picking up an order
-    public void pickUpOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
+    public void pickUpOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order pickup
     }
 
     // Method to simulate delivering an order
-    public void deliverOrder(FeastFast.RestaurantManagement.CustomerOrder order) {
+    public void deliverOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order delivery
-        addEarnings(order.getTip()); // Assuming there is a getTip method in CustomerOrder
-        order.setStatus(CustomerOrder.Status.DeliverdToCustomer);
+        addEarnings(order.getCostCalculator().calculateTip()); // Assuming there is a getTip method in Order
+        order.setStatus(Order.Status.DeliverdToCustomer);
 
     }
 
     // Method to simulate reporting an issue
-    public void reportIssue(FeastFast.RestaurantManagement.CustomerOrder order, String issue) {
-        order.setIssueReported(issue); // Assuming there is a setIssueReported method in CustomerOrder
+    public void reportIssue(FeastFast.RestaurantManagement.Order order, String issue) {
+        order.setComments(issue); // Assuming there is a setIssueReported method in Order
     }
 
     // Method to simulate completing an order
-    public void completeOrder(FeastFast.RestaurantManagement.CustomerOrder order, double tipAmount) {
+    public void completeOrder(FeastFast.RestaurantManagement.Order order, double tipAmount) {
         // Logic to complete the order
         addEarnings(tipAmount);
     }
@@ -94,6 +101,11 @@ public class DeliveryDriver {
     // Method to simulate rating a driver
     public void rateDriver(int newRating) {
         setRating(newRating);
+    }
+
+
+    public List<Order> viewDeliveries() {
+        return previousOrders;
     }
 }
 

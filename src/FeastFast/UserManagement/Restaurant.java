@@ -2,14 +2,17 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.CustomerOrder;
 import FeastFast.OrderingAndTransactions.Review;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Restaurant {
+public class Restaurant extends User {
 
     private String restaurantId;
     private String name;
@@ -17,12 +20,13 @@ public class Restaurant {
     private String address;
     private String password;
     private Menu menu;
+    private ArrayList<Order> Orders;
     private Set<CustomerOrder> customerOrders;
     private ArrayList<Review> restaurantReviews;
     private boolean loggedIn;
 
     public Restaurant() {
-        this.customerOrders = new HashSet<>();
+        this.Orders = new ArrayList<>();
         this.menu = new Menu();
     }
 
@@ -75,16 +79,12 @@ public class Restaurant {
         this.menu = menu;
     }
 
-    public Set<CustomerOrder> getCustomerOrders() {
-        return customerOrders;
+    public ArrayList<Order> getOrders() {
+        return Orders;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
-
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
+    public void setLoggedIn(Boolean b) {
+        this.isLoggedIn = b;
     }
 
     // Method to add a menu item
@@ -103,14 +103,14 @@ public class Restaurant {
     }
 
     // Method to receive an order
-    public void receiveOrder(CustomerOrder order) {
-        this.customerOrders.add(order);
+    public void receiveOrder(Order order) {
+        this.Orders.add(order);
 
-        order.setStatus(CustomerOrder.Status.RestaurantReceived);
+        order.setStatus(Order.Status.RestaurantReceived);
     }
 
     // Method to update the status of an order
-    public void updateOrderStatus(CustomerOrder order, CustomerOrder.Status status) {
+    public void updateOrderStatus(Order order, Order.Status status) {
         order.setStatus(status);
     }
 
@@ -121,5 +121,27 @@ public class Restaurant {
         return "Response to the query: " + query;
     }
 
-    // Additional methods and logic as required by your application
+    public List<Order> viewPendingOrders() {
+        return getOrders();
+    }
+
+    public boolean confirmOrder(Order pendingOrder) {
+
+        if (Orders.contains(pendingOrder)) {
+            pendingOrder.setStatus(Order.Status.RestaurantReceived);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Order> getReadyOrders() {
+        ArrayList<Order> readyOrders = new ArrayList<Order>();
+        for (Order o : Orders) {
+            if (o.getStatus() == Order.Status.PreparingFood) {
+                readyOrders.add(o);
+            }
+        }
+        return readyOrders;
+    }
+
 }

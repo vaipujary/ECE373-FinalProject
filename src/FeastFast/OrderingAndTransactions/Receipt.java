@@ -1,40 +1,23 @@
 package FeastFast.OrderingAndTransactions;
 
-import FeastFast.RestaurantManagement.CustomerOrder;
-import FeastFast.UserManagement.Customer;
+import FeastFast.RestaurantManagement.Order;
+// import FeastFast.UserManagement.Customer;
 
 public class Receipt {
     
-	private Customer customer;
-	private ShoppingCart shoppingCart;
-	private CustomerOrder order;
+	private Order order;
 	
 	public Receipt() {
 		
-		this.customer = new Customer();
-		shoppingCart = new ShoppingCart();
-		order = new CustomerOrder();
-		
-	}
-	
-	public ShoppingCart getShoppingCart() {
-		return this.shoppingCart;
-	}
-	
-	public void setShoppingCart(ShoppingCart s) {
-		shoppingCart = s;
 	}
 
-	public CustomerOrder getOrder() {
-		return order;
-	}
-	
-	public void setOrder(CustomerOrder co) {
-		this.order = co;
+	public void setOrder(Order o) {
+		this.order = o;
 	}
 
-	public Customer getCustomer() {
-		return this.customer;
+	public Order getOrder() {
+		return this.order;
 	}
+	
 	
 }
