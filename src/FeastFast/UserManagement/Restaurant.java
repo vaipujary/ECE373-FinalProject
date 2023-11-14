@@ -7,9 +7,8 @@ import FeastFast.RestaurantManagement.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Restaurant {
+public class Restaurant extends User{
 
-    private Boolean isLoggedIn;
     private String restaurantId;
     private String name;
     private String contactNumber;
@@ -21,7 +20,6 @@ public class Restaurant {
     public Restaurant() {
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
-        this.isLoggedIn = true;
     }
 
     // Getters and setters for restaurant attributes
@@ -77,9 +75,6 @@ public class Restaurant {
         return Orders;
     }
 
-    public boolean isLoggedIn() {
-        return this.isLoggedIn;
-    }
 
     public void setLoggedIn(Boolean b) {
         this.isLoggedIn = b;
