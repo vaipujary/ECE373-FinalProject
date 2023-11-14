@@ -3,7 +3,6 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
-import FeastFast.RestaurantManagement.CustomerOrder;
 import FeastFast.OrderingAndTransactions.Review;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Restaurant extends User {
     private String password;
     private Menu menu;
     private ArrayList<Order> Orders;
-    private Set<CustomerOrder> customerOrders;
+    private Set<Order> customerOrders;
     private ArrayList<Review> restaurantReviews;
     private boolean loggedIn;
 
