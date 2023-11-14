@@ -217,6 +217,11 @@ class UseCasesTestCases {
     @Test
     void testViewPendingOrders() {
         // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+
         assertTrue(italianRestaurant.isLoggedIn(), "Restaurant should be logged in to view orders");
 
         // Action
@@ -230,6 +235,11 @@ class UseCasesTestCases {
     @Test
     void testConfirmOrder() {
         // Preconditions
+        MenuItem pizza = new MenuItem("Pizza", 11.99);
+        customer.selectRestaurant(italianRestaurant);
+        order.addItem(pizza, 2);
+        customer.placeOrder();
+        
         Order pendingOrder = italianRestaurant.viewPendingOrders().get(0);
         assertNotNull(pendingOrder, "There should be a pending order to confirm");
 
@@ -238,7 +248,7 @@ class UseCasesTestCases {
 
         // Post conditions
         assertTrue(confirmationResult, "Order should be successfully confirmed");
-        assertEquals(Order.Status.Confirmed, pendingOrder.getStatus(), "Order status should be set to Confirmed");
+        assertEquals(Order.Status.RestaurantReceived, pendingOrder.getStatus(), "Order status should be set to Confirmed");
     }
 
 

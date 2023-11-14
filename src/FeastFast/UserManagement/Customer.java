@@ -62,6 +62,8 @@ public class Customer {
 
     public void selectRestaurant(Restaurant r) {
         this.restaurantInView = r;
+
+        r.receiveOrder(order);
     }
 
     public Restaurant getCurrentRestaurant() {

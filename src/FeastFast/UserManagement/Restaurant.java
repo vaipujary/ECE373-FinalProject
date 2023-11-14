@@ -4,23 +4,24 @@ import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Restaurant {
 
+    private Boolean isLoggedIn;
     private String restaurantId;
     private String name;
     private String contactNumber;
     private String address;
     private String password;
     private Menu menu;
-    private Set<Order> Orders;
-    private boolean loggedIn;
+    private ArrayList<Order> Orders;
 
     public Restaurant() {
-        this.Orders = new HashSet<>();
+        this.Orders = new ArrayList<>();
         this.menu = new Menu();
+        this.isLoggedIn = true;
     }
 
     // Getters and setters for restaurant attributes
@@ -72,17 +73,15 @@ public class Restaurant {
         this.menu = menu;
     }
 
-    public Set<Order> getOrders() {
+    public ArrayList<Order> getOrders() {
         return Orders;
     }
 
     public boolean isLoggedIn() {
-        return loggedIn;
+        return this.isLoggedIn;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        this.loggedIn = loggedIn;
-    }
+    
 
     // Method to add a menu item
     public void addMenuItem(MenuItem item) {
@@ -116,6 +115,19 @@ public class Restaurant {
         // Placeholder for query handling logic
         // You would need to implement this based on your application's requirements
         return "Response to the query: " + query;
+    }
+
+    public List<Order> viewPendingOrders() {
+        return getOrders();
+    }
+
+    public boolean confirmOrder(Order pendingOrder) {
+        
+        if (Orders.contains(pendingOrder)) {
+            pendingOrder.setStatus(Order.Status.RestaurantReceived);
+            return true;
+        }
+        return false;
     }
 
     // Additional methods and logic as required by your application

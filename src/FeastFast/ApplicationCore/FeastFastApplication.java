@@ -80,5 +80,9 @@ public class FeastFastApplication {
         return order.getStatus().name();
     }
 
+    public boolean sendEmailToCustomer(Order order) {
+        return true;
+    }
+
     
 }
