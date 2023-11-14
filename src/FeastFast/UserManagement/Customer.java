@@ -15,6 +15,7 @@ public class Customer {
     
     public Customer() {
         this.name = "";
+        this.Address = "";
         this.phoneNumber = "";
         this.email = "";
         this.order = new Order();
@@ -23,6 +24,7 @@ public class Customer {
 
     public Customer(String name, String phoneNumber, String email) {
         this.name = name;
+        this.Address = "";
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.order = new Order();
@@ -105,7 +107,8 @@ public class Customer {
 
         switch (t) {
             case HOME_DELIVERY:
-                order.setDeliveryAddress(Address);
+                order.setDeliveryAddress(this.Address);
+                System.out.println("got to here");
                 break;
 
             case PICKUP:

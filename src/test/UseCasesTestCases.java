@@ -175,6 +175,7 @@ class UseCasesTestCases {
 
         // Action
         customer.selectOrderType(Order.Type.HOME_DELIVERY);
+        customer.setAddress("123 Maple Street Springfield, ST 98765 United States");
 
         // Post conditions
         assertEquals(Order.Type.HOME_DELIVERY, order.getOrderType(), "Order type should be Home Delivery");
