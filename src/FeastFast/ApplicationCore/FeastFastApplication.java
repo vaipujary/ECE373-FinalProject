@@ -4,8 +4,7 @@ import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import FeastFast.RestaurantManagement.Order;
 // import FeastFast.OrderingAndTransactions.ShoppingCart;
@@ -81,9 +80,24 @@ public class FeastFastApplication {
         return order.getStatus().name();
     }
 
-    public boolean sendEmailToCustomer(Order order) {
-        return true;
-    }
+    public boolean sendEmailToCustomer(Customer customer, Order order) {
+      
+    	try {
+    		if(customer.getEmail() != null) {
+    			new EmailService("smtp.gmail.com", 587, "feastfastapplication@gmail.com", "tssu ybfh cdjs odsv").sendMail("feastfastapplication@gmail.com", customer.getEmail(),"Confirmation Email from Feast Fast Application","Dear " + customer.getName() + ",\nThank you for ordering from Feast Fast. You will receive updates about your order shortly.");
+    			return true;
+    		}
+    		else {
+    			return false;
+    		}
+    	} 
+    	
+    	catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}      
+ }
+
 
     public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
         ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();

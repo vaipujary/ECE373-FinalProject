@@ -214,7 +214,7 @@ class UseCasesTestCases {
         assertTrue(order.isPlaced(), "Order should be placed");
 
         // Action
-        boolean emailSent = app.sendEmailToCustomer(order);
+        boolean emailSent = app.sendEmailToCustomer(customer, order);
 
         // Post conditions
         assertTrue(emailSent, "Email should be sent successfully to the customer");
