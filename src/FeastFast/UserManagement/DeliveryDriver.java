@@ -2,7 +2,7 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
 
-public class DeliveryDriver extends Person{
+public class DeliveryDriver extends User{
 
     private boolean isAvailable;
     private String currentLocation;

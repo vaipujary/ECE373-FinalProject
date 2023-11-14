@@ -3,9 +3,8 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Order;
 
 
-public class Customer extends Person{
+public class Customer extends User{
 
-    private String name;
     private String phoneNumber;
     private String email;
     private Order order;
