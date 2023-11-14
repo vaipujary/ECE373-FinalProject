@@ -95,5 +95,9 @@ public class FeastFastApplication {
         return availableDrivers;
     }
 
+    public void addDeliveryDriver(DeliveryDriver d) {
+        drivers.add(d);
+    }
+
     
 }

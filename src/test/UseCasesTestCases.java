@@ -20,6 +20,7 @@ class UseCasesTestCases {
     private Customer customer;
     private Order order;
     private Restaurant italianRestaurant;
+    private DeliveryDriver deliveryDriver;
 
     @BeforeEach
     void setUp() {
@@ -40,6 +41,8 @@ class UseCasesTestCases {
         // Add the restaurant to the application
         app.addRestaurant(italianRestaurant);
         // ... add other restaurants as needed
+
+        this.deliveryDriver = new DeliveryDriver();
     }
 
     @Test
@@ -225,6 +228,7 @@ class UseCasesTestCases {
         order.addItem(pizza, 2);
         customer.placeOrder();
 
+        italianRestaurant.LogIn();
         assertTrue(italianRestaurant.isLoggedIn(), "Restaurant should be logged in to view orders");
 
         // Action
@@ -266,6 +270,8 @@ class UseCasesTestCases {
         Order readyOrder = italianRestaurant.getReadyOrders().get(0);
         assertNotNull(readyOrder, "There should be an order ready to be assigned to a delivery driver");
 
+        app.addDeliveryDriver(deliveryDriver);
+
         // Action
         List<DeliveryDriver> availableDrivers = app.getAvailableDeliveryDrivers();
         assertFalse(availableDrivers.isEmpty(), "There should be available delivery drivers");
@@ -279,7 +285,7 @@ class UseCasesTestCases {
     }
 
     @Test
-    void testViewAssignedDeliveries() {
+    void testViewDeliveries() {
         // Preconditions
         MenuItem pizza = new MenuItem("Pizza", 11.99);
         customer.selectRestaurant(italianRestaurant);
@@ -287,11 +293,12 @@ class UseCasesTestCases {
         customer.placeOrder();
 
         DeliveryDriver driver = new DeliveryDriver();
-        driver.logIn();
+        driver.LogIn();
         assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
 
+        driver.acceptOrder(customer.getOrder());
         // Action
-        List<Order> assignedDeliveries = driver.viewAssignedDeliveries();
+        List<Order> assignedDeliveries = driver.viewDeliveries();
 
         // Post conditions
         assertNotNull(assignedDeliveries, "Assigned deliveries list should not be null");

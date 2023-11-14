@@ -1,9 +1,10 @@
 package FeastFast.UserManagement;
 
+
 public class User {
 
-    String name;
-    Boolean isLoggedIn;
+    protected String name;
+    protected  Boolean isLoggedIn;
 
     public User() {
         isLoggedIn = false;

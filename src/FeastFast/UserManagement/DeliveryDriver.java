@@ -1,5 +1,8 @@
 package FeastFast.UserManagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import FeastFast.RestaurantManagement.Order;
 
 public class DeliveryDriver extends User{
@@ -9,6 +12,7 @@ public class DeliveryDriver extends User{
     private String phoneNumber;
     private int rating;
     private double earnings;
+    private ArrayList<Order> previousOrders = new ArrayList<Order>();
 
     public DeliveryDriver() {
         // Initialize default values
@@ -17,6 +21,7 @@ public class DeliveryDriver extends User{
         // this.phoneNumber = "000-000-0000"; // Placeholder value
         this.rating = 0;
         this.earnings = 0.0;
+
     }
 
     public boolean isAvailable() {
@@ -64,7 +69,9 @@ public class DeliveryDriver extends User{
     public void acceptOrder(FeastFast.RestaurantManagement.Order order) {
         
         order.setStatus(Order.Status.InDelivery);
-        
+        order.setDeliveryDriver(this);
+
+        previousOrders.add(order);
     }
 
     // Method to simulate picking up an order
@@ -96,7 +103,9 @@ public class DeliveryDriver extends User{
         setRating(newRating);
     }
 
-    public void logIn() {
+
+    public List<Order> viewDeliveries() {
+        return previousOrders;
     }
 }
 
