@@ -9,14 +9,14 @@ public class CostCalculator {
     private HashMap<MenuItem, Integer> foodOrder = new HashMap<MenuItem, Integer>();    
     private Restaurant restaurant;
 
-    private Double totalCost;
-    private Double tip;
+    private double totalCost;
+    private double tip;
 
-    public Double calculateTip() {
+    public double calculateTip() {
         return 0.0;
     }
 
-    public Double calculateTotal() {
+    public double calculateTotal() {
         return 0.0;
     }
 
