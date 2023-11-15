@@ -8,7 +8,7 @@ public class Receipt {
 	private Order order;
 	
 	public Receipt() {
-		
+		order = new Order();
 	}
 
 	public void setOrder(Order o) {

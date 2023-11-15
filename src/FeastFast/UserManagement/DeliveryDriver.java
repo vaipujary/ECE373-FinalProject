@@ -5,14 +5,14 @@ import java.util.List;
 
 import FeastFast.RestaurantManagement.Order;
 
-public class DeliveryDriver extends User{
+public class DeliveryDriver extends User {
 
     private boolean isAvailable;
     private String currentLocation;
     private String phoneNumber;
     private int rating;
     private double earnings;
-    private ArrayList<Order> previousOrders = new ArrayList<Order>();
+    private ArrayList<Order> previousOrders;
 
     public DeliveryDriver() {
         // Initialize default values
@@ -21,6 +21,7 @@ public class DeliveryDriver extends User{
         // this.phoneNumber = "000-000-0000"; // Placeholder value
         this.rating = 0;
         this.earnings = 0.0;
+        previousOrders = new ArrayList<Order>();
 
     }
 
@@ -82,7 +83,7 @@ public class DeliveryDriver extends User{
     // Method to simulate delivering an order
     public void deliverOrder(Order order) {
         // Logic to handle order delivery
-        this.addEarnings(order.getCostCalculator().calculateTip()); // Assuming there is a getTip method in Order
+        this.addEarnings(order.getCostCalculator().calculateTip(0.30)); // Assuming there is a getTip method in Order
         order.setStatus(Order.Status.DeliveredToCustomer);
 
     }

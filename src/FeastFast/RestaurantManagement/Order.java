@@ -42,8 +42,15 @@ public class Order {
     public Order() {
         // Initialize default values
         this.status = Status.NotPlaced;
+        this.type = Type.HOME_DELIVERY;
+        comments = "";
+        deliveryAddress = "";
+        pickUpTime = "";
         foodOrder = new HashMap<MenuItem, Integer>();
         costCalculator = new CostCalculator();
+        customer = new Customer();
+        deliveryDriver = new DeliveryDriver();
+        restaurant = new Restaurant();
     }
 
     // Getter and setter for customer
@@ -98,8 +105,6 @@ public class Order {
 
     public void setOrderType(Type t) {
         this.type = t;
-
-        
     }
 
     // Getter and setter for comments

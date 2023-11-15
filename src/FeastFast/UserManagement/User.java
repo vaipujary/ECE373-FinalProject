@@ -4,14 +4,15 @@ package FeastFast.UserManagement;
 public class User {
 
     protected String name;
-    protected  Boolean isLoggedIn;
+    protected boolean isLoggedIn;
 
     public User() {
+    	name = "";
         isLoggedIn = false;
     }
 
-    public void LogIn() {
-        this.isLoggedIn = true;
+    public void setLoggedIn(boolean loggedIn) {
+        this.isLoggedIn = loggedIn;
     }
 
     public Boolean isLoggedIn() {

@@ -3,7 +3,7 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Order;
 
 
-public class Customer extends User{
+public class Customer extends User {
 
     private String phoneNumber;
     private String email;
@@ -12,11 +12,11 @@ public class Customer extends User{
     private String Address;
     
     public Customer() {
-        this.name = "";
         this.Address = "";
         this.phoneNumber = "";
         this.email = "";
         this.order = new Order();
+        restaurantInView = new Restaurant();
     }
 
     public Customer(String name, String phoneNumber, String email) {
@@ -29,7 +29,6 @@ public class Customer extends User{
 
     public boolean cancelOrder(Order order) {
 
-        
         order.setStatus(Order.Status.Cancelled);
 
         if (order.getStatus() == Order.Status.Cancelled) {
@@ -106,7 +105,7 @@ public class Customer extends User{
         switch (t) {
             case HOME_DELIVERY:
                 order.setDeliveryAddress(this.Address);
-                System.out.println("got to here");
+                System.out.println("Home Delivery");
                 break;
 
             case PICKUP:

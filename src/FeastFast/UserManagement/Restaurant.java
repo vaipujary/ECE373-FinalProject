@@ -22,11 +22,16 @@ public class Restaurant extends User {
     private ArrayList<Order> Orders;
     private Set<Order> customerOrders;
     private ArrayList<Review> restaurantReviews;
-    private boolean loggedIn;
 
     public Restaurant() {
+    	restaurantId = "";
+    	name = "";
+    	contactNumber = "";
+    	address = "";
+    	password = "";
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
+        restaurantReviews = new ArrayList<Review>();
     }
 
     // Getters and setters for restaurant attributes
@@ -82,10 +87,6 @@ public class Restaurant extends User {
         return Orders;
     }
 
-    public void setLoggedIn(Boolean b) {
-        this.isLoggedIn = b;
-    }
-
     // Method to add a menu item
     public void addMenuItem(MenuItem item) {
         this.menu.addItem(item);
@@ -116,7 +117,7 @@ public class Restaurant extends User {
     // Method to handle customer queries
     public String handleCustomerQuery(String query) {
         // Placeholder for query handling logic
-        // You would need to implement this based on your application's requirements
+        // Implement this based on your application's requirements
         return "Response to the query: " + query;
     }
 
