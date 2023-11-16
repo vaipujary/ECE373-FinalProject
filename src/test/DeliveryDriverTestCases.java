@@ -105,8 +105,4 @@ class DeliveryDriverTestCases {
         assertEquals(tipAmount, driver.getEarnings(), "Driver earnings should be calculated correctly.");
     }
 
-    // ... Additional tests for other use cases
-
-    // Note: The above tests assume that you have corresponding methods in your classes.
-    // You would need to implement these methods in your actual system.
 }

@@ -88,8 +88,4 @@ class RestaurantTestCases {
         assertNotNull(response, "Restaurant should provide a response to customer queries.");
     }
 
-    // ... Additional tests for other functionalities
-
-    // Note: The above tests assume that you have corresponding methods in your classes.
-    // You would need to implement these methods in your actual system.
 }

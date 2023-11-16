@@ -39,8 +39,6 @@ public class Review {
 		private int rating;
 		private String reviewText;
 		
-
-	    
 		public ReviewEntry(String customerName, int rating, String reviewText) {
 			this.customerName = customerName;
 			this.rating = rating;

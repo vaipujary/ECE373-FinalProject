@@ -48,9 +48,9 @@ public class Order {
         pickUpTime = "";
         foodOrder = new HashMap<MenuItem, Integer>();
         costCalculator = new CostCalculator();
-        customer = new Customer();
-        deliveryDriver = new DeliveryDriver();
-        restaurant = new Restaurant();
+//        customer = new Customer();
+//        deliveryDriver = new DeliveryDriver();
+//        restaurant = new Restaurant();
     }
 
     // Getter and setter for customer
@@ -120,7 +120,6 @@ public class Order {
     public HashMap<MenuItem, Integer> getFoodItems() {
         return this.foodOrder; // Return a copy for encapsulation
     }
-
 
     // Getter and setter for costCalculator
     public CostCalculator getCostCalculator() {
@@ -207,7 +206,7 @@ public class Order {
 
     // Method to calculate the total price of the order
     public double getTotalPrice() {
-        return 0.0;
+    	return costCalculator.calculateTotal(foodOrder);
     }
 
     // Method to check if the order is placed

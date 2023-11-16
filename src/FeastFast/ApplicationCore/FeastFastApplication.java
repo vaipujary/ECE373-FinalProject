@@ -43,7 +43,7 @@ public class FeastFastApplication {
 
     public void sendSMS(String phoneNumber, String message) {
         // Implementation to send SMS
-        // This could involve interacting with an SMS API
+        // TODO
     }
 
     public void reportIssue(DeliveryDriver driver, Order order, String issue) {
@@ -61,6 +61,7 @@ public class FeastFastApplication {
         driver.addEarnings(tipAmount);
         order.setStatus(Order.Status.DeliveredToCustomer);
     }
+    
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }

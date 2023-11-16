@@ -41,7 +41,6 @@ public class Customer extends User {
 
     // Method to place an order from the shopping cart
     public Order placeOrder() {
-
         order.setStatus(Order.Status.SubmittedToRestaurant);
         return order;
     }

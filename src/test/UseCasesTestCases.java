@@ -84,7 +84,6 @@ class UseCasesTestCases {
         order.updateQuantity(pizza, 3);
         assertEquals(3, order.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
 
-        
     }
 
     @Test
@@ -210,6 +209,8 @@ class UseCasesTestCases {
     @Test
     void testSendEmailToCustomer() {
         // Preconditions
+        customer.setName("Vaidehi");
+        customer.setEmail("vaipujary@arizona.edu");
         customer.placeOrder();
         assertTrue(order.isPlaced(), "Order should be placed");
 

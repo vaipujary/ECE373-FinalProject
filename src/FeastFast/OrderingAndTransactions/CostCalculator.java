@@ -1,6 +1,7 @@
 package FeastFast.OrderingAndTransactions;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.UserManagement.Restaurant;
@@ -15,7 +16,7 @@ public class CostCalculator {
     public CostCalculator() {
     	tip = 0.0;
     	totalCost = 0.0;
-    	restaurant = new Restaurant();
+    	//restaurant = new Restaurant();
     	foodOrder = new HashMap<MenuItem, Integer>();    
     }
     
@@ -23,8 +24,13 @@ public class CostCalculator {
         return 0.0;
     }
 
-    public double calculateTotal() {
-        return (totalCost + tip);
+    public double calculateTotal(HashMap<MenuItem, Integer> foodOrder) {
+    	
+    	for (Map.Entry<MenuItem, Integer> entry: foodOrder.entrySet()) {
+    		totalCost = (entry.getKey().getPrice())*(entry.getValue());
+    	}
+    	
+    	return totalCost;
     }
 
 }
