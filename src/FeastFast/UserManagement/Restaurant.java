@@ -3,11 +3,15 @@ package FeastFast.UserManagement;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
+import FeastFast.OrderingAndTransactions.Review;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Restaurant extends User{
+public class Restaurant extends User {
 
     private String restaurantId;
     private String name;
@@ -16,10 +20,18 @@ public class Restaurant extends User{
     private String password;
     private Menu menu;
     private ArrayList<Order> Orders;
+    private Set<Order> customerOrders;
+    private ArrayList<Review> restaurantReviews;
 
     public Restaurant() {
+    	restaurantId = "";
+    	name = "";
+    	contactNumber = "";
+    	address = "";
+    	password = "";
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
+        restaurantReviews = new ArrayList<Review>();
     }
 
     // Getters and setters for restaurant attributes
@@ -75,11 +87,6 @@ public class Restaurant extends User{
         return Orders;
     }
 
-
-    public void setLoggedIn(Boolean b) {
-        this.isLoggedIn = b;
-    }
-
     // Method to add a menu item
     public void addMenuItem(MenuItem item) {
         this.menu.addItem(item);
@@ -110,7 +117,7 @@ public class Restaurant extends User{
     // Method to handle customer queries
     public String handleCustomerQuery(String query) {
         // Placeholder for query handling logic
-        // You would need to implement this based on your application's requirements
+        // Implement this based on your application's requirements
         return "Response to the query: " + query;
     }
 
@@ -119,7 +126,7 @@ public class Restaurant extends User{
     }
 
     public boolean confirmOrder(Order pendingOrder) {
-        
+
         if (Orders.contains(pendingOrder)) {
             pendingOrder.setStatus(Order.Status.RestaurantReceived);
             return true;
@@ -129,7 +136,7 @@ public class Restaurant extends User{
 
     public ArrayList<Order> getReadyOrders() {
         ArrayList<Order> readyOrders = new ArrayList<Order>();
-        for (Order o: Orders) {
+        for (Order o : Orders) {
             if (o.getStatus() == Order.Status.PreparingFood) {
                 readyOrders.add(o);
             }

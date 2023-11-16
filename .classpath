@@ -7,5 +7,8 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="/Users/vaidehipujary/Downloads/javax.mail.jar"/>
+	<classpathentry kind="lib" path="/Users/vaidehipujary/Downloads/mailactivation/activation.jar"/>
+	<classpathentry kind="lib" path="/Users/vaidehipujary/Downloads/smtp-1.4.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

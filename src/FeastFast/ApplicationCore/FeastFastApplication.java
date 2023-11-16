@@ -4,18 +4,21 @@ import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import FeastFast.RestaurantManagement.Order;
-// import FeastFast.OrderingAndTransactions.ShoppingCart;
 import FeastFast.RestaurantManagement.Menu;
 
 public class FeastFastApplication {
-    private List<Restaurant> restaurants = new ArrayList<>();
-    private ArrayList<DeliveryDriver> drivers = new ArrayList<DeliveryDriver>();
-    // private List<Customer> customers = new ArrayList<>();;
+    private List<Restaurant> restaurants;
+    private ArrayList<DeliveryDriver> drivers;
+    // private List<Customer> customers = new ArrayList<>();
 
+    public FeastFastApplication() {
+    	restaurants = new ArrayList<>();
+    	drivers = new ArrayList<DeliveryDriver>();
+    }
+    
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
     }
@@ -40,7 +43,7 @@ public class FeastFastApplication {
 
     public void sendSMS(String phoneNumber, String message) {
         // Implementation to send SMS
-        // This could involve interacting with an SMS API
+        // TODO
     }
 
     public void reportIssue(DeliveryDriver driver, Order order, String issue) {
@@ -56,8 +59,9 @@ public class FeastFastApplication {
     public void completeOrder(DeliveryDriver driver, Order order, double tipAmount) {
         // Implementation to complete an order and update driver's earnings
         driver.addEarnings(tipAmount);
-        order.setStatus(Order.Status.DeliverdToCustomer);
+        order.setStatus(Order.Status.DeliveredToCustomer);
     }
+    
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
@@ -67,9 +71,7 @@ public class FeastFastApplication {
             if (restaurantName == r.getName()) {
                 return r;
             }
-            
         }
-
         return restaurants.get(0);
     }
     public Customer registerCustomer(String name, String email, String password) {
@@ -81,9 +83,24 @@ public class FeastFastApplication {
         return order.getStatus().name();
     }
 
-    public boolean sendEmailToCustomer(Order order) {
-        return true;
-    }
+    public boolean sendEmailToCustomer(Customer customer, Order order) {
+      
+    	try {
+    		if(customer.getEmail() != null) {
+    			new EmailService("smtp.gmail.com", 587, "feastfastapplication@gmail.com", "tssu ybfh cdjs odsv").sendMail("feastfastapplication@gmail.com", customer.getEmail(),"Confirmation Email from Feast Fast Application","Dear " + customer.getName() + ",\nThank you for ordering from Feast Fast. You will receive updates about your order shortly.");
+    			return true;
+    		}
+    		else {
+    			return false;
+    		}
+    	} 
+    	
+    	catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}      
+ }
+
 
     public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
         ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();

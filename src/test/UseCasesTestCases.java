@@ -28,7 +28,7 @@ class UseCasesTestCases {
 
         customer = new Customer();
         customer.setName("John Doe");
-        customer.LogIn();
+        customer.setLoggedIn(true);
 
         order = new Order();
         customer.setOrder(order);        
@@ -84,7 +84,6 @@ class UseCasesTestCases {
         order.updateQuantity(pizza, 3);
         assertEquals(3, order.getQuantityOfItem(pizza), "Quantity of Pizza should be updated to 3");
 
-        
     }
 
     @Test
@@ -96,7 +95,7 @@ class UseCasesTestCases {
         // Assuming app has a method to register a customer
         Customer newCustomer = app.registerCustomer(name, email, password);
         assertNotNull(newCustomer, "Customer account should be created");
-        newCustomer.LogIn();
+        newCustomer.setLoggedIn(true);
         assertTrue(newCustomer.isLoggedIn(), "Customer should be logged in after account creation");
     }
 
@@ -194,7 +193,7 @@ class UseCasesTestCases {
     @Test
     void testSelectOrderTypePickup() {
         // Preconditions
-        customer.LogIn();
+        customer.setLoggedIn(true);
         assertTrue(customer.isLoggedIn(), "Customer should be logged in to select order type");
         customer.selectRestaurant(italianRestaurant);
 
@@ -210,11 +209,13 @@ class UseCasesTestCases {
     @Test
     void testSendEmailToCustomer() {
         // Preconditions
+        customer.setName("Vaidehi");
+        customer.setEmail("vaipujary@arizona.edu");
         customer.placeOrder();
         assertTrue(order.isPlaced(), "Order should be placed");
 
         // Action
-        boolean emailSent = app.sendEmailToCustomer(order);
+        boolean emailSent = app.sendEmailToCustomer(customer, order);
 
         // Post conditions
         assertTrue(emailSent, "Email should be sent successfully to the customer");
@@ -228,7 +229,7 @@ class UseCasesTestCases {
         order.addItem(pizza, 2);
         customer.placeOrder();
 
-        italianRestaurant.LogIn();
+        italianRestaurant.setLoggedIn(true);
         assertTrue(italianRestaurant.isLoggedIn(), "Restaurant should be logged in to view orders");
 
         // Action
@@ -293,7 +294,7 @@ class UseCasesTestCases {
         customer.placeOrder();
 
         DeliveryDriver driver = new DeliveryDriver();
-        driver.LogIn();
+        driver.setLoggedIn(true);
         assertTrue(driver.isLoggedIn(), "Delivery driver should be logged in to view assigned deliveries");
 
         driver.acceptOrder(customer.getOrder());
