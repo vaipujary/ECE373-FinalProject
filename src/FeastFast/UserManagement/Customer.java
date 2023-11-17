@@ -45,6 +45,8 @@ public class Customer extends User {
         return order;
     }
 
+    // TODO: Method to order previous order
+    // TODO: Method to preorder items
     public void setOrder(Order o) {
         this.order = o;
     }
