@@ -187,7 +187,6 @@ class UseCasesTestCases {
         assertEquals(Order.Type.HOME_DELIVERY, order.getOrderType(), "Order type should be Home Delivery");
         assertNotNull(order.getDeliveryAddress(), "Delivery address should be provided for Home Delivery");
 
-
     }
 
     @Test
@@ -206,6 +205,15 @@ class UseCasesTestCases {
         assertEquals("12:00 PM", order.getPickupTime(), "Pickup time should be specified");
     }
 
+    @Test
+    void testOnlinePayment() {
+    	MenuItem pizza = new MenuItem("Pizza", 11.99);
+   	 	order.addItem(pizza, 1);
+        order = customer.placeOrder();
+        app.checkoutOrder(order);
+        assertEquals(Order.Status.SubmittedToRestaurant, order.getStatus(), "Order should be confirmed after checkout process.");
+    }
+    
     @Test
     void testSendEmailToCustomer() {
         // Preconditions

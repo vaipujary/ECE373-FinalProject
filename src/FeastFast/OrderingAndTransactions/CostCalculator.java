@@ -20,8 +20,16 @@ public class CostCalculator {
     	foodOrder = new HashMap<MenuItem, Integer>();    
     }
     
+    public double getTip() {
+    	return tip;
+    }
+    
+    public void setTip(double tip) {
+    	this.tip = tip;
+    }
+    
     public double calculateTip(double percent) {
-        return 0.0;
+        return (tip + (percent*tip));
     }
 
     public double calculateTotal(HashMap<MenuItem, Integer> foodOrder) {

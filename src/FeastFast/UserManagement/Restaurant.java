@@ -14,13 +14,14 @@ import java.util.Set;
 public class Restaurant extends User {
 
     private String restaurantId;
+    private boolean isOpen; // TODO
     private String name;
     private String contactNumber;
     private String address;
     private String password;
     private Menu menu;
     private ArrayList<Order> Orders;
-    private Set<Order> customerOrders;
+    //private Set<Order> customerOrders;
     private ArrayList<Review> restaurantReviews;
 
     public Restaurant() {
@@ -29,6 +30,7 @@ public class Restaurant extends User {
     	contactNumber = "";
     	address = "";
     	password = "";
+    	isOpen = false;
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
         restaurantReviews = new ArrayList<Review>();
