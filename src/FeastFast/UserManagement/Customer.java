@@ -55,6 +55,7 @@ public class Customer extends User {
         return this.order;
     }
     public Order viewOrderDetails(int orderId) {
+    	//Test OMAR
         // Logic to view order details, possibly from a list of orders
         // For simplicity, returning a new order object
         return new Order(); // This would be replaced with actual order retrieval logic
