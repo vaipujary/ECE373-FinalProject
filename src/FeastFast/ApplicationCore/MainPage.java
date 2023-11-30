@@ -3,16 +3,23 @@ package FeastFast.ApplicationCore;
 import java.awt.EventQueue;
 
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.JLabel;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Color;
 
-public class MainPage {
+public class MainPage extends JFrame {
 
-	private JFrame frame;
-
+	JButton btnNewButton;
+	JButton btnSignUp;
+	JButton btnExit;
+	JLabel customerNameLabel;
+	JLabel emailLabel;
+	JLabel passwordLabel;
+	JTextField customerNameText;
+	JTextField emailText;
+	JPasswordField passwordText;
 	/**
 	 * Launch the application.
 	 */
@@ -21,7 +28,7 @@ public class MainPage {
 			public void run() {
 				try {
 					MainPage window = new MainPage();
-					window.frame.setVisible(true);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,49 +40,101 @@ public class MainPage {
 	 * Create the application.
 	 */
 	public MainPage() {
-		initialize();
-	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(UIManager.getColor("Button.highlight"));
-		frame.getContentPane().setLayout(null);
+		getContentPane().setBackground(UIManager.getColor("Button.highlight"));
+		getContentPane().setLayout(null);
+		
+		customerNameLabel = new JLabel("Name: ");
+		customerNameText = new JTextField();
+		
+		emailLabel = new JLabel("Email: ");
+		emailText = new JTextField();
+		
+		passwordLabel = new JLabel("Password: ");
+		passwordText = new JPasswordField();
 		
 		JLabel lblNewLabel_1 = new JLabel("Welcome to FeastFast!");
 		lblNewLabel_1.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 41));
 		lblNewLabel_1.setBounds(154, 6, 533, 62);
-		frame.getContentPane().add(lblNewLabel_1);
+		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel = new JLabel(new ImageIcon(MainPage.class.getResource("/FeastFast/ApplicationCore/FeastFastGIF.gif")));
 		lblNewLabel.setBounds(154, 23, 500, 500);
-		frame.getContentPane().add(lblNewLabel);
+		getContentPane().add(lblNewLabel);
 		
-		JButton btnNewButton = new JButton("Log In");
+		// Log In Button
+		btnNewButton = new JButton("Log In");
 		btnNewButton.setOpaque(true);
 		btnNewButton.setBorderPainted(false);
 		btnNewButton.setBackground(new Color(234, 92, 100));
 		btnNewButton.setBounds(77, 576, 168, 55);
-		frame.getContentPane().add(btnNewButton);
+		getContentPane().add(btnNewButton);
+		btnNewButton.addActionListener(new Listener());
 		
-		JButton btnSignUp = new JButton("Sign Up");
+		// Sign Up Button
+		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setOpaque(true);
 		btnSignUp.setBorderPainted(false);
 		btnSignUp.setBackground(new Color(234, 92, 100));
 		btnSignUp.setBounds(310, 576, 168, 55);
-		frame.getContentPane().add(btnSignUp);
+		getContentPane().add(btnSignUp);
+		btnSignUp.addActionListener(new Listener());
 		
-		JButton btnExit = new JButton("Exit");
+		// Exit Button
+		btnExit = new JButton("Exit");
 		btnExit.setOpaque(true);
 		btnExit.setBorderPainted(false);
 		btnExit.setBackground(new Color(234, 92, 100));
 		btnExit.setBounds(572, 576, 168, 55);
-		frame.getContentPane().add(btnExit);
-		frame.setBounds(100, 100, 800, 700);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		btnExit.addActionListener(new Listener());
+		
+		
+		getContentPane().add(btnExit);
+		setBounds(100, 100, 800, 700);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
+	
+	// Event listener
+				private class Listener implements ActionListener {
+					
+					public void actionPerformed(ActionEvent e) {
+						
+						// Button click events
+						JButton source = (JButton) e.getSource();
+						
+						// Log In button
+						if(source.equals(btnNewButton)) {
+							handleLogIn();
+						}
+						// Sign Up button
+						else if(source.equals(btnSignUp)) {
+							handleSignUp();
+						}
+						// button
+						else if(source.equals(btnExit)) {
+							handleExit();
+						}
+
+					}
+					
+					// Method to handle log ins 
+					private void handleLogIn() {
+			
+						LoginPage loginFrame = new LoginPage();
+						loginFrame.setVisible(true);
+					}
+					
+					private void handleSignUp() {
+						
+						SignUpPage signUpFrame = new SignUpPage();
+						signUpFrame.setVisible(true);
+					}
+					
+					private void handleExit() {
+						System.exit(0);
+					}
+					
+				}
 
 }

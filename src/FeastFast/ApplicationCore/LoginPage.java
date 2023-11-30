@@ -21,6 +21,10 @@ public class LoginPage extends JFrame {
 	private JPasswordField passwordField;
 	private JTextField textField;
 	private JPanel contentPane;
+	JLabel lblNewLabel;
+	JLabel lblPassword;
+	JButton btnNewButton;
+	JLabel lblNewLabel_1;
 
 	/**
 	 * Launch the application.
@@ -52,7 +56,7 @@ public class LoginPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Username:");
+		lblNewLabel = new JLabel("Username:");
 		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblNewLabel.setBounds(49, 92, 91, 16);
 		contentPane.add(lblNewLabel);
@@ -61,12 +65,12 @@ public class LoginPage extends JFrame {
 		passwordField.setBounds(250, 147, 129, 40);
 		contentPane.add(passwordField);
 		
-		JLabel lblPassword = new JLabel("Password:");
+		lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		lblPassword.setBounds(49, 159, 91, 16);
 		contentPane.add(lblPassword);
 		
-		JButton btnNewButton = new JButton("Login");
+		btnNewButton = new JButton("Login");
 		btnNewButton.setBounds(161, 215, 117, 29);
 		contentPane.add(btnNewButton);
 		
@@ -75,9 +79,9 @@ public class LoginPage extends JFrame {
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Welcome to FeastFast!");
-		lblNewLabel_1.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 19));
-		lblNewLabel_1.setBounds(115, 20, 236, 40);
+		lblNewLabel_1 = new JLabel("Log In");
+		lblNewLabel_1.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 25));
+		lblNewLabel_1.setBounds(178, 20, 85, 40);
 		contentPane.add(lblNewLabel_1);
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
