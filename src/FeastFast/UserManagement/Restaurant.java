@@ -23,7 +23,6 @@ public class Restaurant extends User {
     private String password;
     private Menu menu;
     private ArrayList<Order> Orders;
-    //private Set<Order> customerOrders;
     private ArrayList<Review> restaurantReviews;
 
     public Restaurant() {
@@ -46,7 +45,15 @@ public class Restaurant extends User {
     public void setRestaurantId(String restaurantId) {
         this.restaurantId = restaurantId;
     }
+    
+    public ArrayList<Review> getRestaurantReviews(){
+    	return this.restaurantReviews;
+    }
 
+    public void addRestaurantReview(Review review) {
+    	restaurantReviews.add(review);
+    }
+    
     public String getName() {
         return name;
     }

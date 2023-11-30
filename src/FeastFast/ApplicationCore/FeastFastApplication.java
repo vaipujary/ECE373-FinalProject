@@ -19,14 +19,13 @@ import org.junit.runner.Result;
 public class FeastFastApplication {
 	
 	// Attributes
-    private List<Restaurant> restaurants;
+    private ArrayList<Restaurant> restaurants;
     private ArrayList<DeliveryDriver> drivers;
-    // private List<Customer> customers = new ArrayList<>();
+    private ArrayList<Customer> customers;
 
 	
 	//Omar Test edit
 	public static void main(String args[]) {
-		
 		
 		FeastFastApplication ffa = new FeastFastApplication();
 //		  JUnitCore junit = new JUnitCore();
@@ -44,6 +43,7 @@ public class FeastFastApplication {
     public FeastFastApplication() {
     	restaurants = new ArrayList<>();
     	drivers = new ArrayList<DeliveryDriver>();
+    	customers = new ArrayList<Customer>();
 //		
 //    	MainPage mainFrame = new MainPage();
 //    	mainFrame.setVisible(true);
@@ -84,6 +84,7 @@ public class FeastFastApplication {
         order.setComments(issue);
     }
 
+    // Method to rate a delivery driver
     public void rateDriver(DeliveryDriver driver, int rating) {
         // Implementation to rate a driver
         driver.setRating(rating);
@@ -95,10 +96,12 @@ public class FeastFastApplication {
         order.setStatus(Order.Status.DeliveredToCustomer);
     }
     
+    // Method to retrieve all the restaurants in the application
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
 
+    // Method to select a specific restaurant from a list of restaurants
     public Restaurant selectRestaurant(String restaurantName) {
         for(Restaurant r: restaurants) {
             if (restaurantName == r.getName()) {
@@ -107,15 +110,22 @@ public class FeastFastApplication {
         }
         return restaurants.get(0);
     }
+    
+    // Method to register a customer on the application
     public Customer registerCustomer(String name, String email, String password) {
         return new Customer(name, email, password);
     }
+    
+    // Method for a customer to place an order with a restaurant
     public void placeOrder(Customer customer, Order order) {
     }
+    
+    // Method for customer to track their order
     public String trackOrder(Order order) {
         return order.getStatus().name();
     }
 
+    // Method to send a confirmation email to customers
     public boolean sendEmailToCustomer(Customer customer, Order order) {
       
     	try {
