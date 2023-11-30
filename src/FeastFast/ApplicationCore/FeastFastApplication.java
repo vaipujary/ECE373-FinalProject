@@ -52,6 +52,14 @@ public class FeastFastApplication {
 		loginFrame.setVisible(true);
     }
     
+    public void addCustomer(Customer c) {
+    	customers.add(c);
+    }
+    
+    public ArrayList<Customer> getCustomers(){
+    	return this.customers;
+    }
+    
     public void addRestaurant(Restaurant r) {
         restaurants.add(r);
     }

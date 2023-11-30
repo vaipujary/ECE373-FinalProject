@@ -23,6 +23,8 @@ import javax.swing.JList;
 
 public class Receipt extends JFrame {
 
+	FeastFastApplication ffa;
+	
 	private JPanel contentPane;
 	JMenuBar menuBar;
 	
@@ -200,45 +202,88 @@ public class Receipt extends JFrame {
 			
 			// PersonIcon button
 			if(source.equals(item)) {
-				
+				handlePersonIcon();
 			}
 			// HomeIcon button
 			else if(source.equals(item2)) {
-				
+				handleHomeIcon();
 			}
 			// Update Name button
 			else if(source.equals(btnNewButton1)) {
-				
+				handleUpdateName();
 			}
 			// Manage Address button
 			else if(source.equals(btnManageAddress)){
-				
+				handleManageAddress();
 			}
 			// Manage Preferred Payment button
 			else if(source.equals(btnManagePreferredPayment)) {
-				
+				handleManagePreferredPayment();
 			}
 			// View Past Orders button
 			else if(source.equals(btnViewPastOrders)) {
-				
+				handleViewPastOrders();
 			}
 			// View Reviews button
 			else if(source.equals(btnViewReviews)) {
-				
+				handleViewReviews();
 			}
 			// Manage Password button
 			else if(source.equals(btnManagePassword)) {
-				
+				handleManagePassword();
 			}
 			// Update Phone Number button
 			else if(source.equals(btnUpdatePhoneNumber)) {
-				
+				handleUpdatePhoneNumber();
 			}
 			// Write a Review button
 			else if(source.equals(btnWriteAReview)) {
-				
+				handleWriteReview();
 			}
 
+			
+		}
+		
+private void handlePersonIcon() {
+			
+			
+		}
+		
+		private void handleHomeIcon() {
+			
+		}
+		
+		private void handleUpdateName() {
+			
+		}
+		
+		private void handleManageAddress() {
+			
+		}
+		
+		private void handleManagePreferredPayment() {
+			
+		}
+		
+		private void handleViewPastOrders() {
+			
+		
+		
+		}
+		
+		private void handleViewReviews() {
+			
+		}
+		
+		private void handleManagePassword() {
+			
+		}
+		
+		private void handleUpdatePhoneNumber() {
+			
+		}
+		
+		private void handleWriteReview() {
 			
 		}
 	}
