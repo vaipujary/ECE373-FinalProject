@@ -44,7 +44,10 @@ public class FeastFastApplication {
     public FeastFastApplication() {
     	restaurants = new ArrayList<>();
     	drivers = new ArrayList<DeliveryDriver>();
-		
+//		
+//    	MainPage mainFrame = new MainPage();
+//    	mainFrame.setVisible(true);
+    	
 		LoginPage loginFrame = new LoginPage();
 		loginFrame.setVisible(true);
     }
@@ -131,7 +134,7 @@ public class FeastFastApplication {
 		}      
  }
 
-
+    // Method to retrieve the list of available drivers
     public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
         ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();
 
@@ -142,6 +145,7 @@ public class FeastFastApplication {
         return availableDrivers;
     }
 
+    // Method to add a new delivery driver
     public void addDeliveryDriver(DeliveryDriver d) {
         drivers.add(d);
     }

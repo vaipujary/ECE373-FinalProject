@@ -46,7 +46,7 @@ public class ViewRestaurants extends JFrame {
 	public ViewRestaurants() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 500);
+		setBounds(100, 100, 800, 700);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -73,13 +73,64 @@ public class ViewRestaurants extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(518, 0, 282, 609);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JLabel lblNewLabel1 = new JLabel("Account");
+		lblNewLabel1.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		lblNewLabel1.setBounds(16, 6, 116, 40);
+		panel.add(lblNewLabel1);
+		
+		JButton btnNewButton1 = new JButton("Update Name");
+		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnNewButton1.setBounds(16, 59, 260, 48);
+		panel.add(btnNewButton1);
+		
+		JButton btnManageAddress = new JButton("Manage Address");
+		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnManageAddress.setBounds(16, 275, 260, 48);
+		panel.add(btnManageAddress);
+		
+		JButton btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
+		panel.add(btnManagePreferredPayment);
+		
+		JButton btnViewPastOrders = new JButton("View Past Orders");
+		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnViewPastOrders.setBounds(16, 406, 260, 48);
+		panel.add(btnViewPastOrders);
+		
+		JButton btnViewReviews = new JButton("View Reviews");
+		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnViewReviews.setBounds(16, 544, 260, 48);
+		panel.add(btnViewReviews);
+		
+		JButton btnManagePassword = new JButton("Manage Password");
+		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnManagePassword.setBounds(16, 204, 260, 48);
+		panel.add(btnManagePassword);
+		
+		JButton btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
+		panel.add(btnUpdatePhoneNumber);
+		
+		JButton btnWriteAReview = new JButton("Write a Review");
+		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnWriteAReview.setBounds(16, 473, 260, 48);
+		panel.add(btnWriteAReview);
+
+		
 		JLabel lblNewLabel = new JLabel("View Restaurants");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
-		lblNewLabel.setBounds(167, 6, 250, 36);
+		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+		lblNewLabel.setBounds(242, 6, 305, 63);
 		contentPane.add(lblNewLabel);
 		
 		JList list = new JList();
-		list.setBounds(54, 54, 496, 330);
+		list.setBounds(77, 81, 496, 487);
 		contentPane.add(list);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");

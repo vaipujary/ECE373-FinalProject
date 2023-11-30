@@ -72,7 +72,7 @@ public class LoginPage extends JFrame {
 		
 		textField = new JTextField();
 		textField.setBounds(249, 81, 130, 39);
-		frame.getContentPane().add(textField);
+		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblNewLabel_1 = new JLabel("Welcome to FeastFast!");
