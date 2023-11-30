@@ -53,6 +53,11 @@ public class RestaurantMenu extends JFrame {
 	Image scaledIcon;
 	ImageIcon newScaledIcon;
 	
+	ImageIcon icon5;
+	Image scaledIcon5;
+	ImageIcon newScaledIcon5;
+	JButton item5;
+	
 	JButton item;
 	
 	JLabel lblNewLabel;
@@ -128,6 +133,12 @@ public class RestaurantMenu extends JFrame {
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		// Log Out Icon
+		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+		scaledIcon5 = icon5.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon5 = new ImageIcon(scaledIcon5);
+		item5 = new JButton(newScaledIcon5);
 		
 		item = new JButton(newScaledIcon);
 		
@@ -219,6 +230,7 @@ public class RestaurantMenu extends JFrame {
 		menuBar.add(item2);
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(item);
+		menuBar.add(item5);
 		
 		
 		lblNewLabel.setFont(new Font("Bangla MN", Font.PLAIN, 30));
@@ -274,6 +286,10 @@ public class RestaurantMenu extends JFrame {
 				else if(source.equals(item2)) {
 					handleHomeIcon();
 				}
+				
+				else if(source.equals(item5)) {
+					handleLogOut();
+				}
 				// Update Name button
 				else if(source.equals(btnNewButton1)) {
 					handleUpdateName();
@@ -316,6 +332,10 @@ public class RestaurantMenu extends JFrame {
 			}
 			
 			private void handleHomeIcon() {
+				
+			}
+			
+			private void handleLogOut() {
 				
 			}
 			

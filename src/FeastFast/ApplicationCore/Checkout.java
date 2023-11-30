@@ -41,14 +41,20 @@ public class Checkout extends JFrame {
 	ImageIcon icon;
 	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 	ImageIcon newScaledIcon;
+	// PersonIcon button
+	JButton item;
+	
+	// Log Out Icon
+	ImageIcon icon3;
+	Image scaledIcon3;
+	ImageIcon newScaledIcon3;
+	JButton item3;
 	
 	ImageIcon icon4;
 	Image scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 	ImageIcon newScaledIcon4;
 	JButton btnNewButton;
-	
-	// PersonIcon button
-	JButton item;
+
 	
 	// Side panel
 	JPanel panel;
@@ -111,11 +117,20 @@ public class Checkout extends JFrame {
 		setJMenuBar(menuBar);
 		
 		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon2 = new ImageIcon(scaledIcon2);
 		item2 = new JButton(newScaledIcon2);
 		
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
+		item = new JButton(newScaledIcon);
+		
+		// Log Out Icon
+		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+		scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon3 = new ImageIcon(scaledIcon3);
+		item3 = new JButton(newScaledIcon3);
 		
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
@@ -149,12 +164,13 @@ public class Checkout extends JFrame {
 		rdbtnNewRadioButton = new JRadioButton("Pickup");
 		rdbtnHomeDelivery = new JRadioButton("Home delivery");
 		
-		item = new JButton(newScaledIcon);
-		panel = new JPanel();
-		menuBar.add(item2);
 		
+		panel = new JPanel();
+		
+		menuBar.add(item2);
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(item);
+		menuBar.add(item3);
 		
 		contentPane.setBackground(new Color(250, 128, 114));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -251,6 +267,10 @@ public class Checkout extends JFrame {
 				else if(source.equals(item2)) {
 					handleHomeIcon();
 				}
+				
+				else if(source.equals(item3)) {
+					handleLogOut();
+				}
 				// Update Name button
 				else if(source.equals(btnNewButton1)) {
 					handleUpdateName();
@@ -300,6 +320,10 @@ public class Checkout extends JFrame {
 			}
 			
 			private void handleHomeIcon() {
+				
+			}
+			
+			private void handleLogOut() {
 				
 			}
 			

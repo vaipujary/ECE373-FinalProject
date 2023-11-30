@@ -37,6 +37,12 @@ public class Receipt extends JFrame {
 	Image scaledIcon;
 	ImageIcon newScaledIcon;
 	
+	// Log Out Icon
+	ImageIcon icon3;
+	Image scaledIcon3;
+	ImageIcon newScaledIcon3;
+	JButton item3;
+	
 	JButton item;
 	
 	JPanel panel;
@@ -98,6 +104,12 @@ public class Receipt extends JFrame {
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
 		
+		// Log Out Icon
+		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+		scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon3 = new ImageIcon(scaledIcon3);
+		item3 = new JButton(newScaledIcon3);
+		
 		item = new JButton(newScaledIcon);
 		
 		panel = new JPanel();
@@ -141,6 +153,7 @@ public class Receipt extends JFrame {
 		menuBar.add(Box.createHorizontalGlue());
 		
 		menuBar.add(item);
+		menuBar.add(item3);
 		
 		panel.setBounds(518, 0, 282, 609);
 		contentPane.add(panel);
@@ -208,6 +221,10 @@ public class Receipt extends JFrame {
 			else if(source.equals(item2)) {
 				handleHomeIcon();
 			}
+			
+			else if(source.equals(item3)) {
+				handleLogOut();
+			}
 			// Update Name button
 			else if(source.equals(btnNewButton1)) {
 				handleUpdateName();
@@ -250,6 +267,10 @@ private void handlePersonIcon() {
 		}
 		
 		private void handleHomeIcon() {
+			
+		}
+		
+		private void handleLogOut() {
 			
 		}
 		

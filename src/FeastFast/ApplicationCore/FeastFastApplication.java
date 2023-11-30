@@ -1,5 +1,6 @@
 package FeastFast.ApplicationCore;
 
+import FeastFast.UserManagement.Admin;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
@@ -19,6 +20,7 @@ import org.junit.runner.Result;
 public class FeastFastApplication {
 	
 	// Attributes
+	private ArrayList<Admin> administrators;
     private ArrayList<Restaurant> restaurants;
     private ArrayList<DeliveryDriver> drivers;
     private ArrayList<Customer> customers;
@@ -41,15 +43,16 @@ public class FeastFastApplication {
 		}
 
     public FeastFastApplication() {
-    	restaurants = new ArrayList<>();
+    	administrators = new ArrayList<Admin>();
+    	restaurants = new ArrayList<Restaurant>();
     	drivers = new ArrayList<DeliveryDriver>();
     	customers = new ArrayList<Customer>();
-//		
-//    	MainPage mainFrame = new MainPage();
-//    	mainFrame.setVisible(true);
+		
+    	MainPage mainFrame = new MainPage();
+    	mainFrame.setVisible(true);
     	
-		LoginPage loginFrame = new LoginPage();
-		loginFrame.setVisible(true);
+//		LoginPage loginFrame = new LoginPage();
+//		loginFrame.setVisible(true);
     }
     
     public void addCustomer(Customer c) {

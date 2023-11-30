@@ -32,16 +32,23 @@ public class ViewRestaurants extends JFrame {
 	JMenuBar menuBar;
 
 	// Icons
+	// Home Icon
 	ImageIcon icon2;
-	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+	Image scaledIcon2;
 	ImageIcon newScaledIcon2;
 	JButton item2;
 	
+	// Person Icon
 	ImageIcon icon;
-	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+	Image scaledIcon;
 	ImageIcon newScaledIcon;
-	
 	JButton item;
+	
+	// Log Out Icon
+	ImageIcon icon3;
+	Image scaledIcon3;
+	ImageIcon newScaledIcon3;
+	JButton item3;
 	
 	// Side panel
 	JPanel panel;
@@ -92,14 +99,23 @@ public class ViewRestaurants extends JFrame {
 		menuBar = new JMenuBar();
 
 		// Icons
+		// Home Icon
 		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
 		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon2 = new ImageIcon(scaledIcon2);
 		item2 = new JButton(newScaledIcon2);
 		
+		// Person Icon
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		// Log Out Icon
+		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+		scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon3 = new ImageIcon(scaledIcon3);
+		item3 = new JButton(newScaledIcon3);
+		
 		
 		item = new JButton(newScaledIcon);
 		
@@ -132,6 +148,7 @@ public class ViewRestaurants extends JFrame {
 		menuBar.add(item2);
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(item);
+		menuBar.add(item3);
 		
 		contentPane.setBackground(new Color(250, 128, 114));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -215,6 +232,9 @@ public class ViewRestaurants extends JFrame {
 			else if(source.equals(item2)) {
 				handleHomeIcon();
 			}
+			else if(source.equals(item3)) {
+				handleLogOut();
+			}
 			// Update Name button
 			else if(source.equals(btnNewButton1)) {
 				handleUpdateName();
@@ -256,6 +276,10 @@ public class ViewRestaurants extends JFrame {
 		}
 		
 		private void handleHomeIcon() {
+			
+		}
+		
+		private void handleLogOut() {
 			
 		}
 		

@@ -67,6 +67,12 @@ public class ShoppingCart extends JFrame {
 	Image scaledIcon4;
 	ImageIcon newScaledIcon4;
 	
+	// Log Out Icon
+	ImageIcon icon5;
+	Image scaledIcon5;
+	ImageIcon newScaledIcon5;
+	JButton item5;
+	
 	JButton btnNewButton_1;
 	
 	JLabel lblNewLabel;
@@ -140,6 +146,12 @@ public class ShoppingCart extends JFrame {
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		
+		// Log Out Icon
+		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+		scaledIcon5 = icon5.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon5 = new ImageIcon(scaledIcon5);
+		item5 = new JButton(newScaledIcon5);
 		
 		btnNewButton_1 = new JButton(newScaledIcon4);
 		
@@ -221,6 +233,7 @@ public class ShoppingCart extends JFrame {
 		menuBar.add(Box.createHorizontalGlue());
 		
 		menuBar.add(item);
+		menuBar.add(item5);
 		
 		btnNewButton.setText("Continue to Checkout");
 		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
@@ -322,6 +335,9 @@ public class ShoppingCart extends JFrame {
 					else if(source.equals(item2)) {
 						handleHomeIcon();
 					}
+					else if(source.equals(item5)) {
+						handleLogOut();
+					}
 					// Update Name button
 					else if(source.equals(btnNewButton1)) {
 						handleUpdateName();
@@ -364,6 +380,10 @@ public class ShoppingCart extends JFrame {
 				}
 				
 				private void handleHomeIcon() {
+					
+				}
+				
+				private void handleLogOut() {
 					
 				}
 				
