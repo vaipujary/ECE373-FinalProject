@@ -24,59 +24,58 @@ public class RestaurantMenu extends JFrame {
 
 	private JPanel contentPane;
 	
-	JPanel panel = new JPanel();
+	JPanel panel;
 	
-	JLabel lblNewLabel1 = new JLabel("Account");
+	JLabel lblNewLabel1;
 	
-	JButton btnNewButton1 = new JButton("Update Name");
+	JButton btnNewButton1;
 	
-	JButton btnManageAddress = new JButton("Manage Address");
+	JButton btnManageAddress;
 	
-	JButton btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+	JButton btnManagePreferredPayment;
 	
-	JButton btnViewPastOrders = new JButton("View Past Orders");
-	JButton btnViewReviews = new JButton("View Reviews");
-	JButton btnManagePassword = new JButton("Manage Password");
-	JButton btnUpdatePhoneNumber = new JButton("Update Phone Number");
-	JButton btnWriteAReview = new JButton("Write a Review");
-	JMenuBar menuBar = new JMenuBar();
+	JButton btnViewPastOrders;
+	JButton btnViewReviews;
+	JButton btnManagePassword;
+	JButton btnUpdatePhoneNumber;
+	JButton btnWriteAReview;
+	JMenuBar menuBar;
 	
-	ImageIcon icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon2 = new ImageIcon(scaledIcon2);
-	//menuBar.add(Box.createHorizontalGlue());
-	JButton item2 = new JButton(newScaledIcon2);
-	
-	
-	ImageIcon icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
-	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon = new ImageIcon(scaledIcon);
-	
-	JButton item = new JButton(newScaledIcon);
-	
-	JLabel lblNewLabel = new JLabel("Menu\n");
-	
-	JList list = new JList();
-	
-	ImageIcon icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CartIcon.png"));
-	Image scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon3 = new ImageIcon(scaledIcon3);
+	ImageIcon icon2;
+	Image scaledIcon2;
+	ImageIcon newScaledIcon2;
+	JButton item2;
 	
 	
-	JButton btnNewButton = new JButton(newScaledIcon3);
+	ImageIcon icon;
+	Image scaledIcon;
+	ImageIcon newScaledIcon;
 	
-	ImageIcon icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
-	Image scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon4 = new ImageIcon(scaledIcon4);
+	JButton item;
 	
-	JButton btnBackToView = new JButton(newScaledIcon4);
+	JLabel lblNewLabel;
+	
+	JList list;
+	
+	ImageIcon icon3;
+	Image scaledIcon3;
+	ImageIcon newScaledIcon3;
+	
+	
+	JButton btnNewButton;
+	
+	ImageIcon icon4;
+	Image scaledIcon4;
+	ImageIcon newScaledIcon4;
+	
+	JButton btnBackToView;
 	
 	// TODO: display restaurant name of the menu the customer is viewing
-	JLabel lblNewLabel_1 = new JLabel("- Restaurant Name - ");
+	JLabel lblNewLabel_1;
 	
-	JLabel lblNewLabel_2 = new JLabel("Rating: ");
+	JLabel lblNewLabel_2;
 	
-	JLabel lblNewLabel_3 = new JLabel("Rating placeholder\n");
+	JLabel lblNewLabel_3;
 
 	/**
 	 * Launch the application.
@@ -98,9 +97,65 @@ public class RestaurantMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public RestaurantMenu() {
+		
+		contentPane = new JPanel();
+		
+		panel = new JPanel();
+		
+		lblNewLabel1 = new JLabel("Account");
+		
+		btnNewButton1 = new JButton("Update Name");
+		
+		btnManageAddress = new JButton("Manage Address");
+		
+		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		
+		btnViewPastOrders = new JButton("View Past Orders");
+		btnViewReviews = new JButton("View Reviews");
+		btnManagePassword = new JButton("Manage Password");
+		btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		btnWriteAReview = new JButton("Write a Review");
+		menuBar = new JMenuBar();
+		
+		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon2 = new ImageIcon(scaledIcon2);
+		item2 = new JButton(newScaledIcon2);
+		
+		
+		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		item = new JButton(newScaledIcon);
+		
+		lblNewLabel = new JLabel("Menu\n");
+		
+		list = new JList();
+		
+		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CartIcon.png"));
+		scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+		newScaledIcon3 = new ImageIcon(scaledIcon3);
+		
+		
+		btnNewButton = new JButton(newScaledIcon3);
+		
+		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		
+		btnBackToView = new JButton(newScaledIcon4);
+		
+		// TODO: display restaurant name of the menu the customer is viewing
+		lblNewLabel_1 = new JLabel("- Restaurant Name - ");
+		
+		lblNewLabel_2 = new JLabel("Rating: ");
+		
+		lblNewLabel_3 = new JLabel("Rating placeholder\n");
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
-		contentPane = new JPanel();
+		
 		contentPane.setBackground(new Color(250, 128, 114));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 

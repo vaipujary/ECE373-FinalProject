@@ -24,59 +24,58 @@ import java.awt.Color;
 // Shopping Cart Frame
 public class ShoppingCart extends JFrame {
 
-	private JPanel contentPane = new JPanel();
-	private JTextField textField = new JTextField();
+	private JPanel contentPane;
+	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
 	
-	JPanel panel = new JPanel();
+	JPanel panel;
 	
-	JLabel lblNewLabel1 = new JLabel("Account");
-	JButton btnNewButton1 = new JButton("Update Name");
-	JButton btnManageAddress = new JButton("Manage Address");
-	JButton btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-	JButton btnViewPastOrders = new JButton("View Past Orders");
-	JButton btnViewReviews = new JButton("View Reviews");
-	JButton btnManagePassword = new JButton("Manage Password");
-	JButton btnUpdatePhoneNumber = new JButton("Update Phone Number");
-	JButton btnWriteAReview = new JButton("Write a Review");
+	JLabel lblNewLabel1;
+	JButton btnNewButton1;
+	JButton btnManageAddress;
+	JButton btnManagePreferredPayment;
+	JButton btnViewPastOrders;
+	JButton btnViewReviews;
+	JButton btnManagePassword;
+	JButton btnUpdatePhoneNumber;
+	JButton btnWriteAReview;
 	
-	JMenuBar menuBar = new JMenuBar();
+	JMenuBar menuBar;
 	
-	ImageIcon icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon2 = new ImageIcon(scaledIcon2);
-	//menuBar.add(Box.createHorizontalGlue());
-	JButton item2 = new JButton(newScaledIcon2);
+	ImageIcon icon2;
+	Image scaledIcon2;
+	ImageIcon newScaledIcon2;
+	JButton item2;
 	
-	ImageIcon icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
-	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon = new ImageIcon(scaledIcon);
+	ImageIcon icon;
+	Image scaledIcon;
+	ImageIcon newScaledIcon;
 	
-	JButton item = new JButton(newScaledIcon);
+	JButton item;
 	
-	ImageIcon icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CheckoutIcon.png"));
-	Image scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon3 = new ImageIcon(scaledIcon3);
+	ImageIcon icon3;
+	Image scaledIcon3;
+	ImageIcon newScaledIcon3;
 	
-	JButton btnNewButton = new JButton(newScaledIcon3);
+	JButton btnNewButton;
 	
-	ImageIcon icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
-	Image scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon4 = new ImageIcon(scaledIcon4);
+	ImageIcon icon4;
+	Image scaledIcon4;
+	ImageIcon newScaledIcon4;
 	
-	JButton btnNewButton_1 = new JButton(newScaledIcon4);
+	JButton btnNewButton_1;
 	
-	JLabel lblNewLabel = new JLabel("Order total:");
+	JLabel lblNewLabel;
 	
-	JLabel lblSalesTax = new JLabel("Sales tax: ");
+	JLabel lblSalesTax;
 	
-	JLabel lblServiceFee = new JLabel("Service fee:");
+	JLabel lblServiceFee;
 	
-	JLabel lblTotal = new JLabel("Total:");
+	JLabel lblTotal;
 	
-	JButton btnNewButton_1_1 = new JButton("X    Empty cart");
+	JButton btnNewButton_1_1;
 
 	/**
 	 * Launch the application.
@@ -98,6 +97,60 @@ public class ShoppingCart extends JFrame {
 	 * Create the frame.
 	 */
 	public ShoppingCart() {
+		
+		contentPane = new JPanel();
+		textField = new JTextField();
+		textField_1 = new JTextField();
+		textField_2 = new JTextField();
+		textField_3 = new JTextField();
+		
+		panel = new JPanel();
+		
+		lblNewLabel1 = new JLabel("Account");
+		btnNewButton1 = new JButton("Update Name");
+		btnManageAddress = new JButton("Manage Address");
+		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		btnViewPastOrders = new JButton("View Past Orders");
+		btnViewReviews = new JButton("View Reviews");
+		btnManagePassword = new JButton("Manage Password");
+		btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		btnWriteAReview = new JButton("Write a Review");
+		
+		menuBar = new JMenuBar();
+		
+		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon2 = new ImageIcon(scaledIcon2);
+		item2 = new JButton(newScaledIcon2);
+		
+		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		item = new JButton(newScaledIcon);
+		
+		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CheckoutIcon.png"));
+		scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+		newScaledIcon3 = new ImageIcon(scaledIcon3);
+		
+		btnNewButton = new JButton(newScaledIcon3);
+		
+		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		
+		btnNewButton_1 = new JButton(newScaledIcon4);
+		
+		lblNewLabel = new JLabel("Order total:");
+		
+		lblSalesTax = new JLabel("Sales tax: ");
+		
+		lblServiceFee = new JLabel("Service fee:");
+		
+		lblTotal = new JLabel("Total:");
+		
+		btnNewButton_1_1 = new JButton("X    Empty cart");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		

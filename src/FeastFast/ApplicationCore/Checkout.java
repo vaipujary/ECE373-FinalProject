@@ -26,61 +26,60 @@ import javax.swing.JRadioButton;
 public class Checkout extends JFrame {
 
 	// Content pane
-	private JPanel contentPane = new JPanel();
+	private JPanel contentPane;
 	// Menu bar
-	JMenuBar menuBar = new JMenuBar();
+	JMenuBar menuBar;
 	
 	// Icons
-	ImageIcon icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+	ImageIcon icon2;
 	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon2 = new ImageIcon(scaledIcon2);
-	//menuBar.add(Box.createHorizontalGlue());
-	JButton item2 = new JButton(newScaledIcon2);
+	ImageIcon newScaledIcon2;
+	JButton item2;
 	
-	ImageIcon icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+	ImageIcon icon;
 	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon = new ImageIcon(scaledIcon);
+	ImageIcon newScaledIcon;
 	
-	ImageIcon icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+	ImageIcon icon4;
 	Image scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon4 = new ImageIcon(scaledIcon4);
-	JButton btnNewButton = new JButton(newScaledIcon4);
+	ImageIcon newScaledIcon4;
+	JButton btnNewButton;
 	
 	// PersonIcon button
-	JButton item = new JButton(newScaledIcon);
+	JButton item;
 	
 	// Side panel
-	JPanel panel = new JPanel();
+	JPanel panel;
 	
 	// Side panel contents
-	JLabel lblNewLabel1 = new JLabel("Account");
+	JLabel lblNewLabel1;
 	
 	// Side panel buttons
-	JButton btnNewButton1 = new JButton("Update Name");
-	JButton btnManageAddress = new JButton("Manage Address");
-	JButton btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-	JButton btnViewPastOrders = new JButton("View Past Orders");
-	JButton btnViewReviews = new JButton("View Reviews");
-	JButton btnManagePassword = new JButton("Manage Password");
-	JButton btnUpdatePhoneNumber = new JButton("Update Phone Number");
-	JButton btnWriteAReview = new JButton("Write a Review");
+	JButton btnNewButton1;
+	JButton btnManageAddress;
+	JButton btnManagePreferredPayment;
+	JButton btnViewPastOrders;
+	JButton btnViewReviews;
+	JButton btnManagePassword;
+	JButton btnUpdatePhoneNumber;
+	JButton btnWriteAReview;
 	
 	// Order type label
-	JLabel lblNewLabel = new JLabel("Pickup or Home Delivery?");
+	JLabel lblNewLabel;
 	
 	// Payment method label
-	JLabel lblChoosePaymentMethod = new JLabel("Choose payment method:");
+	JLabel lblChoosePaymentMethod;
 	
 	// Payment type Combo box
-	JComboBox comboBox = new JComboBox();
+	JComboBox comboBox;
 	
-	JLabel lblNewLabel_1 = new JLabel("Checkout\n");
+	JLabel lblNewLabel_1;
 	
-	JButton btnContinue = new JButton("Continue");
+	JButton btnContinue;
 	
 	// Radio buttons
-	JRadioButton rdbtnNewRadioButton = new JRadioButton("Pickup");
-	JRadioButton rdbtnHomeDelivery = new JRadioButton("Home delivery");
+	JRadioButton rdbtnNewRadioButton;
+	JRadioButton rdbtnHomeDelivery;
 
 	/**
 	 * Launch the application.
@@ -102,11 +101,54 @@ public class Checkout extends JFrame {
 	 * Create the frame.
 	 */
 	public Checkout() {
+		contentPane = new JPanel();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		
+		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
+		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+		newScaledIcon2 = new ImageIcon(scaledIcon2);
+		item2 = new JButton(newScaledIcon2);
+		
+		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		btnNewButton = new JButton(newScaledIcon4);
+		
+		lblNewLabel1 = new JLabel("Account");
+		
+		btnNewButton1 = new JButton("Update Name");
+		btnManageAddress = new JButton("Manage Address");
+		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		btnViewPastOrders = new JButton("View Past Orders");
+		btnViewReviews = new JButton("View Reviews");
+		btnManagePassword = new JButton("Manage Password");
+		btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		btnWriteAReview = new JButton("Write a Review");
+		
+		// Order type label
+		lblNewLabel = new JLabel("Pickup or Home Delivery?");
+		
+		// Payment method label
+		lblChoosePaymentMethod = new JLabel("Choose payment method:");
+		
+		// Payment type Combo box
+		comboBox = new JComboBox();
+		
+		lblNewLabel_1 = new JLabel("Checkout\n");
+		
+		btnContinue = new JButton("Continue");
+		
+		// Radio buttons
+		rdbtnNewRadioButton = new JRadioButton("Pickup");
+		rdbtnHomeDelivery = new JRadioButton("Home delivery");
+		
+		item = new JButton(newScaledIcon);
+		panel = new JPanel();
 		menuBar.add(item2);
 		
 		menuBar.add(Box.createHorizontalGlue());

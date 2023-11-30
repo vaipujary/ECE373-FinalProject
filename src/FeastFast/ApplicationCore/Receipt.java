@@ -23,46 +23,45 @@ import javax.swing.JList;
 
 public class Receipt extends JFrame {
 
-	private JPanel contentPane = new JPanel();
-	JMenuBar menuBar = new JMenuBar();
+	private JPanel contentPane;
+	JMenuBar menuBar;
 	
-	ImageIcon icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon2 = new ImageIcon(scaledIcon2);
-	//menuBar.add(Box.createHorizontalGlue());
-	JButton item2 = new JButton(newScaledIcon2);
+	ImageIcon icon2;
+	Image scaledIcon2;
+	ImageIcon newScaledIcon2;
+	JButton item2;
 	
-	ImageIcon icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
-	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon = new ImageIcon(scaledIcon);
+	ImageIcon icon;
+	Image scaledIcon;
+	ImageIcon newScaledIcon;
 	
-	JButton item = new JButton(newScaledIcon);
+	JButton item;
 	
-	JPanel panel = new JPanel();
+	JPanel panel;
 	
-	JLabel lblNewLabel1 = new JLabel("Account");
+	JLabel lblNewLabel1;
 	
-	JButton btnNewButton1 = new JButton("Update Name");
+	JButton btnNewButton1;
 	
-	JButton btnManageAddress = new JButton("Manage Address");
+	JButton btnManageAddress;
 	
-	JButton btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+	JButton btnManagePreferredPayment;
 	
-	JButton btnViewPastOrders = new JButton("View Past Orders");
+	JButton btnViewPastOrders;
 	
-	JButton btnViewReviews = new JButton("View Reviews");
+	JButton btnViewReviews;
 	
-	JButton btnManagePassword = new JButton("Manage Password");
+	JButton btnManagePassword;
 	
-	JButton btnUpdatePhoneNumber = new JButton("Update Phone Number");
+	JButton btnUpdatePhoneNumber;
 	
-	JButton btnWriteAReview = new JButton("Write a Review");
+	JButton btnWriteAReview;
 	
-	JLabel lblNewLabel = new JLabel("Order Summary");
+	JLabel lblNewLabel;
 	
-	JLabel lblItems = new JLabel("Items: ");
+	JLabel lblItems;
 	
-	JList list = new JList();
+	JList list;
 
 	/**
 	 * Launch the application.
@@ -84,6 +83,47 @@ public class Receipt extends JFrame {
 	 * Create the frame.
 	 */
 	public Receipt() {
+		
+		contentPane = new JPanel();
+		menuBar = new JMenuBar();
+		
+		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon2 = new ImageIcon(scaledIcon2);
+		item2 = new JButton(newScaledIcon2);
+		
+		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+		newScaledIcon = new ImageIcon(scaledIcon);
+		
+		item = new JButton(newScaledIcon);
+		
+		panel = new JPanel();
+		
+		lblNewLabel1 = new JLabel("Account");
+		
+		btnNewButton1 = new JButton("Update Name");
+		
+		btnManageAddress = new JButton("Manage Address");
+		
+		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		
+		btnViewPastOrders = new JButton("View Past Orders");
+		
+		btnViewReviews = new JButton("View Reviews");
+		
+		btnManagePassword = new JButton("Manage Password");
+		
+		btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		
+		btnWriteAReview = new JButton("Write a Review");
+		
+		lblNewLabel = new JLabel("Order Summary");
+		
+		lblItems = new JLabel("Items: ");
+		
+		list = new JList();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		contentPane.setBackground(new Color(250, 128, 114));
