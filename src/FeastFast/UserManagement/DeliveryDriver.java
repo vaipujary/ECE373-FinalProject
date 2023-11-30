@@ -5,8 +5,10 @@ import java.util.List;
 
 import FeastFast.RestaurantManagement.Order;
 
+// This is the delivery driver class which inherits from the User class
 public class DeliveryDriver extends User {
 
+	// Attributes
     private boolean isAvailable;
     private String currentLocation;
     private String phoneNumber;

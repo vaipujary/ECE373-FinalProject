@@ -2,15 +2,17 @@ package FeastFast.UserManagement;
 
 import FeastFast.RestaurantManagement.Order;
 
-
+// This is the customer class which inherits from the User class
 public class Customer extends User {
 
+	// Attributes
     private String phoneNumber;
     private String email;
     private Order order;
     private Restaurant restaurantInView;
     private String Address;
     
+    // Constructors
     public Customer() {
         this.Address = "";
         this.phoneNumber = "";
@@ -54,18 +56,22 @@ public class Customer extends User {
     public Order getOrder() {
         return this.order;
     }
+    
+    // Method for a customer to view their order details
     public Order viewOrderDetails(int orderId) {
         // Logic to view order details, possibly from a list of orders
         // For simplicity, returning a new order object
         return new Order(); // This would be replaced with actual order retrieval logic
     }
 
+    // Method for a customer to select a restaurant from a list of restaurants
     public void selectRestaurant(Restaurant r) {
         this.restaurantInView = r;
 
         r.receiveOrder(order);
     }
 
+    // Method for to get the restaurant being viewed by the customer
     public Restaurant getCurrentRestaurant() {
         return this.restaurantInView;
     }
@@ -101,6 +107,7 @@ public class Customer extends User {
         return null;
     }
 
+    // Method to determine the type of order
     public void selectOrderType(Order.Type t) {
 
         switch (t) {

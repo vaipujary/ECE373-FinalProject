@@ -17,8 +17,18 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 public class FeastFastApplication {
+	
+	// Attributes
+    private List<Restaurant> restaurants;
+    private ArrayList<DeliveryDriver> drivers;
+    // private List<Customer> customers = new ArrayList<>();
+
+	
 	//Omar Test edit
 	public static void main(String args[]) {
+		
+		
+		FeastFastApplication ffa = new FeastFastApplication();
 //		  JUnitCore junit = new JUnitCore();
 //		  junit.addListener(new TextListener(System.out));
 //		  Result result = junit.run(FeastFastApplication.class); 
@@ -30,14 +40,13 @@ public class FeastFastApplication {
 //		    System.exit(0);
 //		  }
 		}
-	
-    private List<Restaurant> restaurants;
-    private ArrayList<DeliveryDriver> drivers;
-    // private List<Customer> customers = new ArrayList<>();
 
     public FeastFastApplication() {
     	restaurants = new ArrayList<>();
     	drivers = new ArrayList<DeliveryDriver>();
+		
+		LoginPage loginFrame = new LoginPage();
+		loginFrame.setVisible(true);
     }
     
     public void addRestaurant(Restaurant r) {

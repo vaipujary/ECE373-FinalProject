@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+// This is the Restaurant class which inherits from the User class
 public class Restaurant extends User {
 
+	// Attributes
     private String restaurantId;
     private boolean isOpen; // TODO
     private String name;

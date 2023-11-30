@@ -6,7 +6,10 @@ import java.util.Map;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.UserManagement.Restaurant;
 
+// This class calculates costs 
 public class CostCalculator {
+	
+	// Attributes
     private HashMap<MenuItem, Integer> foodOrder;    
     private Restaurant restaurant;
 

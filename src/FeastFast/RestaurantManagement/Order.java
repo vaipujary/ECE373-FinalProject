@@ -7,6 +7,7 @@ import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import FeastFast.UserManagement.DeliveryDriver;
 
+// This class handles customers' orders
 public class Order {
 
     public static enum Status {
@@ -25,6 +26,7 @@ public class Order {
         PICKUP
     }
     
+    // Attributes
     private Customer customer;
     private DeliveryDriver deliveryDriver;
     private Restaurant restaurant;
