@@ -15,6 +15,7 @@ public class Order {
         RestaurantReceived,
         PreparingFood,
         InDelivery,
+        PickedUp,
         ArrivedToDestination,
         DeliveredToCustomer,
         Cancelled

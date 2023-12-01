@@ -78,6 +78,10 @@ public class DeliveryDriver extends User {
     // Method to simulate picking up an order
     public void pickUpOrder(FeastFast.RestaurantManagement.Order order) {
         // Logic to handle order pickup
+    	order.setStatus(Order.Status.PickedUp);
+    	//Code to send email about status of order
+    	//sendMail("FeastFast","Test","Order Picked Up", "Your order has been picked up by our FeastFast driver. You should expect your food soon"); 
+    	
     }
 
     // Method to simulate delivering an order
