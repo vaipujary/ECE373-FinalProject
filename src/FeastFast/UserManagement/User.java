@@ -1,8 +1,9 @@
 package FeastFast.UserManagement;
 
-
+// This is the User superclass
 public class User {
 
+	// Attributes
     protected String name;
     protected boolean isLoggedIn;
 

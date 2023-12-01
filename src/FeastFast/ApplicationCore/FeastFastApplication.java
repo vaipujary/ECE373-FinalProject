@@ -1,5 +1,6 @@
 package FeastFast.ApplicationCore;
 
+import FeastFast.UserManagement.Admin;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
@@ -17,8 +18,18 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 public class FeastFastApplication {
+	
+	// Attributes
+	private ArrayList<Admin> administrators;
+    private ArrayList<Restaurant> restaurants;
+    private ArrayList<DeliveryDriver> drivers;
+    private ArrayList<Customer> customers;
+
+	
 	//Omar Test edit
 	public static void main(String args[]) {
+		
+		FeastFastApplication ffa = new FeastFastApplication();
 //		  JUnitCore junit = new JUnitCore();
 //		  junit.addListener(new TextListener(System.out));
 //		  Result result = junit.run(FeastFastApplication.class); 
@@ -30,14 +41,26 @@ public class FeastFastApplication {
 //		    System.exit(0);
 //		  }
 		}
-	
-    private List<Restaurant> restaurants;
-    private ArrayList<DeliveryDriver> drivers;
-    // private List<Customer> customers = new ArrayList<>();
 
     public FeastFastApplication() {
-    	restaurants = new ArrayList<>();
+    	administrators = new ArrayList<Admin>();
+    	restaurants = new ArrayList<Restaurant>();
     	drivers = new ArrayList<DeliveryDriver>();
+    	customers = new ArrayList<Customer>();
+		
+    	MainPage mainFrame = new MainPage();
+    	mainFrame.setVisible(true);
+    	
+//		LoginPage loginFrame = new LoginPage();
+//		loginFrame.setVisible(true);
+    }
+    
+    public void addCustomer(Customer c) {
+    	customers.add(c);
+    }
+    
+    public ArrayList<Customer> getCustomers(){
+    	return this.customers;
     }
     
     public void addRestaurant(Restaurant r) {
@@ -72,6 +95,7 @@ public class FeastFastApplication {
         order.setComments(issue);
     }
 
+    // Method to rate a delivery driver
     public void rateDriver(DeliveryDriver driver, int rating) {
         // Implementation to rate a driver
         driver.setRating(rating);
@@ -83,10 +107,12 @@ public class FeastFastApplication {
         order.setStatus(Order.Status.DeliveredToCustomer);
     }
     
+    // Method to retrieve all the restaurants in the application
     public List<Restaurant> getRestaurants() {
         return restaurants;
     }
 
+    // Method to select a specific restaurant from a list of restaurants
     public Restaurant selectRestaurant(String restaurantName) {
         for(Restaurant r: restaurants) {
             if (restaurantName == r.getName()) {
@@ -95,15 +121,22 @@ public class FeastFastApplication {
         }
         return restaurants.get(0);
     }
+    
+    // Method to register a customer on the application
     public Customer registerCustomer(String name, String email, String password) {
         return new Customer(name, email, password);
     }
+    
+    // Method for a customer to place an order with a restaurant
     public void placeOrder(Customer customer, Order order) {
     }
+    
+    // Method for customer to track their order
     public String trackOrder(Order order) {
         return order.getStatus().name();
     }
 
+    // Method to send a confirmation email to customers
     public boolean sendEmailToCustomer(Customer customer, Order order) {
       
     	try {
@@ -122,7 +155,7 @@ public class FeastFastApplication {
 		}      
  }
 
-
+    // Method to retrieve the list of available drivers
     public ArrayList<DeliveryDriver> getAvailableDeliveryDrivers() {
         ArrayList<DeliveryDriver> availableDrivers = new ArrayList<DeliveryDriver>();
 
@@ -133,6 +166,7 @@ public class FeastFastApplication {
         return availableDrivers;
     }
 
+    // Method to add a new delivery driver
     public void addDeliveryDriver(DeliveryDriver d) {
         drivers.add(d);
     }
