@@ -5,11 +5,35 @@ public class User {
 
 	// Attributes
     protected String name;
+    private String password;
+    private String username;
     protected boolean isLoggedIn;
 
     public User() {
     	name = "";
         isLoggedIn = false;
+        password = null;
+        username = "";
+        
+    }
+    public User(String name, String username, String password) {
+    	this.name = name;
+        isLoggedIn = false;
+        this.password = password;
+        this.username = username;
+    }
+    public String getUserName() {
+    	return username;
+    }
+    public void setUserName(String username) {
+    	this.username = password;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setLoggedIn(boolean loggedIn) {

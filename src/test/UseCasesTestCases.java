@@ -9,6 +9,7 @@ import java.util.List;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
+import FeastFast.UserManagement.User;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
@@ -93,10 +94,10 @@ class UseCasesTestCases {
         String password = "SecurePassword123";
 
         // Assuming app has a method to register a customer
-        Customer newCustomer = app.registerCustomer(name, email, password);
-        assertNotNull(newCustomer, "Customer account should be created");
-        newCustomer.setLoggedIn(true);
-        assertTrue(newCustomer.isLoggedIn(), "Customer should be logged in after account creation");
+        User newUser = app.registerUser(name, email, password);
+        assertNotNull(newUser, "Customer account should be created");
+        newUser.setLoggedIn(true);
+        assertTrue(newUser.isLoggedIn(), "Customer should be logged in after account creation");
     }
 
     @Test

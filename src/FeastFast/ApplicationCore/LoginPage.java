@@ -4,27 +4,35 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import FeastFast.ApplicationCore.SignUpPage.Listener;
+import FeastFast.UserManagement.User;
+
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginPage extends JFrame {
-
+	
 	private JFrame frame;
 	private JPasswordField passwordField;
-	private JTextField textField;
+	private JTextField usernameField;
 	private JPanel contentPane;
-	JLabel lblNewLabel;
+	JLabel lblUsername;
 	JLabel lblPassword;
-	JButton btnNewButton;
-	JLabel lblNewLabel_1;
+	JButton btnLogin;
+	JLabel lblTitle;
 
 	/**
 	 * Launch the application.
@@ -56,10 +64,10 @@ public class LoginPage extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		lblNewLabel = new JLabel("Username:");
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		lblNewLabel.setBounds(49, 92, 91, 16);
-		contentPane.add(lblNewLabel);
+		lblUsername = new JLabel("Username:");
+		lblUsername.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+		lblUsername.setBounds(49, 92, 91, 16);
+		contentPane.add(lblUsername);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(250, 147, 129, 40);
@@ -70,21 +78,72 @@ public class LoginPage extends JFrame {
 		lblPassword.setBounds(49, 159, 91, 16);
 		contentPane.add(lblPassword);
 		
-		btnNewButton = new JButton("Login");
-		btnNewButton.setBounds(161, 215, 117, 29);
-		contentPane.add(btnNewButton);
+		//Login Button
+		btnLogin = new JButton("Login");
+		btnLogin.setBounds(161, 215, 117, 29);
+		contentPane.add(btnLogin);
+		btnLogin.addActionListener(new Listener());
 		
-		textField = new JTextField();
-		textField.setBounds(249, 81, 130, 39);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		usernameField = new JTextField();
+		usernameField.setBounds(249, 81, 130, 39);
+		contentPane.add(usernameField);
+		usernameField.setColumns(10);
 		
-		lblNewLabel_1 = new JLabel("Log In");
-		lblNewLabel_1.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 25));
-		lblNewLabel_1.setBounds(178, 20, 85, 40);
-		contentPane.add(lblNewLabel_1);
+		lblTitle = new JLabel("Log In");
+		lblTitle.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 25));
+		lblTitle.setBounds(178, 20, 85, 40);
+		contentPane.add(lblTitle);
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+private class Listener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e) {
+			
+			// Button click events
+			JButton source = (JButton) e.getSource();
+			
+			if(source.equals(btnLogin)) {
+				handleLogin();
+			}
+			
+			
+
+		}
+		
+		private void handleLogin() {
+		        try {	
+	                String username = usernameField.getText();
+	                char[] passwordChars = passwordField.getPassword();
+	                String password = new String(passwordChars);
+	                
+	                
+
+	            //Verify input is not empty
+	            if (username.isEmpty() || password.isEmpty() ){
+	                throw new IllegalArgumentException("All fields must be filled.");
+	            }
+	            
+	            //ISSUE
+	            //LOOK THROUGH USERS TO FIND USERNAME
+	            /*for(User user : app.getCustomers()) {
+	            	if (user.getUserName().equals(username)) {
+	            		System.out.println("Found you! User:" + username);	         
+	            	}
+	            }*/
+	           	           	       
+	           
+		        }
+		        //Catch errors and return them
+		        catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null,
+		                    "Error: " + ex.getMessage(),
+		                    "Error",
+		                    JOptionPane.ERROR_MESSAGE);
+		        }		     		
+		}
+		
+		
 	}
 }
 

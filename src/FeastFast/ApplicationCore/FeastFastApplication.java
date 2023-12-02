@@ -4,6 +4,7 @@ import FeastFast.UserManagement.Admin;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.DeliveryDriver;
 import FeastFast.UserManagement.Restaurant;
+import FeastFast.UserManagement.User;
 
 import java.util.*;
 
@@ -25,8 +26,7 @@ public class FeastFastApplication {
     private ArrayList<DeliveryDriver> drivers;
     private ArrayList<Customer> customers;
 
-	
-	//Omar Test edit
+
 	public static void main(String args[]) {
 		
 		FeastFastApplication ffa = new FeastFastApplication();
@@ -123,8 +123,8 @@ public class FeastFastApplication {
     }
     
     // Method to register a customer on the application
-    public Customer registerCustomer(String name, String email, String password) {
-        return new Customer(name, email, password);
+    public User registerUser(String name, String username, String password) {
+        return new User(name, username, password);
     }
     
     // Method for a customer to place an order with a restaurant
