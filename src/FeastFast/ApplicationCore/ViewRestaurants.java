@@ -20,7 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.UserManagement.Restaurant;
 
 public class ViewRestaurants extends JFrame {
@@ -87,11 +90,21 @@ public class ViewRestaurants extends JFrame {
             		Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
             		Restaurant restaurant4 = new Restaurant("Five Guys", "5guyeez", "5guyeez1!");
             		Restaurant restaurant5 = new Restaurant("eegee's", "eegeez", "eegeez1!");
+            		MenuItem burger = new MenuItem("Burger", 4.00);
+            		MenuItem fries = new MenuItem("Fries", 2.50);
+            		MenuItem drink = new MenuItem("Drink", 1.50);
+            		
+            		restaurant1.addMenuItem(burger);
+            		restaurant1.addMenuItem(fries);
+            		restaurant1.addMenuItem(drink);
+            		
             		ffa.addRestaurant(restaurant1);
             		ffa.addRestaurant(restaurant2);
             		ffa.addRestaurant(restaurant3);
             		ffa.addRestaurant(restaurant4);
             		ffa.addRestaurant(restaurant5);
+            		
+            	
                     
                     ViewRestaurants frame = new ViewRestaurants(ffa);
                     frame.setVisible(true);
@@ -169,9 +182,7 @@ public class ViewRestaurants extends JFrame {
         menuBar.add(exit);
 
         contentPane.setBackground(new Color(250, 128, 114));
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-        // Rest of your code...
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));     
 		
 		
 		sidePanel.setBounds(518, 0, 282, 609);
@@ -243,8 +254,38 @@ public class ViewRestaurants extends JFrame {
 		list = new JList<>(listModel); // Initialize the list
         list.setBounds(77, 81, 612, 487);
         contentPane.add(list);
+        
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = list.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        // Get the selected restaurant
+                        Restaurant selectedRestaurant = restaurants.get(selectedIndex);
+
+                        // Open the RestaurantMenu window with the selected restaurant
+                        openRestaurantMenu(selectedRestaurant);
+                    }
+                }
+            }
+        });
     }
 
+    private void openRestaurantMenu(Restaurant restaurant) {
+        // Create a new RestaurantMenu window with the selected restaurant
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, restaurant);
+                    restaurantMenu.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    
     // Event listener
     private class Listener implements ActionListener {
 
