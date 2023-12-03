@@ -60,7 +60,7 @@ public class FeastFastApplication {
     	customers.add(c);
     }
     
-    public List<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers(){
     	return this.customers;
     }
     
@@ -109,7 +109,7 @@ public class FeastFastApplication {
     }
     
     // Method to retrieve all the restaurants in the application
-    public List<Restaurant> getRestaurants() {
+    public ArrayList<Restaurant> getRestaurants() {
         return restaurants;
     }
 

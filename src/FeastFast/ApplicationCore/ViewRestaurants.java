@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,12 +20,16 @@ import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import FeastFast.UserManagement.Restaurant;
+import javax.swing.ListSelectionModel;
+
 public class ViewRestaurants extends JFrame {
 
     private FeastFastApplication ffa;
 
     // Content pane
     private JPanel contentPane;
+    private DefaultListModel<String> listRestaurantModel;
 
     // Menu bar
     JMenuBar menuBar;
@@ -67,8 +72,6 @@ public class ViewRestaurants extends JFrame {
     // Title
     JLabel viewRestaurantsLabel;
 
-    JList list;
-
     JSplitPane splitPane; // Added JSplitPane
 
     /**
@@ -99,6 +102,12 @@ public class ViewRestaurants extends JFrame {
         // Menu bar
         menuBar = new JMenuBar();
 
+        listRestaurantModel = new DefaultListModel<String>();
+        for(Restaurant restaurant: ffa.getRestaurants()) {
+        	listRestaurantModel.addElement(restaurant.getName());
+        }
+        //ffa.getRestaurants().setModel(listRestaurantModel);
+        
         // Icons
         // Home Icon
         icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
@@ -138,8 +147,6 @@ public class ViewRestaurants extends JFrame {
 
         // Title
         viewRestaurantsLabel = new JLabel("View Restaurants");
-
-        list = new JList();
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
 
@@ -209,15 +216,16 @@ public class ViewRestaurants extends JFrame {
 		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnWriteAReview.setBounds(16, 473, 260, 48);
 		sidePanel.add(btnWriteAReview);
+		contentPane.setLayout(null);
 
 		
 		
 		viewRestaurantsLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-		viewRestaurantsLabel.setBounds(242, 6, 305, 63);
+		viewRestaurantsLabel.setBounds(254, 10, 289, 42);
 		contentPane.add(viewRestaurantsLabel);
 		
-		
-		list.setBounds(77, 81, 496, 487);
+		JList<String> list = new JList<String>(listRestaurantModel);
+		list.setBounds(185, 68, 431, 506);
 		contentPane.add(list);
     }
 
@@ -284,5 +292,6 @@ public class ViewRestaurants extends JFrame {
             splitPane.setDividerLocation(0);
         }
     }
+
 }
 
