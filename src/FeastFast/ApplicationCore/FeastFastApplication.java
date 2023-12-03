@@ -29,8 +29,22 @@ public class FeastFastApplication {
 
 
 	public static void main(String args[]) {
+		//Test restaurants
+		
 		
 		FeastFastApplication ffa = new FeastFastApplication();
+		
+		Restaurant restaurant1 = new Restaurant("McDeez", "mcdeez", "mcdeez1!");
+		Restaurant restaurant2 = new Restaurant("WenDeez", "wendeez", "wendeez1!");
+		Restaurant restaurant3 = new Restaurant("DennEez", "denneez", "denneez1!");
+		Restaurant restaurant4 = new Restaurant("5GuYeez", "5guyeez", "5guyeez1!");
+		Restaurant restaurant5 = new Restaurant("EeGeez", "eegeez", "eegeez1!");
+		ffa.addRestaurant(restaurant1);
+		ffa.addRestaurant(restaurant2);
+		ffa.addRestaurant(restaurant3);
+		ffa.addRestaurant(restaurant4);
+		ffa.addRestaurant(restaurant5);
+		
 		MainPage mainFrame = new MainPage(ffa);
     	mainFrame.setVisible(true);
     	
@@ -126,6 +140,10 @@ public class FeastFastApplication {
     // Method to register a customer on the application
     public Customer registerCustomer(String name, String username, String password) {
         return new Customer(name, username, password);
+    }
+    
+    public Restaurant registerRestaurant(String name, String username, String password) {
+    	return new Restaurant(name, username, password);
     }
     
     // Method for a customer to place an order with a restaurant

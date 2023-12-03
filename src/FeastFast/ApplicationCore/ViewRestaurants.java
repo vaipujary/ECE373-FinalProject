@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import FeastFast.UserManagement.Restaurant;
 
 public class ViewRestaurants extends JFrame {
 
@@ -66,9 +70,8 @@ public class ViewRestaurants extends JFrame {
 
     // Title
     JLabel viewRestaurantsLabel;
-
-    JList list;
-
+    JList<String> list;
+    DefaultListModel<String> listModel;
     JSplitPane splitPane; // Added JSplitPane
 
     /**
@@ -79,6 +82,17 @@ public class ViewRestaurants extends JFrame {
             public void run() {
                 try {
                     FeastFastApplication ffa = new FeastFastApplication();
+                    Restaurant restaurant1 = new Restaurant("McDonald's", "mcdeez", "mcdeez1!");
+            		Restaurant restaurant2 = new Restaurant("Wendy's", "wendeez", "wendeez1!");
+            		Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
+            		Restaurant restaurant4 = new Restaurant("Five Guys", "5guyeez", "5guyeez1!");
+            		Restaurant restaurant5 = new Restaurant("eegee's", "eegeez", "eegeez1!");
+            		ffa.addRestaurant(restaurant1);
+            		ffa.addRestaurant(restaurant2);
+            		ffa.addRestaurant(restaurant3);
+            		ffa.addRestaurant(restaurant4);
+            		ffa.addRestaurant(restaurant5);
+                    
                     ViewRestaurants frame = new ViewRestaurants(ffa);
                     frame.setVisible(true);
                 } catch (Exception e) {
@@ -139,12 +153,10 @@ public class ViewRestaurants extends JFrame {
         // Title
         viewRestaurantsLabel = new JLabel("View Restaurants");
 
-        list = new JList();
-
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
 
         setContentPane(splitPane); // Set the content pane to the split pane
-
+        contentPane.setLayout(null);
         splitPane.setDividerLocation(0); // Set initial divider location
 
         setBounds(100, 100, 800, 700);
@@ -216,9 +228,21 @@ public class ViewRestaurants extends JFrame {
 		viewRestaurantsLabel.setBounds(242, 6, 305, 63);
 		contentPane.add(viewRestaurantsLabel);
 		
+		listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
+
+        // Add restaurants to the list model
+        List<Restaurant> restaurants = ffa.getRestaurants();
+        for (Restaurant restaurant : restaurants) {
+        	String restaurantInfo = "<html>Name: " + restaurant.getName() +
+                    "<br>User Name: " + restaurant.getUserName() +
+                    "<br>Password: " + restaurant.getPassword() + 
+                    "<br>__________________________________________________________________________________________________________________" + "</html>";
+            listModel.addElement(restaurantInfo);
+        }
 		
-		list.setBounds(77, 81, 496, 487);
-		contentPane.add(list);
+		list = new JList<>(listModel); // Initialize the list
+        list.setBounds(77, 81, 612, 487);
+        contentPane.add(list);
     }
 
     // Event listener

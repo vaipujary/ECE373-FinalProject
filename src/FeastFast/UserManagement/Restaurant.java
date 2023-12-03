@@ -17,13 +17,23 @@ public class Restaurant extends User {
 	// Attributes
     private String restaurantId;
     private boolean isOpen; // TODO
-    private String name;
     private String contactNumber;
     private String address;
     private Menu menu;
     private ArrayList<Order> Orders;
     private ArrayList<Review> restaurantReviews;
 
+    public Restaurant(String name, String username,String password) {
+    	super(name, username, password);
+    	restaurantId = "";
+    	contactNumber = "";
+    	address = "";
+    	isOpen = false;
+        this.Orders = new ArrayList<>();
+        this.menu = new Menu();
+        restaurantReviews = new ArrayList<Review>();
+    }
+    
     public Restaurant() {
     	restaurantId = "";
     	name = "";
