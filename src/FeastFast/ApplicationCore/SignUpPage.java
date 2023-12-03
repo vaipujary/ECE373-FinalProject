@@ -179,17 +179,18 @@ public class SignUpPage extends JFrame {
 	            
 	            //Instantiate New User with given credentials
 	            if(selectedUserType.equals("Customer")) {
-	            	//ACCESS ffa here to add user     
+	            	//ffa here to add user     
 	            	Customer newCustomer = ffa.registerCustomer(name, username, password);
 
 	                // Add the new customer to the application
 	                ffa.addCustomer(newCustomer);
 
 		                JOptionPane.showMessageDialog(null,
-		                		name + ", you have been sign up for feast fast",
+		                		"Welcome " + name + ", you have been signed up for Feast Fast!",
 		                        "Success",		                
 		                        JOptionPane.PLAIN_MESSAGE);
-		                dispose();		                           
+		                dispose();		  
+		                return;
 	            }
 	           
 		        }

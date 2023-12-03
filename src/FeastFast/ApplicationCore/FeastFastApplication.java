@@ -33,6 +33,7 @@ public class FeastFastApplication {
 		FeastFastApplication ffa = new FeastFastApplication();
 		MainPage mainFrame = new MainPage(ffa);
     	mainFrame.setVisible(true);
+    	
 //		  JUnitCore junit = new JUnitCore();
 //		  junit.addListener(new TextListener(System.out));
 //		  Result result = junit.run(FeastFastApplication.class); 

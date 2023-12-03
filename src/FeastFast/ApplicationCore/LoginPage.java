@@ -133,20 +133,21 @@ private class Listener implements ActionListener {
 	            // Look through users to find username
 	            for (Customer customer : ffa.getCustomers()) {
 	                if (customer.getUserName().equals(username)) {
-	                    found = true;
-	                    System.out.println("Found you! User: " + username);
-	                    JOptionPane.showMessageDialog(null,
-	                            "Found you! User: " + username,
-	                            "Success",
-	                            JOptionPane.PLAIN_MESSAGE);
-
+	                    found = true;	                   
 	                    // Check the password
 	                    if (customer.getPassword().equals(password)) {
+	                    	JOptionPane.showMessageDialog(null,
+	                                "Successfully logged in",
+	                                "Success",
+	                                JOptionPane.PLAIN_MESSAGE);
+	                    	customer.setLoggedIn(true);
 	                        // Password is correct, you can proceed with further actions
-	                        System.out.println("Password is correct");
+	                    	ViewRestaurants restaurantFrame = new ViewRestaurants(ffa);
+							restaurantFrame.setVisible(true);
+							dispose();
+	                    	return;
 	                    } else {
 	                        // Password is incorrect
-	                        System.out.println("Incorrect password");
 	                        JOptionPane.showMessageDialog(null,
 	                                "Incorrect password for user: " + username,
 	                                "Failure",
@@ -159,10 +160,8 @@ private class Listener implements ActionListener {
 	            }
 
 	            if (!found) {
-	            	String list = ffa.getCustomers().toString() ;
 	                JOptionPane.showMessageDialog(null,
-	                        "Sorry, " + username + " was not found :("
-	                        + "\n Heres what we found: \n" + list,
+	                        "Sorry, " + username + " was not found!",
 	                        "Failure",
 	                        JOptionPane.PLAIN_MESSAGE);
 	            }
