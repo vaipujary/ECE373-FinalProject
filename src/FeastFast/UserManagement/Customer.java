@@ -21,11 +21,10 @@ public class Customer extends User {
         restaurantInView = new Restaurant();
     }
 
-    public Customer(String name, String phoneNumber, String email) {
-        this.name = name;
+    public Customer(String name, String username,String password) {
+    	super(name, username, password);
         this.Address = "";
-        this.phoneNumber = phoneNumber;
-        this.email = email;
+        this.email =  "";
         this.order = new Order();
     }
 

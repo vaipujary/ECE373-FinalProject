@@ -12,7 +12,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import FeastFast.ApplicationCore.SignUpPage.Listener;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.User;
 
 import javax.swing.JPanel;
@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginPage extends JFrame {
-	
+	private FeastFastApplication ffa;
 	private JFrame frame;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
@@ -41,7 +41,8 @@ public class LoginPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginPage window = new LoginPage();
+					FeastFastApplication ffa = new FeastFastApplication();
+					LoginPage window = new LoginPage(ffa);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,8 +54,8 @@ public class LoginPage extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public LoginPage() {
-
+	public LoginPage(FeastFastApplication ffa) {
+		this.ffa = ffa;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		contentPane = new JPanel();
@@ -126,14 +127,47 @@ private class Listener implements ActionListener {
 	            
 	            //ISSUE
 	            //LOOK THROUGH USERS TO FIND USERNAME
-	            /*for(User user : app.getCustomers()) {
-	            	if (user.getUserName().equals(username)) {
-	            		System.out.println("Found you! User:" + username);	         
-	            	}
-	            }*/
-	           	           	       
-	           
-		        }
+	            boolean found = false;
+	            	         
+
+	            // Look through users to find username
+	            for (Customer customer : ffa.getCustomers()) {
+	                if (customer.getUserName().equals(username)) {
+	                    found = true;
+	                    System.out.println("Found you! User: " + username);
+	                    JOptionPane.showMessageDialog(null,
+	                            "Found you! User: " + username,
+	                            "Success",
+	                            JOptionPane.PLAIN_MESSAGE);
+
+	                    // Check the password
+	                    if (customer.getPassword().equals(password)) {
+	                        // Password is correct, you can proceed with further actions
+	                        System.out.println("Password is correct");
+	                    } else {
+	                        // Password is incorrect
+	                        System.out.println("Incorrect password");
+	                        JOptionPane.showMessageDialog(null,
+	                                "Incorrect password for user: " + username,
+	                                "Failure",
+	                                JOptionPane.ERROR_MESSAGE);
+	                    }
+	                    
+
+	                    break; // Exit the loop since the user is found
+	                }
+	            }
+
+	            if (!found) {
+	            	String list = ffa.getCustomers().toString() ;
+	                JOptionPane.showMessageDialog(null,
+	                        "Sorry, " + username + " was not found :("
+	                        + "\n Heres what we found: \n" + list,
+	                        "Failure",
+	                        JOptionPane.PLAIN_MESSAGE);
+	            }
+	            }
+	            
 		        //Catch errors and return them
 		        catch (Exception ex) {
 		            JOptionPane.showMessageDialog(null,
@@ -145,5 +179,6 @@ private class Listener implements ActionListener {
 		
 		
 	}
+
 }
 

@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.User;
 
@@ -25,6 +26,7 @@ import javax.swing.DefaultComboBoxModel;
 
 public class SignUpPage extends JFrame {
 	
+	private FeastFastApplication ffa;
 	private JFrame frame;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
@@ -50,7 +52,8 @@ public class SignUpPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SignUpPage frame = new SignUpPage();
+				    FeastFastApplication ffa = new FeastFastApplication();
+					SignUpPage frame = new SignUpPage(ffa);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,7 +65,8 @@ public class SignUpPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public SignUpPage() {
+	public SignUpPage(FeastFastApplication ffa) {
+		this.ffa = ffa;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(250, 128, 114));
@@ -172,17 +176,20 @@ public class SignUpPage extends JFrame {
 	                throw new IllegalArgumentException("All fields must be filled.");
 	            }
 	          
-	            System.out.println("Here: " + name + " " + username + " " + password + " " + selectedUserType );
 	            
 	            //Instantiate New User with given credentials
 	            if(selectedUserType.equals("Customer")) {
-	            	System.out.println( "Customer: Nice");
-	            	//ISSUE HERE
-	            	//newCustomer.setName(name);
-	            	//newCustomer.setPassword(password);
-	            	//newCustomer.setUserName(username);	    
-	            	//FIX TO ADD USER
-	            	//app.registerUser(name, username, password);
+	            	//ACCESS ffa here to add user     
+	            	Customer newCustomer = ffa.registerCustomer(name, username, password);
+
+	                // Add the new customer to the application
+	                ffa.addCustomer(newCustomer);
+
+		                JOptionPane.showMessageDialog(null,
+		                		name + ", you have been sign up for feast fast",
+		                        "Success",		                
+		                        JOptionPane.PLAIN_MESSAGE);
+		                dispose();		                           
 	            }
 	           
 		        }

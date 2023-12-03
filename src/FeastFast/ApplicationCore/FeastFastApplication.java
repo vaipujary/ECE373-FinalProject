@@ -19,6 +19,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 
 public class FeastFastApplication {
+	 private static FeastFastApplication instance;
 	
 	// Attributes
 	private ArrayList<Admin> administrators;
@@ -30,6 +31,8 @@ public class FeastFastApplication {
 	public static void main(String args[]) {
 		
 		FeastFastApplication ffa = new FeastFastApplication();
+		MainPage mainFrame = new MainPage(ffa);
+    	mainFrame.setVisible(true);
 //		  JUnitCore junit = new JUnitCore();
 //		  junit.addListener(new TextListener(System.out));
 //		  Result result = junit.run(FeastFastApplication.class); 
@@ -47,9 +50,6 @@ public class FeastFastApplication {
     	restaurants = new ArrayList<Restaurant>();
     	drivers = new ArrayList<DeliveryDriver>();
     	customers = new ArrayList<Customer>();
-		
-    	MainPage mainFrame = new MainPage();
-    	mainFrame.setVisible(true);
     	
 //		LoginPage loginFrame = new LoginPage();
 //		loginFrame.setVisible(true);
@@ -59,7 +59,7 @@ public class FeastFastApplication {
     	customers.add(c);
     }
     
-    public ArrayList<Customer> getCustomers(){
+    public List<Customer> getCustomers(){
     	return this.customers;
     }
     
@@ -115,7 +115,7 @@ public class FeastFastApplication {
     // Method to select a specific restaurant from a list of restaurants
     public Restaurant selectRestaurant(String restaurantName) {
         for(Restaurant r: restaurants) {
-            if (restaurantName == r.getName()) {
+            if (restaurantName.equals(r.getName())) {
                 return r;
             }
         }
@@ -123,8 +123,8 @@ public class FeastFastApplication {
     }
     
     // Method to register a customer on the application
-    public User registerUser(String name, String username, String password) {
-        return new User(name, username, password);
+    public Customer registerCustomer(String name, String username, String password) {
+        return new Customer(name, username, password);
     }
     
     // Method for a customer to place an order with a restaurant
@@ -170,6 +170,5 @@ public class FeastFastApplication {
     public void addDeliveryDriver(DeliveryDriver d) {
         drivers.add(d);
     }
-
     
 }

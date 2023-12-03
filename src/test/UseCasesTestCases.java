@@ -94,7 +94,7 @@ class UseCasesTestCases {
         String password = "SecurePassword123";
 
         // Assuming app has a method to register a customer
-        User newUser = app.registerUser(name, email, password);
+        User newUser = app.registerCustomer(name, email, password);
         assertNotNull(newUser, "Customer account should be created");
         newUser.setLoggedIn(true);
         assertTrue(newUser.isLoggedIn(), "Customer should be logged in after account creation");
