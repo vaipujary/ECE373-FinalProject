@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 
 public class MainPage extends JFrame {
-
+	private FeastFastApplication ffa;
 	JButton btnNewButton;
 	JButton btnSignUp;
 	JButton btnExit;
@@ -35,7 +35,8 @@ public class MainPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainPage window = new MainPage();
+				    FeastFastApplication ffa = new FeastFastApplication();
+					MainPage window = new MainPage(ffa);
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -47,8 +48,8 @@ public class MainPage extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public MainPage() {
-
+	public MainPage(FeastFastApplication ffa) {
+		this.ffa = ffa;
 		getContentPane().setBackground(UIManager.getColor("Button.highlight"));
 		getContentPane().setLayout(null);
 		
@@ -138,13 +139,13 @@ public class MainPage extends JFrame {
 					// Method to handle log ins 
 					private void handleLogIn() {
 			
-						LoginPage loginFrame = new LoginPage();
+						LoginPage loginFrame = new LoginPage(ffa);
 						loginFrame.setVisible(true);
 					}
 					
 					private void handleSignUp() {
 						
-						SignUpPage signUpFrame = new SignUpPage();
+						SignUpPage signUpFrame = new SignUpPage(ffa);
 						signUpFrame.setVisible(true);
 					}
 					

@@ -20,7 +20,6 @@ public class Restaurant extends User {
     private String name;
     private String contactNumber;
     private String address;
-    private String password;
     private Menu menu;
     private ArrayList<Order> Orders;
     private ArrayList<Review> restaurantReviews;
@@ -30,7 +29,6 @@ public class Restaurant extends User {
     	name = "";
     	contactNumber = "";
     	address = "";
-    	password = "";
     	isOpen = false;
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
@@ -76,14 +74,6 @@ public class Restaurant extends User {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Menu getMenu() {
