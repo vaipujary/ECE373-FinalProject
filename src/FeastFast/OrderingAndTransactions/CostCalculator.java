@@ -40,10 +40,13 @@ public class CostCalculator {
 
     // Method to calculate the order total
     public double calculateTotal(HashMap<MenuItem, Integer> foodOrder) {
-    	
-    	for (Map.Entry<MenuItem, Integer> entry: foodOrder.entrySet()) {
-    		totalCost = (entry.getKey().getPrice())*(entry.getValue());
-    	}
+    	totalCost = 0.0;
+        for (Map.Entry<MenuItem, Integer> entry : foodOrder.entrySet()) {
+            MenuItem item = entry.getKey();
+            int quantity = entry.getValue();
+            totalCost += item.getPrice() * quantity;
+        }
+       
     	
     	return totalCost;
     }

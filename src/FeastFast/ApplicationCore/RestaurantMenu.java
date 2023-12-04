@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -15,19 +17,24 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 
 import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.UserManagement.Restaurant;
 
 public class RestaurantMenu extends JFrame {
 
     private FeastFastApplication ffa;
+    private Order currentOrder;
 
     private JPanel contentPane;
 
@@ -96,6 +103,8 @@ public class RestaurantMenu extends JFrame {
 	 */
     public RestaurantMenu(FeastFastApplication ffa, Restaurant restaurant) {
         this.ffa = ffa;
+        currentOrder = new Order();
+        currentOrder.setRestaurant(restaurant);
         contentPane = new JPanel();
  
         // Menu bar
@@ -238,6 +247,7 @@ public class RestaurantMenu extends JFrame {
         btnViewCart.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         btnViewCart.setBounds(503, 525, 206, 52);
         contentPane.add(btnViewCart);
+        
 
         btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         btnBackToView.addActionListener(new ActionListener() {
@@ -256,6 +266,7 @@ public class RestaurantMenu extends JFrame {
 
         btnViewCart.setText("View Cart");
         btnViewCart.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewCart.addActionListener(new Listener());
 
         btnBackToView.setText("Back to View Restaurants");
         btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
@@ -271,8 +282,53 @@ public class RestaurantMenu extends JFrame {
         ratingValueLabel.setBounds(612, 80, 140, 16);
         contentPane.add(ratingValueLabel);
 
+    
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = list.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        // Get the selected menu item
+                        MenuItem selectedMenuItem = restaurant.getMenu().getItems().get(selectedIndex);
+
+                        // Prompt the user for quantity (you can customize this part)
+                        String quantityString = JOptionPane.showInputDialog(
+                                RestaurantMenu.this,
+                                "Enter quantity for " + selectedMenuItem.getName() + ":",
+                                "Quantity",
+                                JOptionPane.QUESTION_MESSAGE
+                        );
+
+                        try {
+                            // Parse the quantity as an integer
+                            int quantity = Integer.parseInt(quantityString);
+
+                            // Add the selected menu item to the currentOrder with the specified quantity
+                            currentOrder.addItem(selectedMenuItem, quantity);
+
+                            // Display a popup message
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
+                                    quantity + " " + selectedMenuItem.getName() + "(s) have been added to your cart",
+                                    "Item Added",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                        } catch (NumberFormatException ex) {
+                            // Handle the case where the quantity is not a valid number
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenu.this,
+                                    "Invalid quantity. Please enter a valid number.",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    }
+                }
+            }
+        });
+
     }
-	
 	// Event listener
 		private class Listener implements ActionListener {
 			
@@ -284,9 +340,14 @@ public class RestaurantMenu extends JFrame {
 	            	handleUserMenu();
 	            }
 	            // HomeIcon button
+	            else if (source.equals(btnViewCart)) {
+	                handleViewCart();
+	            }
+	            // HomeIcon button
 	            else if (source.equals(homeMenu)) {
 	                handleHomeIcon();
-	            } else if (source.equals(exit)) {
+	            } 
+	            else if (source.equals(exit)) {
 	                handleLogOut();
 	            }
 	            // Update Name button
@@ -337,6 +398,44 @@ public class RestaurantMenu extends JFrame {
 		        }
 		    }
 			
+			private void handleViewCart() {
+			    if (currentOrder != null) {
+			        // Get the items and total price from the order
+			        HashMap<MenuItem, Integer> orderItems = currentOrder.getItems();
+			        double totalPrice = currentOrder.getTotalPrice();
+
+			        // Create a StringBuilder to build the message
+			        StringBuilder messageBuilder = new StringBuilder("Items in Your Cart:\n");
+
+			        // Append each item to the message
+			        for (Map.Entry<MenuItem, Integer> entry : orderItems.entrySet()) {
+			            MenuItem item = entry.getKey();
+			            int quantity = entry.getValue();
+			            messageBuilder.append(quantity).append(" x ").append(item.getName()).append("\n");
+			        }
+
+			        // Append the total price to the message
+			        messageBuilder.append("\nTotal Price: $").append(totalPrice);
+
+			        // Display the message in a dialog
+			        JOptionPane.showMessageDialog(
+			                RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
+			                messageBuilder.toString(),
+			                "Your Cart",
+			                JOptionPane.INFORMATION_MESSAGE
+			        );
+			    } else {
+			        // If the order is not placed, show a message
+			        JOptionPane.showMessageDialog(
+			                RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
+			                "Your cart is empty.",
+			                "Empty Cart",
+			                JOptionPane.INFORMATION_MESSAGE
+			        );
+			    }
+			}
+
+
 			
 
 	        private void handleHomeIcon() {
