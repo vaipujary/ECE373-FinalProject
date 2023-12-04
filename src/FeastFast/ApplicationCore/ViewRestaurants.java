@@ -60,6 +60,7 @@ public class ViewRestaurants extends JFrame {
 
     // Side panel content
     JLabel accountLabel;
+    JLabel viewRestaurantsLabel;
 
     // Side panel buttons
     JButton btnUpdateName;
@@ -72,7 +73,6 @@ public class ViewRestaurants extends JFrame {
     JButton btnWriteAReview;
 
     // Title
-    JLabel viewRestaurantsLabel;
     JList<String> list;
     DefaultListModel<String> listModel;
     JSplitPane splitPane; // Added JSplitPane
@@ -166,6 +166,7 @@ public class ViewRestaurants extends JFrame {
         // Title
         viewRestaurantsLabel = new JLabel("View Restaurants");
 
+        // Split Pane
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
 
         setContentPane(splitPane); // Set the content pane to the split pane

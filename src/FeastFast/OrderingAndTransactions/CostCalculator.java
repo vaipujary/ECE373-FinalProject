@@ -33,6 +33,8 @@ public class CostCalculator {
     	this.tip = tip;
     }
     
+    
+    
     // Method to calculate the total tip
     public double calculateTip(double percent) {
         return (tip + (percent*tip));
@@ -49,6 +51,20 @@ public class CostCalculator {
        
     	
     	return totalCost;
+    }
+    public double calculateServiceFee() {
+    	//Using a temp $5 delivery fee and a 3% operating cost fee
+    	double fee = (totalCost * 0.03) + 5.0;
+    	totalCost = totalCost + fee;
+    	return fee;
+    	
+    }
+    
+    public double calculateSalesTax() {
+    	//Using AZ sales tax 5.6%
+    	double tax = (totalCost * 0.056);
+    	totalCost = totalCost + tax;
+    	return tax;
     }
     
     // TODO: Method to calculate sales tax

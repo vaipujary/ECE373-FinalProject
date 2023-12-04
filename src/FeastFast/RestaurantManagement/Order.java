@@ -210,6 +210,14 @@ public class Order {
     public double getTotalPrice() {
     	return costCalculator.calculateTotal(foodOrder);
     }
+    public double getServiceFee() {
+    	return costCalculator.calculateServiceFee();
+    }
+    
+    
+    public double getSalesTax() {
+    	return costCalculator.calculateSalesTax();
+    }
 
     // Method to check if the order is placed
     public boolean isPlaced() {

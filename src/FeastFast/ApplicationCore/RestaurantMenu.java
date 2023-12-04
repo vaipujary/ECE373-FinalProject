@@ -143,8 +143,12 @@ public class RestaurantMenu extends JFrame {
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
 
+        //Dynamic restaurant name
         restaurantNameLabel = new JLabel();
         restaurantNameLabel.setText(restaurant.getName());
+        restaurantNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
+        restaurantNameLabel.setBounds(218, 20, 423, 48);
+        contentPane.add(restaurantNameLabel);
         
         listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
 
@@ -170,8 +174,6 @@ public class RestaurantMenu extends JFrame {
         btnBackToView = new JButton("Back to View Restaurants");
 
         menuLabel = new JLabel("Menu");
-
-        lblRestaurant = new JLabel();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -233,10 +235,6 @@ public class RestaurantMenu extends JFrame {
         btnWriteAReview.setBounds(16, 473, 260, 48);
         sidePanel.add(btnWriteAReview);
 
-        restaurantNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
-        restaurantNameLabel.setBounds(174, 21, 423, 48);
-        contentPane.add(restaurantNameLabel);
-
         ratingLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         ratingLabel.setBounds(534, 69, 96, 32);
         contentPane.add(ratingLabel);
@@ -270,10 +268,6 @@ public class RestaurantMenu extends JFrame {
 
         btnBackToView.setText("Back to View Restaurants");
         btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-
-        restaurantNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
-        restaurantNameLabel.setBounds(218, 20, 423, 48);
-        contentPane.add(restaurantNameLabel);
 
         ratingLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         ratingLabel.setBounds(534, 69, 96, 32);
@@ -400,34 +394,15 @@ public class RestaurantMenu extends JFrame {
 			
 			private void handleViewCart() {
 			    if (currentOrder != null) {
-			        // Get the items and total price from the order
-			        HashMap<MenuItem, Integer> orderItems = currentOrder.getItems();
-			        double totalPrice = currentOrder.getTotalPrice();
+			        // Create a new ShoppingCart instance and pass the currentOrder
+			        ShoppingCart shoppingCart = new ShoppingCart(ffa, currentOrder);
 
-			        // Create a StringBuilder to build the message
-			        StringBuilder messageBuilder = new StringBuilder("Items in Your Cart:\n");
-
-			        // Append each item to the message
-			        for (Map.Entry<MenuItem, Integer> entry : orderItems.entrySet()) {
-			            MenuItem item = entry.getKey();
-			            int quantity = entry.getValue();
-			            messageBuilder.append(quantity).append(" x ").append(item.getName()).append("\n");
-			        }
-
-			        // Append the total price to the message
-			        messageBuilder.append("\nTotal Price: $").append(totalPrice);
-
-			        // Display the message in a dialog
-			        JOptionPane.showMessageDialog(
-			                RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
-			                messageBuilder.toString(),
-			                "Your Cart",
-			                JOptionPane.INFORMATION_MESSAGE
-			        );
+			        // Set the visibility of the ShoppingCart window
+			        shoppingCart.setVisible(true);
 			    } else {
 			        // If the order is not placed, show a message
 			        JOptionPane.showMessageDialog(
-			                RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
+			                RestaurantMenu.this,
 			                "Your cart is empty.",
 			                "Empty Cart",
 			                JOptionPane.INFORMATION_MESSAGE
