@@ -1,66 +1,78 @@
 package FeastFast.ApplicationCore;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.UIManager;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
-import javax.swing.Icon;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSplitPane;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
+import FeastFast.UserManagement.Restaurant;
+import javax.swing.JTextField;
 
 public class Checkout extends JFrame {
 
-	FeastFastApplication ffa;
+	private FeastFastApplication ffa;
+	private Order currentOrder;
 	
-	// Content pane
-	private JPanel contentPane;
+    // Content pane
+    private JPanel contentPane;
 	// Menu bar
 	JMenuBar menuBar;
 	
 	// Icons
 	ImageIcon icon2;
-	Image scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon2;
-	JButton item2;
-	
-	ImageIcon icon;
-	Image scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-	ImageIcon newScaledIcon;
-	// PersonIcon button
-	JButton item;
+    Image scaledIcon2;
+    ImageIcon newScaledIcon2;
+    JButton btnHome;
+
+
+    // Person Icon
+    ImageIcon icon;
+    Image scaledIcon;
+    ImageIcon newScaledIcon;
+	JButton btnUserMenu;
 	
 	// Log Out Icon
 	ImageIcon icon3;
 	Image scaledIcon3;
 	ImageIcon newScaledIcon3;
-	JButton item3;
+	JButton btnExit;
 	
 	ImageIcon icon4;
-	Image scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+	Image scaledIcon4;
 	ImageIcon newScaledIcon4;
-	JButton btnNewButton;
+	JButton btnBack;
 
 	
 	// Side panel
-	JPanel panel;
+	JPanel sidePanel;
+	
+	JSplitPane splitPane;
 	
 	// Side panel contents
-	JLabel lblNewLabel1;
+	JLabel accountLabel;
 	
 	// Side panel buttons
 	JButton btnNewButton1;
@@ -73,21 +85,23 @@ public class Checkout extends JFrame {
 	JButton btnWriteAReview;
 	
 	// Order type label
-	JLabel lblNewLabel;
+	JLabel orderTypeLabel;
 	
 	// Payment method label
-	JLabel lblChoosePaymentMethod;
+	JLabel paymentLabel;
 	
 	// Payment type Combo box
 	JComboBox comboBox;
 	
-	JLabel lblNewLabel_1;
+	JLabel titleLabel;
 	
 	JButton btnContinue;
 	
 	// Radio buttons
 	JRadioButton rdbtnNewRadioButton;
 	JRadioButton rdbtnHomeDelivery;
+	private JLabel totalLabel;
+	private JTextField totalValue;
 
 	/**
 	 * Launch the application.
@@ -96,7 +110,9 @@ public class Checkout extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Checkout frame = new Checkout();
+					FeastFastApplication ffa = new FeastFastApplication();
+					Order order = new Order();
+					Checkout frame = new Checkout(ffa, order);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -108,7 +124,10 @@ public class Checkout extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Checkout() {
+	public Checkout(FeastFastApplication ffa, Order order) {
+        this.ffa = ffa;
+        this.currentOrder = order;
+        
 		contentPane = new JPanel();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
@@ -116,27 +135,30 @@ public class Checkout extends JFrame {
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
+		// Icons
 		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-		newScaledIcon2 = new ImageIcon(scaledIcon2);
-		item2 = new JButton(newScaledIcon2);
-		
+        scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledIcon2 = new ImageIcon(scaledIcon2);
+		btnHome = new JButton(newScaledIcon2);
+
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
-		item = new JButton(newScaledIcon);
-		
+		btnUserMenu = new JButton(newScaledIcon);
+		btnUserMenu.addActionListener(new Listener());
+
 		// Log Out Icon
 		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
 		scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon3 = new ImageIcon(scaledIcon3);
-		item3 = new JButton(newScaledIcon3);
-		
+		btnExit = new JButton(newScaledIcon3);
+
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+		scaledIcon4 = icon4.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
-		btnNewButton = new JButton(newScaledIcon4);
+		btnBack = new JButton(newScaledIcon4);
 		
-		lblNewLabel1 = new JLabel("Account");
+		accountLabel = new JLabel("Account");
 		
 		btnNewButton1 = new JButton("Update Name");
 		btnManageAddress = new JButton("Manage Address");
@@ -148,15 +170,15 @@ public class Checkout extends JFrame {
 		btnWriteAReview = new JButton("Write a Review");
 		
 		// Order type label
-		lblNewLabel = new JLabel("Pickup or Home Delivery?");
+		orderTypeLabel = new JLabel("Pickup or Home Delivery?");
 		
 		// Payment method label
-		lblChoosePaymentMethod = new JLabel("Choose payment method:");
+		paymentLabel = new JLabel("Choose payment method:");
 		
 		// Payment type Combo box
 		comboBox = new JComboBox();
 		
-		lblNewLabel_1 = new JLabel("Checkout\n");
+		titleLabel = new JLabel("Checkout\n");
 		
 		btnContinue = new JButton("Continue");
 		
@@ -165,82 +187,87 @@ public class Checkout extends JFrame {
 		rdbtnHomeDelivery = new JRadioButton("Home delivery");
 		
 		
-		panel = new JPanel();
+		sidePanel = new JPanel();
+		// Split Pane
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
 		
-		menuBar.add(item2);
+		menuBar.add(btnHome);
 		menuBar.add(Box.createHorizontalGlue());
-		menuBar.add(item);
-		menuBar.add(item3);
+		menuBar.add(btnUserMenu);
+		menuBar.add(btnExit);
+		
+		setContentPane(splitPane);
+		contentPane.setLayout(null);
+		splitPane.setDividerLocation(0);
 		
 		contentPane.setBackground(new Color(250, 128, 114));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		panel.setBounds(518, 0, 282, 609);
-		contentPane.add(panel);
-		panel.setLayout(null);
 		
-		lblNewLabel1.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-		lblNewLabel1.setBounds(16, 6, 116, 40);
-		panel.add(lblNewLabel1);
+		sidePanel.setBounds(518, 0, 282, 609);
+		sidePanel.setLayout(null);
+		
+		accountLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+		accountLabel.setBounds(16, 6, 116, 40);
+		sidePanel.add(accountLabel);
 		
 		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnNewButton1.setBounds(16, 59, 260, 48);
-		panel.add(btnNewButton1);
+		sidePanel.add(btnNewButton1);
 		
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
-		panel.add(btnManageAddress);
+		sidePanel.add(btnManageAddress);
 		
 		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-		panel.add(btnManagePreferredPayment);
+		sidePanel.add(btnManagePreferredPayment);
 		
 		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewPastOrders.setBounds(16, 406, 260, 48);
-		panel.add(btnViewPastOrders);
+		sidePanel.add(btnViewPastOrders);
 		
 		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewReviews.setBounds(16, 544, 260, 48);
-		panel.add(btnViewReviews);
+		sidePanel.add(btnViewReviews);
 		
 		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManagePassword.setBounds(16, 204, 260, 48);
-		panel.add(btnManagePassword);
+		sidePanel.add(btnManagePassword);
 		
 		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-		panel.add(btnUpdatePhoneNumber);
+		sidePanel.add(btnUpdatePhoneNumber);
 		
 		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnWriteAReview.setBounds(16, 473, 260, 48);
-		panel.add(btnWriteAReview);
+		sidePanel.add(btnWriteAReview);
 
-		lblNewLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		lblNewLabel.setBounds(50, 103, 227, 21);
-		contentPane.add(lblNewLabel);
+		orderTypeLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		orderTypeLabel.setBounds(50, 103, 227, 21);
+		contentPane.add(orderTypeLabel);
 		
-		lblChoosePaymentMethod.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
-		lblChoosePaymentMethod.setBounds(50, 183, 248, 26);
-		contentPane.add(lblChoosePaymentMethod);
+		paymentLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
+		paymentLabel.setBounds(50, 183, 248, 26);
+		contentPane.add(paymentLabel);
 		
-		comboBox.setBounds(370, 181, 164, 37);
+		comboBox.setBounds(305, 181, 164, 37);
 		contentPane.add(comboBox);
 		
-		lblNewLabel_1.setBounds(307, 21, 227, 43);
-		lblNewLabel_1.setFont(new Font("Bangla MN", Font.PLAIN, 35));
-		contentPane.add(lblNewLabel_1);
+		titleLabel.setBounds(307, 21, 227, 43);
+		titleLabel.setFont(new Font("Bangla MN", Font.PLAIN, 35));
+		contentPane.add(titleLabel);
 
-		btnNewButton.setText("Back");
-		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton.setBounds(76, 513, 132, 54);
-		contentPane.add(btnNewButton);
+		btnBack.setText("Back");
+		btnBack.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnBack.setBounds(76, 513, 132, 54);
+		contentPane.add(btnBack);
 		
 		btnContinue.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnContinue.setBounds(445, 514, 132, 54);
 		contentPane.add(btnContinue);
+		btnContinue.addActionListener(new Listener());
 		
 		rdbtnNewRadioButton.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		rdbtnNewRadioButton.setBounds(295, 101, 141, 23);
@@ -249,6 +276,19 @@ public class Checkout extends JFrame {
 		rdbtnHomeDelivery.setFont(new Font("Lucida Grande", Font.PLAIN, 18));
 		rdbtnHomeDelivery.setBounds(438, 101, 164, 23);
 		contentPane.add(rdbtnHomeDelivery);
+		
+		double total = currentOrder.getFinalTotal();
+		String formattedTotal = String.format("$ %.2f", total);
+		totalLabel = new JLabel("Total:");
+		totalLabel.setFont(new Font("Dialog", Font.BOLD, 18));
+		totalLabel.setBounds(50, 248, 94, 29);
+		contentPane.add(totalLabel);
+		
+		totalValue = new JTextField();
+		totalValue.setText(formattedTotal);
+		totalValue.setEditable(false);
+		totalValue.setBounds(589, 245, 130, 41);
+		contentPane.add(totalValue);
 	}
 	
 	// Event listener
@@ -256,21 +296,26 @@ public class Checkout extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				JButton source = (JButton) e.getSource();
-				JRadioButton source2 = (JRadioButton) e.getSource();
+				//JRadioButton source2 = (JRadioButton) e.getSource();
 				
 /////////////////////////////////////////Checking button events////////////////////////////////////////////
 				// PersonIcon button
-				if(source.equals(item)) {
-					handlePersonIcon();
+				if(source.equals(btnUserMenu)) {
+					handleUserMenu();
 				}
 				// HomeIcon button
-				else if(source.equals(item2)) {
+				else if(source.equals(btnHome)) {
 					handleHomeIcon();
 				}
 				
-				else if(source.equals(item3)) {
+				else if(source.equals(btnExit)) {
 					handleLogOut();
 				}
+				
+				else if(source.equals(btnContinue)) {
+					handlePlaceOrder();
+				}
+				
 				// Update Name button
 				else if(source.equals(btnNewButton1)) {
 					handleUpdateName();
@@ -305,18 +350,40 @@ public class Checkout extends JFrame {
 				}
 ////////////////////////////////////////Checking Radio Button events///////////////////////////////////////////////
 				// Pickup radio button
-				if(source2.equals(rdbtnNewRadioButton)) {
+				//if(source2.equals(rdbtnNewRadioButton)) {
+				//	
+				//}
+				//else if(source2.equals(rdbtnHomeDelivery)) {
 					
-				}
-				else if(source2.equals(rdbtnHomeDelivery)) {
-					
-				}
+				//}
 ////////////////////////////////////////Checking combo box events///////////////////////////////////////////////////////
 			}
 			
-			private void handlePersonIcon() {
-				
-				
+			private void handleUserMenu() {
+		        // Toggle the side panel visibility by adjusting the divider location
+		        int currentLocation = splitPane.getDividerLocation();
+		        if (currentLocation < 10) {
+		            // Show the side panel
+		            splitPane.setDividerLocation(282);
+		        } else {
+		            // Hide the side panel
+		            splitPane.setDividerLocation(0);
+		        }
+		    }
+			
+			private void handlePlaceOrder() {
+				if (currentOrder != null) {
+					currentOrder.isPlaced(); //Place the order		    	
+			    	Receipt receipt = new Receipt(ffa, currentOrder);			     
+			        receipt.setVisible(true);
+			    } else {
+			        // If the order is not placed, show a message
+			        JOptionPane.showMessageDialog(null,
+			                "Your cart is empty.",
+			                "Empty Cart",
+			                JOptionPane.INFORMATION_MESSAGE
+			        );
+			    }
 			}
 			
 			private void handleHomeIcon() {

@@ -33,6 +33,9 @@ public class CostCalculator {
     	this.tip = tip;
     }
     
+    public double getTotal() {
+    	return this.totalCost;
+    }
     
     
     // Method to calculate the total tip

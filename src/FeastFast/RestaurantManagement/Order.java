@@ -207,16 +207,20 @@ public class Order {
     }
 
     // Method to calculate the total price of the order
-    public double getTotalPrice() {
+    public double getOrderPrice() {
     	return costCalculator.calculateTotal(foodOrder);
     }
+    
     public double getServiceFee() {
     	return costCalculator.calculateServiceFee();
     }
     
-    
     public double getSalesTax() {
     	return costCalculator.calculateSalesTax();
+    }
+    
+    public double getFinalTotal() {
+    	return costCalculator.getTotal();
     }
 
     // Method to check if the order is placed

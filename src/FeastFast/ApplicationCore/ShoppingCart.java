@@ -292,6 +292,7 @@ public class ShoppingCart extends JFrame {
 		btnCheckout.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnCheckout.setBounds(490, 526, 267, 55);
 		contentPane.add(btnCheckout);
+		btnCheckout.addActionListener(new Listener());
 		
 
 		btnBack.setText("Back to Menu");
@@ -330,16 +331,21 @@ public class ShoppingCart extends JFrame {
 		
 		//Add Restaurant Name
         restaurantLabel = new JLabel();
+        if(currentOrder.getRestaurant() != null) {
 		restaurantLabel.setText(currentOrder.getRestaurant().getName());
+        }
+        else {
+        restaurantLabel.setText("Restaurant");
+        }
 		restaurantLabel.setFont(new Font("Lucida Grande", Font.BOLD, 30));
 		restaurantLabel.setBounds(85, 6, 341, 55);
 		contentPane.add(restaurantLabel);
 		
 		//Add Totals and Fees
-		double orderTotal = currentOrder.getTotalPrice();
+		double orderTotal = currentOrder.getOrderPrice();
 		double serviceFee = currentOrder.getServiceFee();
 		double salesTax = currentOrder.getSalesTax();
-		double total = orderTotal + salesTax + serviceFee;
+		double total = currentOrder.getFinalTotal();
 
 		// Format doubles as strings with two decimal places
 		String formattedOrderTotal = String.format("$ %.2f", orderTotal);
@@ -434,6 +440,9 @@ public class ShoppingCart extends JFrame {
 					else if(source.equals(btnExit)) {
 						handleLogOut();
 					}
+					else if(source.equals(btnCheckout)) {
+						handleViewCheckout();
+					}
 					// Update Name button
 					else if(source.equals(btnNewButton1)) {
 						handleUpdateName();
@@ -482,6 +491,21 @@ public class ShoppingCart extends JFrame {
 			        }
 			    }
 				
+				private void handleViewCheckout() {
+				    if (currentOrder != null) {
+				        // Create a new ShoppingCart instance and pass the currentOrder
+				    	Checkout checkout = new Checkout(ffa,currentOrder);				     
+				        // Set the visibility of the ShoppingCart window
+				        checkout.setVisible(true);
+				    } else {
+				        // If the order is not placed, show a message
+				        JOptionPane.showMessageDialog(null,
+				                "Your cart is empty.",
+				                "Empty Cart",
+				                JOptionPane.INFORMATION_MESSAGE
+				        );
+				    }
+				}
 				
 				private void handleHomeIcon() {
 					
