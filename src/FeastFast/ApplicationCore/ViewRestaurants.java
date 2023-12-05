@@ -1,5 +1,6 @@
 package FeastFast.ApplicationCore;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -78,6 +80,9 @@ public class ViewRestaurants extends JFrame {
 	    //List Components
 	    JList<String> list;
 	    DefaultListModel<String> listModel;
+	    
+	    // Scroll Pane
+	    JScrollPane scrollPane;
 
     /**
      * Launch the application.
@@ -215,8 +220,11 @@ public class ViewRestaurants extends JFrame {
         }
 		
 		list = new JList<>(listModel); // Initialize the list
-        list.setBounds(77, 81, 612, 487);
-        contentPane.add(list);
+        
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(131, 119, 490, 468);
+        scrollPane.setViewportView(list);
+        contentPane.add(scrollPane);
         
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -374,5 +382,4 @@ public class ViewRestaurants extends JFrame {
     private void handleWriteReview() {
 
     }
-
 }

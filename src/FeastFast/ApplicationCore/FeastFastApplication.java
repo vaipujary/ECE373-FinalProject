@@ -57,29 +57,80 @@ public class FeastFastApplication {
     	// Creating new menu items to add to menus
     	MenuItem burger = new MenuItem("Burger", 5.55);
     	MenuItem fries = new MenuItem("Fries", 1.11);
+    	MenuItem periFries = new MenuItem("Peri Fries", 3.54);
     	MenuItem ketchup = new MenuItem("Ketchup", 2.00);
     	MenuItem onionRings = new MenuItem("Onion Rings", 6.55);
     	MenuItem pizza = new MenuItem("Pizza", 3.33);
+    	MenuItem chickenRiceBowl = new MenuItem("Chicken & Rice Bowl", 14.70);
+    	MenuItem periPeriRice = new MenuItem("Peri Peri Rice", 3.54);
+    	MenuItem periMayoCorn = new MenuItem("Perimayo Corn", 3.54);
+    	MenuItem wings = new MenuItem("Wings", 5.34);
+    	MenuItem wrap = new MenuItem("The Wrap", 11.94);
+    	MenuItem originalPlatter = new MenuItem("Original Platter", 39.54);
+    	
+    	MenuItem filetMignon = new MenuItem("Filet Mignon", 38.00);
+    	MenuItem ribEyeSteak = new MenuItem("Rib Eeye Steak", 39.00);
+    	MenuItem escargot = new MenuItem("Baked Escargot", 16.00);
+    	MenuItem tuna = new MenuItem("Seared Ahi Tuna", 17.00);
+    	MenuItem prosciutto = new MenuItem("Prosciutto Wrapped Mozzarella", 14.00);
+    	MenuItem lobster = new MenuItem("Spicy Lobster", 19.00);
+    	MenuItem shrimp = new MenuItem("Shrimp Cocktail", 16.00);
+    	MenuItem salad = new MenuItem("Spinach Salad", 9.50);
+    	MenuItem salad2 = new MenuItem("Caprese Salad", 7.50);
     	
     	
-    	
-    	
+    	// Creating restaurants
 		Restaurant restaurant1 = new Restaurant("McDeez");
+		Restaurant restaurant2 = new Restaurant("WenDeez");
+		Restaurant restaurant3 = new Restaurant("DennEez");
+		Restaurant restaurant4 = new Restaurant("5GuYeez");
+		Restaurant restaurant5 = new Restaurant("EeGeez");
+		Restaurant restaurant6 = new Restaurant("Del Taco");
+		Restaurant restaurant7 = new Restaurant("Cup Cafe");
+		Restaurant restaurant8 = new Restaurant("Geronimo Restaurant");
+		Restaurant restaurant9 = new Restaurant("Sinbad's Restaurant");
+		Restaurant restaurant10 = new Restaurant("Urban Pita");
+		Restaurant restaurant11 = new Restaurant("Turkish Kebab House");
+		Restaurant restaurant12 = new Restaurant("Raptor Canyon Cafe");
+		Restaurant restaurant13 = new Restaurant("Saguaro Grill");
+		Restaurant restaurant14 = new Restaurant("Plaza Eats");
+		Restaurant restaurant15 = new Restaurant("Urban Fresh");
+		Restaurant restaurant16 = new Restaurant("Lemongrass Restaurant");
+		Restaurant restaurant17 = new Restaurant("Jack in the Box");
+		Restaurant restaurant18 = new Restaurant("China Pasta House");
+		Restaurant restaurant19 = new Restaurant("Iguana Cafe & Bar");
+		Restaurant restaurant20 = new Restaurant("Bison Witches");
+		
+		// Adding menu items to restaurant menus
 		restaurant1.getMenu().addItem(burger);
 		restaurant1.getMenu().addItem(fries);
 		restaurant1.getMenu().addItem(ketchup);
 		restaurant1.getMenu().addItem(onionRings);
 		restaurant1.getMenu().addItem(pizza);
 		
-		Restaurant restaurant2 = new Restaurant("WenDeez");
-		Restaurant restaurant3 = new Restaurant("DennEez");
-		Restaurant restaurant4 = new Restaurant("5GuYeez");
-		Restaurant restaurant5 = new Restaurant("EeGeez");
+		
+		// Adding restaurants to application
 		this.addRestaurant(restaurant1);
 		this.addRestaurant(restaurant2);
 		this.addRestaurant(restaurant3);
 		this.addRestaurant(restaurant4);
 		this.addRestaurant(restaurant5);
+		this.addRestaurant(restaurant6);
+		this.addRestaurant(restaurant7);
+		this.addRestaurant(restaurant8);
+		this.addRestaurant(restaurant9);
+		this.addRestaurant(restaurant10);
+		this.addRestaurant(restaurant11);
+		this.addRestaurant(restaurant12);
+		this.addRestaurant(restaurant13);
+		this.addRestaurant(restaurant14);
+		this.addRestaurant(restaurant15);
+		this.addRestaurant(restaurant16);
+		this.addRestaurant(restaurant17);
+		this.addRestaurant(restaurant18);
+		this.addRestaurant(restaurant19);
+		this.addRestaurant(restaurant20);
+		
     }
     
     public void addCustomer(Customer c) {
