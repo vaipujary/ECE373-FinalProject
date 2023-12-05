@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.Box;
@@ -638,7 +639,14 @@ public class Checkout extends JFrame {
 
 					if (result == JOptionPane.OK_OPTION) {
 						
-						if(newPassTextString.equals(confirmNewPassTextString)) {
+						if(!Arrays.equals(newPassText.getPassword(), confirmNewPassText.getPassword())) {
+							JOptionPane.showMessageDialog(null,
+									"Passwords don't match!",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						
+						else {
 						
 							loggedInCustomer.setPassword(confirmNewPassTextString);
 							
@@ -647,11 +655,13 @@ public class Checkout extends JFrame {
 									"Success",
 									JOptionPane.PLAIN_MESSAGE);
 						}
+						
 					}
 
 					else {
 						JOptionPane.getRootFrame().dispose();
 					}
+
 				}
 				// Catch errors and return them
 				catch (Exception ex) {

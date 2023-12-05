@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -642,42 +643,51 @@ public class RestaurantMenu extends JFrame {
 
         private void handleManagePassword() {
         	try {
-				JFrame temp = new JFrame("Confirm selection");
-				JLabel newPassLabel = new JLabel("New password: ");
-				JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
-				
-				JPasswordField newPassText =  new JPasswordField();
-				String newPassTextString = new String(newPassText.getPassword());
-				JPasswordField confirmNewPassText = new JPasswordField();
-				String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+    			JFrame temp = new JFrame("Confirm selection");
+    			JLabel newPassLabel = new JLabel("New password: ");
+    			JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+    			
+    			JPasswordField newPassText =  new JPasswordField();
+    			String newPassTextString = new String(newPassText.getPassword());
+    			JPasswordField confirmNewPassText = new JPasswordField();
+    			String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
 
-				int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+    			int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+    					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-				if (result == JOptionPane.OK_OPTION) {
-					
-					if(newPassTextString.equals(confirmNewPassTextString)) {
-					
-						loggedInCustomer.setPassword(confirmNewPassTextString);
-						
-						JOptionPane.showMessageDialog(null,
-								"Successfully changed password!",
-								"Success",
-								JOptionPane.PLAIN_MESSAGE);
-					}
-				}
+    			if (result == JOptionPane.OK_OPTION) {
+    				
+    				if(!Arrays.equals(newPassText.getPassword(), confirmNewPassText.getPassword())) {
+    					JOptionPane.showMessageDialog(null,
+    							"Passwords don't match!",
+    							"Error",
+    							JOptionPane.ERROR_MESSAGE);
+    				}
+    				
+    				else {
+    				
+    					loggedInCustomer.setPassword(confirmNewPassTextString);
+    					
+    					JOptionPane.showMessageDialog(null,
+    							"Successfully changed password!",
+    							"Success",
+    							JOptionPane.PLAIN_MESSAGE);
+    				}
+    				
+    			}
 
-				else {
-					JOptionPane.getRootFrame().dispose();
-				}
-			}
-			// Catch errors and return them
-			catch (Exception ex) {
-				JOptionPane.showMessageDialog(null,
-						"Error: " + ex.getMessage(),
-						"Error",
-						JOptionPane.ERROR_MESSAGE);
-			}
+    			else {
+    				JOptionPane.getRootFrame().dispose();
+    			}
+
+    		}
+    		// Catch errors and return them
+    		catch (Exception ex) {
+    			JOptionPane.showMessageDialog(null,
+    					"Error: " + ex.getMessage(),
+    					"Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		}
         }
 
         // Method to handle customer updating their phone number

@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -760,7 +761,14 @@ public class ShoppingCart extends JFrame {
 
 				if (result == JOptionPane.OK_OPTION) {
 					
-					if(newPassTextString.equals(confirmNewPassTextString)) {
+					if(!Arrays.equals(newPassText.getPassword(), confirmNewPassText.getPassword())) {
+						JOptionPane.showMessageDialog(null,
+								"Passwords don't match!",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+					else {
 					
 						loggedInCustomer.setPassword(confirmNewPassTextString);
 						
@@ -769,8 +777,6 @@ public class ShoppingCart extends JFrame {
 								"Success",
 								JOptionPane.PLAIN_MESSAGE);
 					}
-					
-					
 					
 				}
 
