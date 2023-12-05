@@ -27,6 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+// import FeastFast.ApplicationCore.ShoppingCart.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.UserManagement.Customer;
@@ -78,7 +79,7 @@ public class Checkout extends JFrame {
 	JLabel accountLabel;
 	
 	// Side panel buttons
-	JButton btnNewButton1;
+	JButton btnUpdateName;
 	JButton btnManageAddress;
 	JButton btnManagePreferredPayment;
 	JButton btnViewPastOrders;
@@ -167,14 +168,25 @@ public class Checkout extends JFrame {
 		
 		accountLabel = new JLabel("Account");
 		
-		btnNewButton1 = new JButton("Update Name");
-		btnManageAddress = new JButton("Manage Address");
-		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-		btnViewPastOrders = new JButton("View Past Orders");
-		btnViewReviews = new JButton("View Reviews");
-		btnManagePassword = new JButton("Manage Password");
-		btnUpdatePhoneNumber = new JButton("Update Phone Number");
-		btnWriteAReview = new JButton("Write a Review");
+		// Side panel buttons
+				btnUpdateName = new JButton("Update Name");
+		        btnManageAddress = new JButton("Manage Address");
+		        btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		        btnViewPastOrders = new JButton("View Past Orders");
+		        btnViewReviews = new JButton("View Reviews");
+		        btnManagePassword = new JButton("Manage Password");
+		        btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		        btnWriteAReview = new JButton("Write a Review");
+				
+				// Side Panel Button Action Listeners
+		        btnUpdateName.addActionListener(new Listener());
+		        btnManageAddress.addActionListener(new Listener());
+		        btnManagePreferredPayment.addActionListener(new Listener());
+		        btnViewPastOrders.addActionListener(new Listener());
+		        btnViewReviews.addActionListener(new Listener());
+		        btnManagePassword.addActionListener(new Listener());
+		        btnUpdatePhoneNumber.addActionListener(new Listener());
+		        btnWriteAReview.addActionListener(new Listener());
 		
 		// Order type label
 		orderTypeLabel = new JLabel("Pickup or Home Delivery?");
@@ -229,9 +241,9 @@ public class Checkout extends JFrame {
 		accountLabel.setBounds(16, 6, 116, 40);
 		sidePanel.add(accountLabel);
 		
-		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton1.setBounds(16, 59, 260, 48);
-		sidePanel.add(btnNewButton1);
+		btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnUpdateName.setBounds(16, 59, 260, 48);
+		sidePanel.add(btnUpdateName);
 		
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
@@ -334,7 +346,7 @@ public class Checkout extends JFrame {
 				}
 				
 				// Update Name button
-				else if(source.equals(btnNewButton1)) {
+				else if(source.equals(btnUpdateName)) {
 					handleUpdateName();
 				}
 				// Manage Address button
@@ -496,7 +508,43 @@ public class Checkout extends JFrame {
 			}
 			
 			private void handleManageAddress() {
-				
+				try {
+					JFrame temp = new JFrame("Update address");
+					JLabel currentAddress = new JLabel();
+					
+					if(loggedInCustomer.getAddress() != null) {
+						currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+					}
+					
+					JLabel newAddressLabel = new JLabel("New address: ");
+					
+					JTextField newAddressText =  new JTextField();
+
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.OK_OPTION) {
+
+							loggedInCustomer.setAddress(newAddressText.getText());
+							
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed delivery address!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+					
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+				}
+		    	
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
 			private void handleManagePreferredPayment() {

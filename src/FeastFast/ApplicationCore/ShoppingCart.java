@@ -33,6 +33,7 @@ import javax.swing.JScrollPane;
 
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
+//import FeastFast.ApplicationCore.ViewRestaurants.Listener;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
@@ -49,7 +50,7 @@ public class ShoppingCart extends JFrame {
 
 	private JPanel contentPane;
 
-	JButton btnNewButton1;
+	JButton btnUpdateName;
 	JButton btnManageAddress;
 	JButton btnManagePreferredPayment;
 	JButton btnViewPastOrders;
@@ -186,14 +187,24 @@ public class ShoppingCart extends JFrame {
 		accountLabel = new JLabel("Account");
 
 		// Side panel buttons
-		btnNewButton1 = new JButton("Update Name");
-		btnManageAddress = new JButton("Manage Address");
-		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-		btnViewPastOrders = new JButton("View Past Orders");
-		btnViewReviews = new JButton("View Reviews");
-		btnManagePassword = new JButton("Manage Password");
-		btnUpdatePhoneNumber = new JButton("Update Phone Number");
-		btnWriteAReview = new JButton("Write a Review");
+		btnUpdateName = new JButton("Update Name");
+        btnManageAddress = new JButton("Manage Address");
+        btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+        btnViewPastOrders = new JButton("View Past Orders");
+        btnViewReviews = new JButton("View Reviews");
+        btnManagePassword = new JButton("Manage Password");
+        btnUpdatePhoneNumber = new JButton("Update Phone Number");
+        btnWriteAReview = new JButton("Write a Review");
+		
+		// Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener());
+        btnViewPastOrders.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
+        btnManagePassword.addActionListener(new Listener());
+        btnUpdatePhoneNumber.addActionListener(new Listener());
+        btnWriteAReview.addActionListener(new Listener());
 
 		// Title
 
@@ -248,9 +259,9 @@ public class ShoppingCart extends JFrame {
 		accountLabel.setBounds(16, 6, 116, 40);
 		sidePanel.add(accountLabel);
 
-		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton1.setBounds(16, 59, 260, 48);
-		sidePanel.add(btnNewButton1);
+		btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnUpdateName.setBounds(16, 59, 260, 48);
+		sidePanel.add(btnUpdateName);
 
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
@@ -427,7 +438,7 @@ public class ShoppingCart extends JFrame {
 				handleViewCheckout();
 			}
 			// Update Name button
-			else if (source.equals(btnNewButton1)) {
+			else if (source.equals(btnUpdateName)) {
 				handleUpdateName();
 			}
 			// Manage Address button
@@ -619,7 +630,43 @@ public class ShoppingCart extends JFrame {
 		}
 
 		private void handleManageAddress() {
+			try {
+				JFrame temp = new JFrame("Update address");
+				JLabel currentAddress = new JLabel();
+				
+				if(loggedInCustomer.getAddress() != null) {
+					currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+				}
+				
+				JLabel newAddressLabel = new JLabel("New address: ");
+				
+				JTextField newAddressText =  new JTextField();
 
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setAddress(newAddressText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed delivery address!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+	    	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleManagePreferredPayment() {

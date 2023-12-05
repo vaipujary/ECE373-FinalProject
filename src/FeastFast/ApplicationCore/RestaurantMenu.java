@@ -526,7 +526,43 @@ public class RestaurantMenu extends JFrame {
         }
 
         private void handleManageAddress() {
-            // Implement your logic here
+        	try {
+    			JFrame temp = new JFrame("Update address");
+    			JLabel currentAddress = new JLabel();
+    			
+    			if(loggedInCustomer.getAddress() != null) {
+    				currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+    			}
+    			
+    			JLabel newAddressLabel = new JLabel("New address: ");
+    			
+    			JTextField newAddressText =  new JTextField();
+
+    			int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+    					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+    			if (result == JOptionPane.OK_OPTION) {
+
+    					loggedInCustomer.setAddress(newAddressText.getText());
+    					
+    					JOptionPane.showMessageDialog(null,
+    							"Successfully changed delivery address!",
+    							"Success",
+    							JOptionPane.PLAIN_MESSAGE);
+    				}
+    			
+    			else {
+    				JOptionPane.getRootFrame().dispose();
+    			}
+    		}
+        	
+    		// Catch errors and return them
+    		catch (Exception ex) {
+    			JOptionPane.showMessageDialog(null,
+    					"Error: " + ex.getMessage(),
+    					"Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		}
         }
 
         private void handleManagePreferredPayment() {
