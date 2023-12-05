@@ -25,6 +25,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -541,7 +542,14 @@ public class Receipt extends JFrame {
 
 				if (result == JOptionPane.OK_OPTION) {
 					
-					if(newPassTextString.equals(confirmNewPassTextString)) {
+					if(!Arrays.equals(newPassText.getPassword(), confirmNewPassText.getPassword())) {
+						JOptionPane.showMessageDialog(null,
+								"Passwords don't match!",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+					else {
 					
 						loggedInCustomer.setPassword(confirmNewPassTextString);
 						
@@ -550,11 +558,13 @@ public class Receipt extends JFrame {
 								"Success",
 								JOptionPane.PLAIN_MESSAGE);
 					}
+					
 				}
 
 				else {
 					JOptionPane.getRootFrame().dispose();
 				}
+
 			}
 			// Catch errors and return them
 			catch (Exception ex) {
