@@ -32,6 +32,23 @@ import FeastFast.UserManagement.Restaurant;
 import javax.swing.ListSelectionModel;
 
 public class ViewRestaurants extends JFrame {
+    // Variables
+    private FeastFastApplication ffa;
+
+    // Image Icons
+    ImageIcon homeIcon;
+    ImageIcon logOutIcon;
+    ImageIcon personIcon;
+    ImageIcon newScaledHomeIcon;
+    ImageIcon newScaledLogOutIcon;
+    ImageIcon newScaledPersonIcon;
+
+    // Images
+    Image scaledHomeIcon;
+    Image scaledLogOutIcon;
+    Image scaledPersonIcon;
+
+    // Side Panel Buttons
 
     private FeastFastApplication ffa;
 
@@ -71,17 +88,32 @@ public class ViewRestaurants extends JFrame {
     // Side panel buttons
     JButton btnUpdateName;
     JButton btnManageAddress;
+    JButton btnManagePassword;
     JButton btnManagePreferredPayment;
+    JButton btnUpdateName;
+    JButton btnUpdatePhoneNumber;
     JButton btnViewPastOrders;
     JButton btnViewReviews;
-    JButton btnManagePassword;
-    JButton btnUpdatePhoneNumber;
     JButton btnWriteAReview;
+    JButton btnExit;
+    JButton btnHome;
+    JButton btnUserMenu;
 
-    // Title
+    // Class Specific Buttons
+
+    // Labels
+    JLabel lblAccount;
+    JLabel lblRestaurants;
+
+    // Menu Components
+    JMenuBar menuBar;
+    JPanel sidePanel;
+    JPanel contentPane;
+    JSplitPane splitPane;
+
+    // List Components
     JList<String> list;
     DefaultListModel<String> listModel;
-    JSplitPane splitPane; // Added JSplitPane
 
     /**
      * Launch the application.
@@ -91,6 +123,23 @@ public class ViewRestaurants extends JFrame {
             public void run() {
                 try {
                     FeastFastApplication ffa = new FeastFastApplication();
+                    Restaurant restaurant1 = new Restaurant("McDonald's", "mcdeez", "mcdeez1!");
+                    Restaurant restaurant2 = new Restaurant("Wendy's", "wendeez", "wendeez1!");
+                    Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
+                    Restaurant restaurant4 = new Restaurant("Five Guys", "5guyeez", "5guyeez1!");
+                    Restaurant restaurant5 = new Restaurant("eegee's", "eegeez", "eegeez1!");
+                    MenuItem burger = new MenuItem("Burger", 4.00);
+                    MenuItem fries = new MenuItem("Fries", 2.50);
+                    MenuItem drink = new MenuItem("Drink", 1.50);
+                    restaurant1.addMenuItem(burger);
+                    restaurant1.addMenuItem(fries);
+                    restaurant1.addMenuItem(drink);
+                    ffa.addRestaurant(restaurant1);
+                    ffa.addRestaurant(restaurant2);
+                    ffa.addRestaurant(restaurant3);
+                    ffa.addRestaurant(restaurant4);
+                    ffa.addRestaurant(restaurant5);
+
                     Restaurant restaurant1 = new Restaurant("McDonald's", "mcdeez", "mcdeez1!");
                     Restaurant restaurant2 = new Restaurant("Wendy's", "wendeez", "wendeez1!");
                     Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
@@ -120,15 +169,12 @@ public class ViewRestaurants extends JFrame {
     }
 
     /**
-     * Create the application.
+     * Create the frame.
      */
     public ViewRestaurants(FeastFastApplication ffa) {
         this.ffa = ffa;
-        // Content pane
-        contentPane = new JPanel();
 
-        // Menu bar
-        menuBar = new JMenuBar();
+        setBounds(100, 100, 800, 700);
 
         listRestaurantModel = new DefaultListModel<String>();
         for (Restaurant restaurant : ffa.getRestaurants()) {
@@ -136,37 +182,53 @@ public class ViewRestaurants extends JFrame {
         }
         // ffa.getRestaurants().setModel(listRestaurantModel);
 
-        // Icons
+        // ICONS
         // Home Icon
-        // icon2 = new
+        // homeIcon = new
         // ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-        // scaledIcon2 = icon2.getImage().getScaledInstance(50, 50,
+        // scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50,
         // Image.SCALE_DEFAULT);
-        // newScaledIcon2 = new ImageIcon(scaledIcon2);
-        // homeMenu = new JButton(newScaledIcon2);
+        // newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
+        // btnHome = new JButton(newScaledHomeIcon);
 
         // User Icon
-        icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
-        scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        newScaledIcon = new ImageIcon(scaledIcon);
+        personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+        scaledPersonIcon = personIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledPersonIcon = new ImageIcon(scaledPersonIcon);
+        btnUserMenu = new JButton(newScaledPersonIcon);
+        btnUserMenu.addActionListener(new Listener());
 
         // Log Out Icon
-        icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
-        scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        newScaledIcon3 = new ImageIcon(scaledIcon3);
-        exit = new JButton(newScaledIcon3);
-        exit.addActionListener(new Listener());
+        logOutIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+        scaledLogOutIcon = logOutIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledLogOutIcon = new ImageIcon(scaledLogOutIcon);
+        btnExit = new JButton(newScaledLogOutIcon);
 
-        userMenu = new JButton(newScaledIcon);
-        userMenu.addActionListener(new Listener());
+        // Content pane
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(250, 128, 114));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(null);
 
         // Side panel
         sidePanel = new JPanel();
+        sidePanel.setBounds(518, 0, 282, 609);
+        sidePanel.setLayout(null);
 
-        // Side panel content
-        accountLabel = new JLabel("Account");
+        // Split Pane
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
+        setContentPane(splitPane); // Set the content pane to the split pane
+        splitPane.setDividerLocation(0); // Set initial divider location
 
-        // Side panel buttons
+        // Menu bar
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        menuBar.add(btnHome);
+        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(btnUserMenu);
+        menuBar.add(btnExit);
+
+        // Side Panel Buttons
         btnUpdateName = new JButton("Update Name");
         btnManageAddress = new JButton("Manage Address");
         btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
@@ -253,6 +315,53 @@ public class ViewRestaurants extends JFrame {
 
         listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
 
+        btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnUpdateName.setBounds(16, 59, 260, 48);
+        sidePanel.add(btnUpdateName);
+
+        btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnManageAddress.setBounds(16, 275, 260, 48);
+        sidePanel.add(btnManageAddress);
+
+        btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+        btnManagePreferredPayment.setBounds(16, 346, 260, 48);
+        sidePanel.add(btnManagePreferredPayment);
+
+        btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewPastOrders.setBounds(16, 406, 260, 48);
+        sidePanel.add(btnViewPastOrders);
+
+        btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewReviews.setBounds(16, 544, 260, 48);
+        sidePanel.add(btnViewReviews);
+
+        btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnManagePassword.setBounds(16, 204, 260, 48);
+        sidePanel.add(btnManagePassword);
+
+        btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
+        sidePanel.add(btnUpdatePhoneNumber);
+
+        btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnWriteAReview.setBounds(16, 473, 260, 48);
+        sidePanel.add(btnWriteAReview);
+
+        // Side Panel Labels
+        lblAccount = new JLabel("Account");
+        lblAccount.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+        lblAccount.setBounds(16, 6, 116, 40);
+        sidePanel.add(lblAccount);
+
+        // Content Pane Labels
+        lblRestaurants = new JLabel("View Restaurants");
+        lblRestaurants.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
+        lblRestaurants.setBounds(242, 6, 305, 63);
+        contentPane.add(lblRestaurants);
+
+        // CLASS SPECIFIC CODE:
+        // List code
+        listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
         // Add restaurants to the list model
         List<Restaurant> restaurants = ffa.getRestaurants();
         for (Restaurant restaurant : restaurants) {
@@ -285,20 +394,6 @@ public class ViewRestaurants extends JFrame {
         });
     }
 
-    private void openRestaurantMenu(Restaurant restaurant) {
-        // Create a new RestaurantMenu window with the selected restaurant
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, restaurant);
-                    restaurantMenu.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
     // Event listener
     private class Listener implements ActionListener {
 
@@ -306,8 +401,14 @@ public class ViewRestaurants extends JFrame {
             JButton source = (JButton) e.getSource();
 
             // PersonIcon button
-            if (source.equals(userMenu)) {
+            if (source.equals(btnUserMenu)) {
                 handleUserMenu();
+            }
+            // HomeIcon button
+            else if (source.equals(btnHome)) {
+
+            } else if (source.equals(btnExit)) {
+
             } else if (source.equals(exit)) {
                 handleLogOut();
             }
@@ -359,35 +460,48 @@ public class ViewRestaurants extends JFrame {
         }
     }
 
-	// Log Out button: return to main page
-	private void handleLogOut() {
-		try {
-			JFrame temp = new JFrame("Confirm selection");
-			JLabel confirmLabel = new JLabel("Are you sure you want to log out?");
+    private void openRestaurantMenu(Restaurant restaurant) {
+        // Create a new RestaurantMenu window with the selected restaurant
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, restaurant);
+                    restaurantMenu.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-			int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm log out",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+    // Log Out button: return to main page
+    private void handleLogOut() {
+        try {
+            JFrame temp = new JFrame("Confirm selection");
+            JLabel confirmLabel = new JLabel("Are you sure you want to log out?");
 
-			if (result == JOptionPane.YES_OPTION) {
-				MainPage mainPage = new MainPage(ffa);
-				mainPage.setVisible(true);
-			}
+            int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm log out",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-			else {
-				JOptionPane.getRootFrame().dispose();
-			}
+            if (result == JOptionPane.YES_OPTION) {
+                MainPage mainPage = new MainPage(ffa);
+                mainPage.setVisible(true);
+            }
 
-		}
-		// Catch errors and return them
-		catch (Exception ex) {
-			JOptionPane.showMessageDialog(null,
-					"Error: " + ex.getMessage(),
-					"Error",
-					JOptionPane.ERROR_MESSAGE);
-		}
-		
-		
-	}
+            else {
+                JOptionPane.getRootFrame().dispose();
+            }
+
+        }
+        // Catch errors and return them
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 
     private void handleUpdateName() {
 
