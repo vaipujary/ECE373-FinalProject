@@ -476,6 +476,7 @@ public class Checkout extends JFrame {
 				
 			}
 			
+			// Method to handle a customer updating their name
 			private void handleUpdateName() {
 				try {
 		            JFrame temp = new JFrame("Update name");
@@ -512,7 +513,7 @@ public class Checkout extends JFrame {
 					JFrame temp = new JFrame("Update address");
 					JLabel currentAddress = new JLabel();
 					
-					if(loggedInCustomer.getAddress() != null) {
+					if(loggedInCustomer.getAddress() != null && !(loggedInCustomer.getAddress().equals(""))) {
 						currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
 					}
 					
