@@ -44,6 +44,10 @@ public class SignUpPage extends JFrame {
 	ImageIcon newScaledIcon4;
 	private JComboBox<String> usertypeBox;
 	private Customer newCustomer = new Customer(); 
+	private JLabel lblEmail;
+	private JTextField emailTextField;
+	private JLabel lblReenterPassword;
+	private JPasswordField reenterPasswordField;
 
 	/**
 	 * Launch the application.
@@ -77,18 +81,18 @@ public class SignUpPage extends JFrame {
 		
 		lblUsername = new JLabel("Username:");
 		lblUsername.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblUsername.setBounds(75, 234, 129, 16);
+		lblUsername.setBounds(75, 236, 129, 16);
 		contentPane.add(lblUsername);
 		
 		//Password Text Field
 		passwordField = new JPasswordField();
-		passwordField.setBounds(367, 296, 129, 40);
+		passwordField.setBounds(366, 276, 129, 40);
 		contentPane.add(passwordField);
 		
 		//Password Label
 		lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblPassword.setBounds(75, 307, 117, 16);
+		lblPassword.setBounds(75, 285, 117, 16);
 		contentPane.add(lblPassword);
 		
 		//Sign Up Button
@@ -100,24 +104,24 @@ public class SignUpPage extends JFrame {
 		
 		//Username Text Field
 		usernameField = new JTextField();
-		usernameField.setBounds(366, 224, 130, 39);
+		usernameField.setBounds(365, 228, 130, 39);
 		contentPane.add(usernameField);
 		usernameField.setColumns(10);
 		
 		//Sign Up
 		lblTitle = new JLabel("Sign Up");
 		lblTitle.setFont(new Font("Bangla MN", Font.BOLD | Font.ITALIC, 30));
-		lblTitle.setBounds(232, 25, 150, 40);
+		lblTitle.setBounds(232, 18, 150, 47);
 		contentPane.add(lblTitle);
 		
 		lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblName.setBounds(75, 166, 91, 16);
+		lblName.setBounds(75, 142, 91, 16);
 		contentPane.add(lblName);
 		
 		nameField = new JTextField();
 		nameField.setColumns(10);
-		nameField.setBounds(366, 158, 130, 39);
+		nameField.setBounds(367, 134, 130, 39);
 		contentPane.add(nameField);
 		
 		lblUserType = new JLabel("User Type:");
@@ -140,6 +144,27 @@ public class SignUpPage extends JFrame {
 		btnBack.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnBack.setBounds(135, 392, 129, 56);
 		contentPane.add(btnBack);
+		
+		lblEmail = new JLabel("Email:");
+		lblEmail.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblEmail.setBounds(75, 187, 129, 16);
+		contentPane.add(lblEmail);
+		
+		emailTextField = new JTextField();
+		emailTextField.setColumns(10);
+		emailTextField.setBounds(366, 185, 130, 39);
+		contentPane.add(emailTextField);
+		
+		lblReenterPassword = new JLabel("Re-enter password:");
+		lblReenterPassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblReenterPassword.setBounds(75, 324, 204, 26);
+		contentPane.add(lblReenterPassword);
+		
+		// Re-enter password text field
+		reenterPasswordField = new JPasswordField();
+		reenterPasswordField.setBounds(366, 320, 129, 40);
+		contentPane.add(reenterPasswordField);
+		
 		setBounds(100, 100, 600, 500);
 		btnBack.addActionListener(new Listener());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -164,12 +189,13 @@ public class SignUpPage extends JFrame {
 		private void handleSignUpUser() {
 		        try {	
 	            	String name = nameField.getText();
+	            	String email = emailTextField.getText();
 	                String username = usernameField.getText();
 	                char[] passwordChars = passwordField.getPassword();
+	                char[] reenterPasswordChars = reenterPasswordField.getPassword();
+	                String reenterPassword = new String(reenterPasswordChars);
 	                String password = new String(passwordChars);
-	                String selectedUserType = (String) usertypeBox.getSelectedItem(); ;
-	                
-	                
+	                String selectedUserType = (String) usertypeBox.getSelectedItem(); 
 
 	            //Verify input is not empty
 	            if (name.isEmpty() || username.isEmpty() || password.isEmpty() ){
@@ -179,9 +205,11 @@ public class SignUpPage extends JFrame {
 	            
 	            //Instantiate New User with given credentials
 	            if(selectedUserType.equals("Customer")) {
-	            	//ffa here to add user     
+	            	
+	            	if(password.equals(reenterPassword)) {
+	            	//FFA here to add user     
 	            	Customer newCustomer = ffa.registerCustomer(name, username, password);
-
+	            	newCustomer.setEmail(email);
 	                // Add the new customer to the application
 	                ffa.addCustomer(newCustomer);
 
@@ -189,8 +217,18 @@ public class SignUpPage extends JFrame {
 		                		"Welcome " + name + ", you have been signed up for Feast Fast!",
 		                        "Success",		                
 		                        JOptionPane.PLAIN_MESSAGE);
+		                ViewRestaurants restaurantFrame = new ViewRestaurants(ffa);
+						restaurantFrame.setVisible(true);
 		                dispose();		  
 		                return;
+	            	}
+	            	
+	            	else {
+	            		JOptionPane.showMessageDialog(null,
+			                    "Error: Passwords don't match! Please re-enter correct password.",
+			                    "Error",
+			                    JOptionPane.ERROR_MESSAGE);
+	            	}
 	            }
 	           
 		        }
@@ -205,5 +243,4 @@ public class SignUpPage extends JFrame {
 		
 		
 	}
-
 }

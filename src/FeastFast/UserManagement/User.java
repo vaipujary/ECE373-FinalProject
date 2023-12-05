@@ -16,6 +16,11 @@ public class User {
         username = "";
         
     }
+    
+    public User(String name) {
+    	this.name = name;
+    }
+    
     public User(String name, String username, String password) {
     	this.name = name;
         isLoggedIn = false;

@@ -23,6 +23,11 @@ public class Restaurant extends User {
     private ArrayList<Order> Orders;
     private ArrayList<Review> restaurantReviews;
 
+    public Restaurant(String name) {
+    	super(name);
+    	this.menu = new Menu();
+    }
+    
     public Restaurant(String name, String username,String password) {
     	super(name, username, password);
     	restaurantId = "";

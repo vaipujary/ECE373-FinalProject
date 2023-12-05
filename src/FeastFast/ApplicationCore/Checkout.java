@@ -386,11 +386,64 @@ public class Checkout extends JFrame {
 			    }
 			}
 			
+			// Home Icon: Return back to view restaurants
 			private void handleHomeIcon() {
-				
+
+				try {
+					JFrame temp = new JFrame("Confirm selection");
+					JLabel confirmLabel = new JLabel(
+							"Are you sure you want to view other restaurants? Your selections will not be saved.");
+
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm selection",
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.YES_OPTION) {
+						ViewRestaurants viewRestaurantsFrame = new ViewRestaurants(ffa);
+						viewRestaurantsFrame.setVisible(true);
+					}
+
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+
+				}
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 			
+			// Log Out button: return to main page
 			private void handleLogOut() {
+				try {
+					JFrame temp = new JFrame("Confirm selection");
+					JLabel confirmLabel = new JLabel("Are you sure you want to log out?");
+
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm log out",
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.YES_OPTION) {
+						MainPage mainPage = new MainPage(ffa);
+						mainPage.setVisible(true);
+					}
+
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+
+				}
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
 				
 			}
 			
