@@ -533,7 +533,7 @@ public class RestaurantMenu extends JFrame {
     			JFrame temp = new JFrame("Update address");
     			JLabel currentAddress = new JLabel();
     			
-    			if(loggedInCustomer.getAddress() != null) {
+    			if(loggedInCustomer.getAddress() != null && !(loggedInCustomer.getAddress().equals(""))) {
     				currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
     			}
     			

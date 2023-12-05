@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
+import FeastFast.OrderingAndTransactions.Review;
 //import FeastFast.ApplicationCore.ViewRestaurants.Listener;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.UserManagement.Customer;
@@ -635,7 +636,7 @@ public class ShoppingCart extends JFrame {
 				JFrame temp = new JFrame("Update address");
 				JLabel currentAddress = new JLabel();
 				
-				if(loggedInCustomer.getAddress() != null) {
+				if(loggedInCustomer.getAddress() != null && !(loggedInCustomer.getAddress().equals(""))) {
 					currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
 				}
 				
@@ -830,6 +831,43 @@ public class ShoppingCart extends JFrame {
 
 		private void handleWriteReview() {
 
+			try {
+				JFrame temp = new JFrame("Write Review");
+				
+				JLabel restaurantNameLabel = new JLabel("Which restaurant do you want to write a review for?");
+				
+				JTextField restaurantNameText =  new JTextField();
+				JTextArea review = new JTextArea();
+				Review customerReview = new Review();
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { restaurantNameLabel, restaurantNameText, review }, "Write a Review",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						Restaurant restaurant = ffa.getRestaurant(restaurantNameText.getText());
+						restaurant.addRestaurantReview(null);
+						
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed phone number!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
 		}
 	}
 }

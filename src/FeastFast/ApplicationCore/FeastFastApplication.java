@@ -78,6 +78,16 @@ public class FeastFastApplication {
     	MenuItem salad = new MenuItem("Spinach Salad", 9.50);
     	MenuItem salad2 = new MenuItem("Caprese Salad", 7.50);
     	
+    	// Drinks
+    	MenuItem latte = new MenuItem("Latte", 4.50);
+    	MenuItem cappucino = new MenuItem("Cappucino", 5.50);
+    	MenuItem americano = new MenuItem("Americano", 4.49);
+    	MenuItem mojito = new MenuItem("Mojito", 7.00);
+    	
+    	// Pastries
+    	MenuItem croissant = new MenuItem("Croissant", 10.49);
+    	MenuItem cookie = new MenuItem("Cookie", 2.99);
+    	
     	
     	// Creating restaurants
 		Restaurant restaurant1 = new Restaurant("McDeez");
@@ -108,6 +118,16 @@ public class FeastFastApplication {
 		restaurant1.getMenu().addItem(ketchup);
 		restaurant1.getMenu().addItem(onionRings);
 		restaurant1.getMenu().addItem(pizza);
+		restaurant1.getMenu().addItem(chickenRiceBowl);
+		restaurant1.getMenu().addItem(periFries);
+		restaurant1.getMenu().addItem(periPeriRice);
+		restaurant1.getMenu().addItem(periMayoCorn);
+		restaurant1.getMenu().addItem(wings);
+		restaurant1.getMenu().addItem(periFries);
+		restaurant1.getMenu().addItem(wrap);
+		restaurant1.getMenu().addItem(originalPlatter);
+		restaurant1.getMenu().addItem(salad);
+		restaurant1.getMenu().addItem(tuna);
 		
 		
 		// Adding restaurants to application
@@ -202,6 +222,18 @@ public class FeastFastApplication {
     // Method to retrieve all the restaurants in the application
     public ArrayList<Restaurant> getRestaurants() {
         return restaurants;
+    }
+    
+    public Restaurant getRestaurant(String restaurantName) {
+    	Restaurant r = new Restaurant();
+    	
+    	for(int i = 0; i < this.restaurants.size(); i++) {
+    			if(this.restaurants.get(i).getName().equals(restaurantName)) {
+    				return this.restaurants.get(i);
+    			}
+    		}
+    	
+    	return r;
     }
 
     // Method to select a specific restaurant from a list of restaurants
