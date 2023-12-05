@@ -10,6 +10,7 @@ import java.util.*;
 
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
+import FeastFast.RestaurantManagement.MenuItem;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,20 +31,7 @@ public class FeastFastApplication {
 
 	public static void main(String args[]) {
 		//Test restaurants
-		
-		
 		FeastFastApplication ffa = new FeastFastApplication();
-		
-		Restaurant restaurant1 = new Restaurant("McDeez", "mcdeez", "mcdeez1!");
-		Restaurant restaurant2 = new Restaurant("WenDeez", "wendeez", "wendeez1!");
-		Restaurant restaurant3 = new Restaurant("DennEez", "denneez", "denneez1!");
-		Restaurant restaurant4 = new Restaurant("5GuYeez", "5guyeez", "5guyeez1!");
-		Restaurant restaurant5 = new Restaurant("EeGeez", "eegeez", "eegeez1!");
-		ffa.addRestaurant(restaurant1);
-		ffa.addRestaurant(restaurant2);
-		ffa.addRestaurant(restaurant3);
-		ffa.addRestaurant(restaurant4);
-		ffa.addRestaurant(restaurant5);
 		
 		MainPage mainFrame = new MainPage(ffa);
     	mainFrame.setVisible(true);
@@ -65,7 +53,33 @@ public class FeastFastApplication {
     	restaurants = new ArrayList<Restaurant>();
     	drivers = new ArrayList<DeliveryDriver>();
     	customers = new ArrayList<Customer>();
-
+    	
+    	// Creating new menu items to add to menus
+    	MenuItem burger = new MenuItem("Burger", 5.55);
+    	MenuItem fries = new MenuItem("Fries", 1.11);
+    	MenuItem ketchup = new MenuItem("Ketchup", 2.00);
+    	MenuItem onionRings = new MenuItem("Onion Rings", 6.55);
+    	MenuItem pizza = new MenuItem("Pizza", 3.33);
+    	
+    	
+    	
+    	
+		Restaurant restaurant1 = new Restaurant("McDeez");
+		restaurant1.getMenu().addItem(burger);
+		restaurant1.getMenu().addItem(fries);
+		restaurant1.getMenu().addItem(ketchup);
+		restaurant1.getMenu().addItem(onionRings);
+		restaurant1.getMenu().addItem(pizza);
+		
+		Restaurant restaurant2 = new Restaurant("WenDeez");
+		Restaurant restaurant3 = new Restaurant("DennEez");
+		Restaurant restaurant4 = new Restaurant("5GuYeez");
+		Restaurant restaurant5 = new Restaurant("EeGeez");
+		this.addRestaurant(restaurant1);
+		this.addRestaurant(restaurant2);
+		this.addRestaurant(restaurant3);
+		this.addRestaurant(restaurant4);
+		this.addRestaurant(restaurant5);
     }
     
     public void addCustomer(Customer c) {

@@ -42,14 +42,17 @@ public class RestaurantMenu extends JFrame {
     ImageIcon homeIcon;
     ImageIcon logOutIcon;
     ImageIcon personIcon;
+    ImageIcon backIcon;
     ImageIcon newScaledHomeIcon;
     ImageIcon newScaledLogOutIcon;
     ImageIcon newScaledPersonIcon;
+    ImageIcon newScaledBackIcon;
 
     // Images
     Image scaledHomeIcon;
     Image scaledLogOutIcon;
     Image scaledPersonIcon;
+    Image scaledBackIcon;
 
     // Side Panel Buttons
     JButton btnManageAddress;
@@ -133,7 +136,13 @@ public class RestaurantMenu extends JFrame {
         scaledLogOutIcon = logOutIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledLogOutIcon = new ImageIcon(scaledLogOutIcon);
         btnExit = new JButton(newScaledLogOutIcon);
-        exit.addActionListener(new Listener());
+        btnExit.addActionListener(new Listener());
+        
+        
+        // Back Icon
+		backIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
+		scaledBackIcon = backIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+		newScaledBackIcon = new ImageIcon(scaledBackIcon);
 
         // Content pane
         contentPane = new JPanel();
@@ -209,7 +218,10 @@ public class RestaurantMenu extends JFrame {
 
         // Content Pane Buttons
         btnViewCart = new JButton("View Cart");
-        btnBackToView = new JButton("Back to View Restaurants");
+        btnBackToView = new JButton(newScaledBackIcon);
+        btnBackToView.setText("Back to View Restaurants");
+        btnBackToView.addActionListener(new Listener());
+        
 
         btnViewCart.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         btnViewCart.setBounds(503, 525, 206, 52);
@@ -360,9 +372,17 @@ public class RestaurantMenu extends JFrame {
             else if (source.equals(btnWriteAReview)) {
                 handleWriteReview();
             }
+            // Back to View Restaurants
+            else if(source.equals(btnBackToView)) {
+            	handleBackToView();
+            }
 
         }
 
+        private void handleBackToView() {
+        	ViewRestaurants viewRestaurants = new ViewRestaurants(ffa);
+        	viewRestaurants.setVisible(true);
+        }
         private void handleUserMenu() {
             // Toggle the side panel visibility by adjusting the divider location
             int currentLocation = splitPane.getDividerLocation();

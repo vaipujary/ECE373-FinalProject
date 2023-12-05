@@ -32,88 +32,52 @@ import FeastFast.UserManagement.Restaurant;
 import javax.swing.ListSelectionModel;
 
 public class ViewRestaurants extends JFrame {
-    // Variables
-    private FeastFastApplication ffa;
+	//Variables
+		private FeastFastApplication ffa;
+		
+		//Image Icons
+		ImageIcon homeIcon;
+	    ImageIcon logOutIcon;
+	    ImageIcon personIcon;
+	    ImageIcon newScaledHomeIcon;
+	    ImageIcon newScaledLogOutIcon;
+	    ImageIcon newScaledPersonIcon;
 
-    // Image Icons
-    ImageIcon homeIcon;
-    ImageIcon logOutIcon;
-    ImageIcon personIcon;
-    ImageIcon newScaledHomeIcon;
-    ImageIcon newScaledLogOutIcon;
-    ImageIcon newScaledPersonIcon;
+		
+		//Images
+		Image scaledHomeIcon;
+	    Image scaledLogOutIcon;
+	    Image scaledPersonIcon;
 
-    // Images
-    Image scaledHomeIcon;
-    Image scaledLogOutIcon;
-    Image scaledPersonIcon;
-
-    // Side Panel Buttons
-
-    private FeastFastApplication ffa;
-
-    // Content pane
-    private JPanel contentPane;
-    private DefaultListModel<String> listRestaurantModel;
-
-    // Menu bar
-    JMenuBar menuBar;
-
-    // Icons
-    // Home Icon
-    ImageIcon icon2;
-    Image scaledIcon2;
-    ImageIcon newScaledIcon2;
-    JButton homeMenu;
-
-    // Person Icon
-    ImageIcon icon;
-    Image scaledIcon;
-    ImageIcon newScaledIcon;
-    JButton userMenu;
-
-    // Log Out Icon
-    ImageIcon icon3;
-    Image scaledIcon3;
-    ImageIcon newScaledIcon3;
-    JButton exit;
-
-    // Side panel
-    JPanel sidePanel;
-
-    // Side panel content
-    JLabel accountLabel;
-    JLabel viewRestaurantsLabel;
-
-    // Side panel buttons
-    JButton btnUpdateName;
-    JButton btnManageAddress;
-    JButton btnManagePassword;
-    JButton btnManagePreferredPayment;
-    JButton btnUpdateName;
-    JButton btnUpdatePhoneNumber;
-    JButton btnViewPastOrders;
-    JButton btnViewReviews;
-    JButton btnWriteAReview;
-    JButton btnExit;
-    JButton btnHome;
-    JButton btnUserMenu;
-
-    // Class Specific Buttons
-
-    // Labels
-    JLabel lblAccount;
-    JLabel lblRestaurants;
-
-    // Menu Components
-    JMenuBar menuBar;
-    JPanel sidePanel;
-    JPanel contentPane;
-    JSplitPane splitPane;
-
-    // List Components
-    JList<String> list;
-    DefaultListModel<String> listModel;
+	    
+	    //Side Panel Buttons
+	    JButton btnManageAddress;
+	    JButton btnManagePassword;
+	    JButton btnManagePreferredPayment;
+	    JButton btnUpdateName;
+	    JButton btnUpdatePhoneNumber;
+	    JButton btnViewPastOrders;
+	    JButton btnViewReviews;
+	    JButton btnWriteAReview;
+	    JButton btnExit;
+	    JButton btnHome;
+	    JButton btnUserMenu;
+		
+	    //Class Specific Buttons
+	    
+	    //Labels
+	    JLabel lblAccount;
+	    JLabel lblRestaurants;
+	    
+	    //Menu Components
+	    JMenuBar menuBar;
+	    JPanel sidePanel;
+	    JPanel contentPane;
+	    JSplitPane splitPane;
+	    
+	    //List Components
+	    JList<String> list;
+	    DefaultListModel<String> listModel;
 
     /**
      * Launch the application.
@@ -123,41 +87,6 @@ public class ViewRestaurants extends JFrame {
             public void run() {
                 try {
                     FeastFastApplication ffa = new FeastFastApplication();
-                    Restaurant restaurant1 = new Restaurant("McDonald's", "mcdeez", "mcdeez1!");
-                    Restaurant restaurant2 = new Restaurant("Wendy's", "wendeez", "wendeez1!");
-                    Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
-                    Restaurant restaurant4 = new Restaurant("Five Guys", "5guyeez", "5guyeez1!");
-                    Restaurant restaurant5 = new Restaurant("eegee's", "eegeez", "eegeez1!");
-                    MenuItem burger = new MenuItem("Burger", 4.00);
-                    MenuItem fries = new MenuItem("Fries", 2.50);
-                    MenuItem drink = new MenuItem("Drink", 1.50);
-                    restaurant1.addMenuItem(burger);
-                    restaurant1.addMenuItem(fries);
-                    restaurant1.addMenuItem(drink);
-                    ffa.addRestaurant(restaurant1);
-                    ffa.addRestaurant(restaurant2);
-                    ffa.addRestaurant(restaurant3);
-                    ffa.addRestaurant(restaurant4);
-                    ffa.addRestaurant(restaurant5);
-
-                    Restaurant restaurant1 = new Restaurant("McDonald's", "mcdeez", "mcdeez1!");
-                    Restaurant restaurant2 = new Restaurant("Wendy's", "wendeez", "wendeez1!");
-                    Restaurant restaurant3 = new Restaurant("Denny's", "denneez", "denneez1!");
-                    Restaurant restaurant4 = new Restaurant("Five Guys", "5guyeez", "5guyeez1!");
-                    Restaurant restaurant5 = new Restaurant("eegee's", "eegeez", "eegeez1!");
-                    MenuItem burger = new MenuItem("Burger", 4.00);
-                    MenuItem fries = new MenuItem("Fries", 2.50);
-                    MenuItem drink = new MenuItem("Drink", 1.50);
-
-                    restaurant1.addMenuItem(burger);
-                    restaurant1.addMenuItem(fries);
-                    restaurant1.addMenuItem(drink);
-
-                    ffa.addRestaurant(restaurant1);
-                    ffa.addRestaurant(restaurant2);
-                    ffa.addRestaurant(restaurant3);
-                    ffa.addRestaurant(restaurant4);
-                    ffa.addRestaurant(restaurant5);
 
                     ViewRestaurants frame = new ViewRestaurants(ffa);
                     frame.setVisible(true);
@@ -172,54 +101,46 @@ public class ViewRestaurants extends JFrame {
      * Create the frame.
      */
     public ViewRestaurants(FeastFastApplication ffa) {
-        this.ffa = ffa;
-
+    	this.ffa = ffa;
+        
         setBounds(100, 100, 800, 700);
-
-        listRestaurantModel = new DefaultListModel<String>();
-        for (Restaurant restaurant : ffa.getRestaurants()) {
-            listRestaurantModel.addElement(restaurant.getName());
-        }
-        // ffa.getRestaurants().setModel(listRestaurantModel);
-
-        // ICONS
+        
+        //ICONS
         // Home Icon
-        // homeIcon = new
-        // ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-        // scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50,
-        // Image.SCALE_DEFAULT);
-        // newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
-        // btnHome = new JButton(newScaledHomeIcon);
+        homeIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+        scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
+        btnHome = new JButton(newScaledHomeIcon);
 
-        // User Icon
+        // Person Icon
         personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
         scaledPersonIcon = personIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledPersonIcon = new ImageIcon(scaledPersonIcon);
         btnUserMenu = new JButton(newScaledPersonIcon);
         btnUserMenu.addActionListener(new Listener());
-
+        
         // Log Out Icon
         logOutIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
         scaledLogOutIcon = logOutIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledLogOutIcon = new ImageIcon(scaledLogOutIcon);
-        btnExit = new JButton(newScaledLogOutIcon);
-
+        btnExit = new JButton(newScaledLogOutIcon);   
+        
         // Content pane
         contentPane = new JPanel();
         contentPane.setBackground(new Color(250, 128, 114));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(null);
-
-        // Side panel
+        
+        //Side panel
         sidePanel = new JPanel();
         sidePanel.setBounds(518, 0, 282, 609);
-        sidePanel.setLayout(null);
-
+		sidePanel.setLayout(null);
+        
         // Split Pane
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
-        setContentPane(splitPane); // Set the content pane to the split pane
+        setContentPane(splitPane); // Set the content pane to the split pane     
         splitPane.setDividerLocation(0); // Set initial divider location
-
+        
         // Menu bar
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
@@ -227,8 +148,8 @@ public class ViewRestaurants extends JFrame {
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(btnUserMenu);
         menuBar.add(btnExit);
-
-        // Side Panel Buttons
+       
+        //Side Panel Buttons
         btnUpdateName = new JButton("Update Name");
         btnManageAddress = new JButton("Manage Address");
         btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
@@ -237,146 +158,66 @@ public class ViewRestaurants extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
-
-        // Side panel button listeners
-        btnUpdateName.addActionListener(new Listener());
-        btnManageAddress.addActionListener(new Listener());
-        btnManagePreferredPayment.addActionListener(new Listener());
-        btnViewPastOrders.addActionListener(new Listener());
-        btnViewReviews.addActionListener(new Listener());
-        btnManagePassword.addActionListener(new Listener());
-        btnUpdatePhoneNumber.addActionListener(new Listener());
-        btnWriteAReview.addActionListener(new Listener());
-
-        // Title
-        viewRestaurantsLabel = new JLabel("View Restaurants");
-
-        // Split Pane
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
-        setContentPane(splitPane); // Set the content pane to the split pane
-        contentPane.setLayout(null);
-        splitPane.setDividerLocation(0); // Set initial divider location
-
-        setBounds(100, 100, 800, 700);
-
-        setJMenuBar(menuBar);
-
-        // menuBar.add(homeMenu);
-        menuBar.add(Box.createHorizontalGlue());
-        menuBar.add(userMenu);
-        menuBar.add(exit);
-
-        contentPane.setBackground(new Color(250, 128, 114));
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-        sidePanel.setBounds(518, 0, 282, 609);
-        sidePanel.setLayout(null);
-
-        accountLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-        accountLabel.setBounds(16, 6, 116, 40);
-        sidePanel.add(accountLabel);
-
+        
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnUpdateName.setBounds(16, 59, 260, 48);
-        sidePanel.add(btnUpdateName);
-
-        btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnManageAddress.setBounds(16, 275, 260, 48);
-        sidePanel.add(btnManageAddress);
-
-        btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
-        btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-        sidePanel.add(btnManagePreferredPayment);
-
-        btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnViewPastOrders.setBounds(16, 406, 260, 48);
-        sidePanel.add(btnViewPastOrders);
-
-        btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnViewReviews.setBounds(16, 544, 260, 48);
-        sidePanel.add(btnViewReviews);
-
-        btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnManagePassword.setBounds(16, 204, 260, 48);
-        sidePanel.add(btnManagePassword);
-
-        btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-        sidePanel.add(btnUpdatePhoneNumber);
-
-        btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnWriteAReview.setBounds(16, 473, 260, 48);
-        sidePanel.add(btnWriteAReview);
-        contentPane.setLayout(null);
-
-        viewRestaurantsLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-        viewRestaurantsLabel.setBounds(254, 10, 289, 42);
-        contentPane.add(viewRestaurantsLabel);
-
-        listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
-
-        btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnUpdateName.setBounds(16, 59, 260, 48);
-        sidePanel.add(btnUpdateName);
-
-        btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnManageAddress.setBounds(16, 275, 260, 48);
-        sidePanel.add(btnManageAddress);
-
-        btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
-        btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-        sidePanel.add(btnManagePreferredPayment);
-
-        btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnViewPastOrders.setBounds(16, 406, 260, 48);
-        sidePanel.add(btnViewPastOrders);
-
-        btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnViewReviews.setBounds(16, 544, 260, 48);
-        sidePanel.add(btnViewReviews);
-
-        btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnManagePassword.setBounds(16, 204, 260, 48);
-        sidePanel.add(btnManagePassword);
-
-        btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-        sidePanel.add(btnUpdatePhoneNumber);
-
-        btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-        btnWriteAReview.setBounds(16, 473, 260, 48);
-        sidePanel.add(btnWriteAReview);
-
-        // Side Panel Labels
+		btnUpdateName.setBounds(16, 59, 260, 48);
+		sidePanel.add(btnUpdateName);
+		
+		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnManageAddress.setBounds(16, 275, 260, 48);
+		sidePanel.add(btnManageAddress);
+				
+		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
+		sidePanel.add(btnManagePreferredPayment);
+				
+		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnViewPastOrders.setBounds(16, 406, 260, 48);
+		sidePanel.add(btnViewPastOrders);
+				
+		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnViewReviews.setBounds(16, 544, 260, 48);
+		sidePanel.add(btnViewReviews);
+				
+		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnManagePassword.setBounds(16, 204, 260, 48);
+		sidePanel.add(btnManagePassword);
+				
+		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
+		sidePanel.add(btnUpdatePhoneNumber);
+				
+		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnWriteAReview.setBounds(16, 473, 260, 48);
+		sidePanel.add(btnWriteAReview);
+		
+        //Side Panel Labels
         lblAccount = new JLabel("Account");
         lblAccount.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-        lblAccount.setBounds(16, 6, 116, 40);
-        sidePanel.add(lblAccount);
+		lblAccount.setBounds(16, 6, 116, 40);
+		sidePanel.add(lblAccount);	
 
-        // Content Pane Labels
+        //Content Pane Labels
         lblRestaurants = new JLabel("View Restaurants");
         lblRestaurants.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
-        lblRestaurants.setBounds(242, 6, 305, 63);
-        contentPane.add(lblRestaurants);
+		lblRestaurants.setBounds(242, 6, 305, 63);
+		contentPane.add(lblRestaurants);
 
-        // CLASS SPECIFIC CODE:
-        // List code
-        listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
+		//CLASS SPECIFIC CODE:
+		//List code
+		listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
         // Add restaurants to the list model
         List<Restaurant> restaurants = ffa.getRestaurants();
         for (Restaurant restaurant : restaurants) {
-            String restaurantInfo = "<html>Name: " + restaurant.getName() +
-                    "<br>User Name: " + restaurant.getUserName() +
-                    "<br>Password: " + restaurant.getPassword() +
-                    "<br>__________________________________________________________________________________________________________________"
-                    + "</html>";
+        	String restaurantInfo = "<html>Name: " + restaurant.getName() + 
+                    "<br>__________________________________________________________________________________________________________________" + "</html>";
             listModel.addElement(restaurantInfo);
         }
-
-        list = new JList<>(listModel); // Initialize the list
+		
+		list = new JList<>(listModel); // Initialize the list
         list.setBounds(77, 81, 612, 487);
         contentPane.add(list);
-
+        
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -407,11 +248,10 @@ public class ViewRestaurants extends JFrame {
             // HomeIcon button
             else if (source.equals(btnHome)) {
 
-            } else if (source.equals(btnExit)) {
-
-            } else if (source.equals(exit)) {
-                handleLogOut();
-            }
+            } 
+            else if (source.equals(btnExit)) {
+            	handleLogOut();
+            } 
             // Update Name button
             else if (source.equals(btnUpdateName)) {
                 handleUpdateName();

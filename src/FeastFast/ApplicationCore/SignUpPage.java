@@ -189,14 +189,13 @@ public class SignUpPage extends JFrame {
 		private void handleSignUpUser() {
 		        try {	
 	            	String name = nameField.getText();
+	            	String email = emailTextField.getText();
 	                String username = usernameField.getText();
 	                char[] passwordChars = passwordField.getPassword();
 	                char[] reenterPasswordChars = reenterPasswordField.getPassword();
 	                String reenterPassword = new String(reenterPasswordChars);
 	                String password = new String(passwordChars);
-	                String selectedUserType = (String) usertypeBox.getSelectedItem(); ;
-	                
-	                
+	                String selectedUserType = (String) usertypeBox.getSelectedItem(); 
 
 	            //Verify input is not empty
 	            if (name.isEmpty() || username.isEmpty() || password.isEmpty() ){
@@ -208,9 +207,9 @@ public class SignUpPage extends JFrame {
 	            if(selectedUserType.equals("Customer")) {
 	            	
 	            	if(password.equals(reenterPassword)) {
-	            	//ffa here to add user     
+	            	//FFA here to add user     
 	            	Customer newCustomer = ffa.registerCustomer(name, username, password);
-
+	            	newCustomer.setEmail(email);
 	                // Add the new customer to the application
 	                ffa.addCustomer(newCustomer);
 
@@ -218,6 +217,8 @@ public class SignUpPage extends JFrame {
 		                		"Welcome " + name + ", you have been signed up for Feast Fast!",
 		                        "Success",		                
 		                        JOptionPane.PLAIN_MESSAGE);
+		                ViewRestaurants restaurantFrame = new ViewRestaurants(ffa);
+						restaurantFrame.setVisible(true);
 		                dispose();		  
 		                return;
 	            	}

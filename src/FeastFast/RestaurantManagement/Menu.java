@@ -7,7 +7,7 @@ import java.util.List;
 public class Menu {
 
 	// Attributes
-    private List<MenuItem> menuItems;
+    private ArrayList<MenuItem> menuItems;
 
     public Menu() {
         this.menuItems = new ArrayList<>();
