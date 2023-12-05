@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.UIManager;
 import javax.swing.Box;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -32,7 +34,7 @@ public class ShoppingCart extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	
-	JPanel panel;
+	JPanel sidePanel;
 	
 	JLabel lblNewLabel1;
 	JButton btnNewButton1;
@@ -112,7 +114,8 @@ public class ShoppingCart extends JFrame {
 		textField_2 = new JTextField();
 		textField_3 = new JTextField();
 		
-		panel = new JPanel();
+		// Side panel
+        sidePanel = new JPanel();
 		
 		lblNewLabel1 = new JLabel("Account");
 		btnNewButton1 = new JButton("Update Name");
@@ -126,41 +129,44 @@ public class ShoppingCart extends JFrame {
 		
 		menuBar = new JMenuBar();
 		
+		// Home Icon
 		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
 		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon2 = new ImageIcon(scaledIcon2);
 		item2 = new JButton(newScaledIcon2);
+		item2.addActionListener(new Listener());
 		
+		// Person Icon
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon = new ImageIcon(scaledIcon);
-		
 		item = new JButton(newScaledIcon);
+		item.addActionListener(new Listener());
 		
+		// Proceed to Checkout Icon
 		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CheckoutIcon.png"));
 		scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 		newScaledIcon3 = new ImageIcon(scaledIcon3);
-		
 		btnNewButton = new JButton(newScaledIcon3);
+		btnNewButton.addActionListener(new Listener());
 		
+		// Go to previous frame icon
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		btnNewButton_1 = new JButton(newScaledIcon4);
+		btnNewButton_1.addActionListener(new Listener());
 		
 		// Log Out Icon
 		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
 		scaledIcon5 = icon5.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon5 = new ImageIcon(scaledIcon5);
 		item5 = new JButton(newScaledIcon5);
-		
-		btnNewButton_1 = new JButton(newScaledIcon4);
+		item5.addActionListener(new Listener());
 		
 		lblNewLabel = new JLabel("Order total:");
-		
 		lblSalesTax = new JLabel("Sales tax: ");
-		
 		lblServiceFee = new JLabel("Service fee:");
-		
 		lblTotal = new JLabel("Total:");
 		
 		btnNewButton_1_1 = new JButton("X    Empty cart");
@@ -174,55 +180,54 @@ public class ShoppingCart extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		
-		panel.setBounds(518, 0, 282, 609);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		sidePanel.setBounds(518, 0, 282, 609);
+		contentPane.add(sidePanel);
+		sidePanel.setLayout(null);
 		
 		
 		lblNewLabel1.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
 		lblNewLabel1.setBounds(16, 6, 116, 40);
-		panel.add(lblNewLabel1);
+		sidePanel.add(lblNewLabel1);
 		
 		
 		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnNewButton1.setBounds(16, 59, 260, 48);
-		panel.add(btnNewButton1);
+		sidePanel.add(btnNewButton1);
 		
 		
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
-		panel.add(btnManageAddress);
+		sidePanel.add(btnManageAddress);
 		
 		
 		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-		panel.add(btnManagePreferredPayment);
+		sidePanel.add(btnManagePreferredPayment);
 		
 		
 		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewPastOrders.setBounds(16, 406, 260, 48);
-		panel.add(btnViewPastOrders);
+		sidePanel.add(btnViewPastOrders);
 		
 		
 		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewReviews.setBounds(16, 544, 260, 48);
-		panel.add(btnViewReviews);
+		sidePanel.add(btnViewReviews);
 		
 		
 		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManagePassword.setBounds(16, 204, 260, 48);
-		panel.add(btnManagePassword);
+		sidePanel.add(btnManagePassword);
 		
 		
 		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-		panel.add(btnUpdatePhoneNumber);
+		sidePanel.add(btnUpdatePhoneNumber);
 		
 		
 		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnWriteAReview.setBounds(16, 473, 260, 48);
-		panel.add(btnWriteAReview);
+		sidePanel.add(btnWriteAReview);
 		
 		
 		setJMenuBar(menuBar);
@@ -314,6 +319,7 @@ public class ShoppingCart extends JFrame {
 		lblItems.setBounds(106, 56, 72, 29);
 		contentPane.add(lblItems);
 		
+		// List to display the customer's order
 		JList list = new JList();
 		list.setBounds(106, 83, 595, 171);
 		contentPane.add(list);
@@ -329,7 +335,7 @@ public class ShoppingCart extends JFrame {
 					
 					// PersonIcon button
 					if(source.equals(item)) {
-						handlePersonIcon();
+						handleUserMenu();
 					}
 					// HomeIcon button
 					else if(source.equals(item2)) {
@@ -374,13 +380,38 @@ public class ShoppingCart extends JFrame {
 					
 				}
 				
-				private void handlePersonIcon() {
-					
-					
-				}
+				private void handleUserMenu() {
+			       
+			    }
 				
+				// Home Icon: Return back to view restaurants 
 				private void handleHomeIcon() {
 					
+					try {	
+					JFrame temp = new JFrame("Confirm selection");
+					JLabel confirmLabel = new JLabel("Are you sure you want to view other restaurants? Your selections will not be saved.");
+					
+					
+					int result = JOptionPane.showOptionDialog(temp, new Object[] {confirmLabel}, "Confirm selection", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				
+					if(result == JOptionPane.OK_OPTION) {
+						ViewRestaurants viewRestaurantsFrame = new ViewRestaurants(ffa);
+						viewRestaurantsFrame.setVisible(true);
+					}
+					
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+					
+					}
+			        //Catch errors and return them
+			        catch (Exception ex) {
+			            JOptionPane.showMessageDialog(null,
+			                    "Error: " + ex.getMessage(),
+			                    "Error",
+			                    JOptionPane.ERROR_MESSAGE);
+			        }	
+				
 				}
 				
 				private void handleLogOut() {

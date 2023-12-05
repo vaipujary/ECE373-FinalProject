@@ -110,12 +110,12 @@ public class ViewRestaurants extends JFrame {
         
         // Icons
         // Home Icon
-        icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-        scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        newScaledIcon2 = new ImageIcon(scaledIcon2);
-        homeMenu = new JButton(newScaledIcon2);
+//        icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+//        scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+//        newScaledIcon2 = new ImageIcon(scaledIcon2);
+//        homeMenu = new JButton(newScaledIcon2);
 
-        // Person Icon
+        // User Icon
         icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
         scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledIcon = new ImageIcon(scaledIcon);
@@ -144,21 +144,29 @@ public class ViewRestaurants extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        
+        // Side panel button listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener()); 
+        btnViewPastOrders.addActionListener(new Listener()); 
+        btnViewReviews.addActionListener(new Listener()); 
+        btnManagePassword.addActionListener(new Listener());  
+        btnUpdatePhoneNumber.addActionListener(new Listener());  
+        btnWriteAReview.addActionListener(new Listener());  
 
         // Title
         viewRestaurantsLabel = new JLabel("View Restaurants");
 
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
-
         setContentPane(splitPane); // Set the content pane to the split pane
-
         splitPane.setDividerLocation(0); // Set initial divider location
 
         setBounds(100, 100, 800, 700);
 
         setJMenuBar(menuBar);
 
-        menuBar.add(homeMenu);
+        //menuBar.add(homeMenu);
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(userMenu);
         menuBar.add(exit);
@@ -218,8 +226,6 @@ public class ViewRestaurants extends JFrame {
 		sidePanel.add(btnWriteAReview);
 		contentPane.setLayout(null);
 
-		
-		
 		viewRestaurantsLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 35));
 		viewRestaurantsLabel.setBounds(254, 10, 289, 42);
 		contentPane.add(viewRestaurantsLabel);
@@ -239,44 +245,40 @@ public class ViewRestaurants extends JFrame {
             if (source.equals(userMenu)) {
                 handleUserMenu();
             }
-            // HomeIcon button
-            else if (source.equals(homeMenu)) {
-                
-            }
             else if (source.equals(exit)) {
-               
+            	handleLogOut();
             }
             // Update Name button
             else if (source.equals(btnUpdateName)) {
-               
+            	handleUpdateName();
             }
             // Manage Address button
             else if (source.equals(btnManageAddress)) {
-               
+            	handleManageAddress();
             }
             // Manage Preferred Payment button
             else if (source.equals(btnManagePreferredPayment)) {
-               
+            	handleManagePreferredPayment();
             }
             // View Past Orders button
             else if (source.equals(btnViewPastOrders)) {
-               
+            	handleViewPastOrders();
             }
             // View Reviews button
             else if (source.equals(btnViewReviews)) {
-                
+            	handleViewReviews();
             }
             // Manage Password button
             else if (source.equals(btnManagePassword)) {
-                
+            	handleManagePassword();
             }
             // Update Phone Number button
             else if (source.equals(btnUpdatePhoneNumber)) {
-                
+            	handleUpdatePhoneNumber();
             }
             // Write a Review button
             else if (source.equals(btnWriteAReview)) {
-               
+            	handleWriteReview();
             }
 
         }
@@ -292,6 +294,44 @@ public class ViewRestaurants extends JFrame {
             splitPane.setDividerLocation(0);
         }
     }
+
+		private void handleLogOut() {
+
+		}
+
+		private void handleUpdateName() {
+
+		}
+
+		private void handleManageAddress() {
+
+		}
+
+		private void handleManagePreferredPayment() {
+
+		}
+
+		private void handleViewPastOrders() {
+
+
+
+		}
+
+		private void handleViewReviews() {
+
+		}
+
+		private void handleManagePassword() {
+
+		}
+
+		private void handleUpdatePhoneNumber() {
+
+		}
+
+		private void handleWriteReview() {
+
+		}
 
 }
 
