@@ -1,5 +1,8 @@
 package FeastFast.UserManagement;
 
+import java.util.ArrayList;
+
+import FeastFast.OrderingAndTransactions.Review;
 import FeastFast.RestaurantManagement.Order;
 
 // This is the customer class which inherits from the User class
@@ -9,6 +12,8 @@ public class Customer extends User {
     private String phoneNumber;
     private String email;
     private Order order;
+    private ArrayList<Order> pastOrders;
+    private ArrayList<Review> pastReviews;
     private Restaurant restaurantInView;
     private String Address;
     private String preferredPaymentMethod;
@@ -20,6 +25,8 @@ public class Customer extends User {
         this.email = "";
         this.preferredPaymentMethod = "";
         this.order = new Order();
+        this.pastOrders = new ArrayList<Order>();
+        this.pastReviews = new ArrayList<Review>();
         restaurantInView = new Restaurant();
     }
 
@@ -29,8 +36,26 @@ public class Customer extends User {
         this.email =  "";
         this.order = new Order();
         this.preferredPaymentMethod = "";
+        this.pastOrders = new ArrayList<Order>();
+        this.pastReviews = new ArrayList<Review>();
     }
 
+    public void addPastReview(Review customerReview) {
+    	this.pastReviews.add(customerReview);
+    }
+    
+    public ArrayList<Review> getPastReviews(){
+    	return this.pastReviews;
+    }
+    
+    public void addPastOrder(Order pastOrder) {
+    	this.pastOrders.add(pastOrder);
+    }
+    
+    public ArrayList<Order> getPastOrders(){
+    	return this.pastOrders;
+    }
+    
     // Method to cancel a customer's order
     public boolean cancelOrder(Order order) {
 

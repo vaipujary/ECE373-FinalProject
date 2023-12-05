@@ -6,10 +6,12 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,24 +24,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import FeastFast.OrderingAndTransactions.Review;
 // import FeastFast.ApplicationCore.ShoppingCart.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 public class Checkout extends JFrame {
 
 	private FeastFastApplication ffa;
 	private Order currentOrder;
 	private Customer loggedInCustomer;
+	private JComboBox<String> restaurantNames;
 	
     // Content pane
     private JPanel contentPane;
@@ -714,6 +721,76 @@ public class Checkout extends JFrame {
 			}
 			
 			private void handleWriteReview() {
+				try {
+					JFrame temp = new JFrame("Write Review");
+					ArrayList<String> restaurantNamesArrayList = new ArrayList<String>();
+					
+					for(int i = 0; i < ffa.getRestaurants().size(); i++) {
+						restaurantNamesArrayList.add(ffa.getRestaurants().get(i).getName());
+					}
+					
+					JLabel restaurantNameLabel = new JLabel("Which restaurant do you want to write a review for?");
+					boolean hasOrderedFromRestaurant = false;
+					
+					SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, //initial value
+					         1, //min
+					         5, //max
+					         1);//step
+					
+					JLabel ratingLabel = new JLabel("Rating");
+					JSpinner rating = new JSpinner(spinnerModel);
+					restaurantNames = new JComboBox<String>();
+					restaurantNames.setModel(new DefaultComboBoxModel<String>(restaurantNamesArrayList.toArray(new String[0])));
+					String restaurantName = String.valueOf(restaurantNames.getSelectedItem());
+
+					JTextArea review = new JTextArea(5, 10);
+					
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { restaurantNameLabel, restaurantNames, ratingLabel, rating, review }, "Write a Review",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.OK_OPTION) {
+
+							Restaurant restaurant = ffa.getRestaurant(restaurantName);
+							Review customerReview = new Review();
+							customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
+							
+							// Check if customer has ordered from restaurant
+							for(int i = 0; i < loggedInCustomer.getPastOrders().size(); i++) {
+								if(loggedInCustomer.getPastOrders().get(i).getRestaurant().getName().equals(restaurantName)) {
+									hasOrderedFromRestaurant = true;
+								}
+							}
+							
+							if(hasOrderedFromRestaurant) {
+								restaurant.addRestaurantReview(customerReview);
+								loggedInCustomer.addPastReview(customerReview);
+								
+								JOptionPane.showMessageDialog(null,
+										"Successfully submitted restaurant review!",
+										"Success",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+							
+							else {
+								JOptionPane.showMessageDialog(null,
+										"You cannot submit a review for this restaurant because you have not ordered from this restaurant before.",
+										"Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+				}
+	        	
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		}

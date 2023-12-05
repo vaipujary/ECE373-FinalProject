@@ -11,6 +11,7 @@ import FeastFast.UserManagement.Restaurant;
 public class Review {
 	
 	// Attributes
+	// Review has restaurant name and review entry
 	private Map<String, List<ReviewEntry>> restaurantReviews;
 	
 	// Constructor

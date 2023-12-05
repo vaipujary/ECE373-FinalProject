@@ -26,6 +26,7 @@ public class Restaurant extends User {
     public Restaurant(String name) {
     	super(name);
     	this.menu = new Menu();
+    	this.restaurantReviews = new ArrayList<Review>();
     }
     
     public Restaurant(String name, String username,String password) {
@@ -36,7 +37,7 @@ public class Restaurant extends User {
     	isOpen = false;
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
-        restaurantReviews = new ArrayList<Review>();
+        this.restaurantReviews = new ArrayList<Review>();
     }
     
     public Restaurant() {
@@ -47,7 +48,7 @@ public class Restaurant extends User {
     	isOpen = false;
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
-        restaurantReviews = new ArrayList<Review>();
+        this.restaurantReviews = new ArrayList<Review>();
     }
 
     // Getters and setters for restaurant attributes
@@ -64,7 +65,7 @@ public class Restaurant extends User {
     }
 
     public void addRestaurantReview(Review review) {
-    	restaurantReviews.add(review);
+    	this.restaurantReviews.add(review);
     }
     
     public String getName() {

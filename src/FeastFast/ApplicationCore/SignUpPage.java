@@ -129,7 +129,7 @@ public class SignUpPage extends JFrame {
 		lblUserType.setBounds(75, 94, 129, 25);
 		contentPane.add(lblUserType);
 		
-		usertypeBox = new JComboBox<>();
+		usertypeBox = new JComboBox<String>();
 		usertypeBox.setModel(new DefaultComboBoxModel<>(new String[] {"Customer", "Restaurant", "DeliveryDriver", "Administrator"}));
 		usertypeBox.setBounds(367, 92, 129, 27);
 		contentPane.add(usertypeBox);

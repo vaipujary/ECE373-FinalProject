@@ -3,28 +3,36 @@ package FeastFast.ApplicationCore;
 import java.awt.EventQueue;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import FeastFast.OrderingAndTransactions.Review;
 //import FeastFast.ApplicationCore.Checkout.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.UserManagement.Customer;
+import FeastFast.UserManagement.Restaurant;
 
 import javax.swing.UIManager;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +50,7 @@ public class Receipt extends JFrame {
 	private FeastFastApplication ffa;
 	private Order currentOrder;
 	private Customer loggedInCustomer;
+	private JComboBox<String> restaurantNames;
 	
 	JPanel contentPane;
 	JMenuBar menuBar;
@@ -110,6 +119,7 @@ public class Receipt extends JFrame {
         this.ffa = ffa;
         this.currentOrder = order;
         loggedInCustomer = ffa.getLoggedInCustomer();
+        loggedInCustomer.addPastOrder(order);
         boolean emailSent = ffa.sendEmailToCustomer(loggedInCustomer, order);
         
 		contentPane = new JPanel();
@@ -119,6 +129,7 @@ public class Receipt extends JFrame {
 		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon2 = new ImageIcon(scaledIcon2);
 		item2 = new JButton(newScaledIcon2);
+		item2.addActionListener(new Listener());
 		
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
@@ -326,7 +337,7 @@ public class Receipt extends JFrame {
 			try {
 				JFrame temp = new JFrame("Confirm selection");
 				JLabel confirmLabel = new JLabel(
-						"Are you sure you want to view other restaurants? Your selections will not be saved.");
+						"Are you sure you want to view other restaurants?");
 
 				int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm selection",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -617,6 +628,76 @@ public class Receipt extends JFrame {
 		}
 		
 		private void handleWriteReview() {
+			try {
+				JFrame temp = new JFrame("Write Review");
+				ArrayList<String> restaurantNamesArrayList = new ArrayList<String>();
+				
+				for(int i = 0; i < ffa.getRestaurants().size(); i++) {
+					restaurantNamesArrayList.add(ffa.getRestaurants().get(i).getName());
+				}
+				
+				JLabel restaurantNameLabel = new JLabel("Which restaurant do you want to write a review for?");
+				boolean hasOrderedFromRestaurant = false;
+				
+				SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, //initial value
+				         1, //min
+				         5, //max
+				         1);//step
+				
+				JLabel ratingLabel = new JLabel("Rating");
+				JSpinner rating = new JSpinner(spinnerModel);
+				restaurantNames = new JComboBox<String>();
+				restaurantNames.setModel(new DefaultComboBoxModel<String>(restaurantNamesArrayList.toArray(new String[0])));
+				String restaurantName = String.valueOf(restaurantNames.getSelectedItem());
+
+				JTextArea review = new JTextArea(5, 10);
+				
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { restaurantNameLabel, restaurantNames, ratingLabel, rating, review }, "Write a Review",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						Restaurant restaurant = ffa.getRestaurant(restaurantName);
+						Review customerReview = new Review();
+						customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
+						
+						// Check if customer has ordered from restaurant
+						for(int i = 0; i < loggedInCustomer.getPastOrders().size(); i++) {
+							if(loggedInCustomer.getPastOrders().get(i).getRestaurant().getName().equals(restaurantName)) {
+								hasOrderedFromRestaurant = true;
+							}
+						}
+						
+						if(hasOrderedFromRestaurant) {
+							restaurant.addRestaurantReview(customerReview);
+							loggedInCustomer.addPastReview(customerReview);
+							
+							JOptionPane.showMessageDialog(null,
+									"Successfully submitted restaurant review!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						
+						else {
+							JOptionPane.showMessageDialog(null,
+									"You cannot submit a review for this restaurant because you have not ordered from this restaurant before.",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			
 		}
 	}
