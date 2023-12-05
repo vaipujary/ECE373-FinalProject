@@ -184,6 +184,16 @@ public class RestaurantMenu extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        
+        // Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener());
+        btnViewPastOrders.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
+        btnManagePassword.addActionListener(new Listener());
+        btnUpdatePhoneNumber.addActionListener(new Listener());
+        btnWriteAReview.addActionListener(new Listener());
 
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         btnUpdateName.setBounds(16, 59, 260, 48);
@@ -571,8 +581,45 @@ public class RestaurantMenu extends JFrame {
 			}
         }
 
+        // Method to handle customer updating their phone number
         private void handleUpdatePhoneNumber() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Update phone number");
+				JLabel currentPhoneNumber = new JLabel();
+				
+				if(loggedInCustomer.getPhoneNumber() != null) {
+					currentPhoneNumber.setText("Your current phone number is: " + loggedInCustomer.getPhoneNumber());
+				}
+				
+				JLabel newPhoneNumberLabel = new JLabel("New phone number: ");
+				
+				JTextField newPhoneNumberText =  new JTextField();
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPhoneNumber, newPhoneNumberLabel, newPhoneNumberText }, "Update Phone Number",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setPhoneNumber(newPhoneNumberText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed phone number!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
         private void handleWriteReview() {

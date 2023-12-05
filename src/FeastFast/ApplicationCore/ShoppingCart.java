@@ -681,6 +681,43 @@ public class ShoppingCart extends JFrame {
 
 		private void handleUpdatePhoneNumber() {
 
+			try {
+				JFrame temp = new JFrame("Update phone number");
+				JLabel currentPhoneNumber = new JLabel();
+				
+				if(loggedInCustomer.getPhoneNumber() != null) {
+					currentPhoneNumber.setText("Your current phone number is: " + loggedInCustomer.getPhoneNumber());
+				}
+				
+				JLabel newPhoneNumberLabel = new JLabel("New phone number: ");
+				
+				JTextField newPhoneNumberText =  new JTextField();
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPhoneNumber, newPhoneNumberLabel, newPhoneNumberText }, "Update Phone Number",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setPhoneNumber(newPhoneNumberText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed phone number!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleWriteReview() {
