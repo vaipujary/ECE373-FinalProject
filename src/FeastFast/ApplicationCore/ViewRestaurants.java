@@ -1,5 +1,6 @@
 package FeastFast.ApplicationCore;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -19,13 +20,19 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+//import FeastFast.ApplicationCore.RestaurantMenu.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 
 import FeastFast.UserManagement.Restaurant;
@@ -34,6 +41,7 @@ import javax.swing.ListSelectionModel;
 public class ViewRestaurants extends JFrame {
 	//Variables
 		private FeastFastApplication ffa;
+		private Customer loggedInCustomer;
 		
 		//Image Icons
 		ImageIcon homeIcon;
@@ -78,6 +86,10 @@ public class ViewRestaurants extends JFrame {
 	    //List Components
 	    JList<String> list;
 	    DefaultListModel<String> listModel;
+	    
+	    // Scroll Pane
+	    JScrollPane scrollPane;
+	    private JLabel customerNameLabel;
 
     /**
      * Launch the application.
@@ -102,16 +114,11 @@ public class ViewRestaurants extends JFrame {
      */
     public ViewRestaurants(FeastFastApplication ffa) {
     	this.ffa = ffa;
+    	loggedInCustomer = ffa.getLoggedInCustomer();
         
         setBounds(100, 100, 800, 700);
         
         //ICONS
-        // Home Icon
-        homeIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-        scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
-        btnHome = new JButton(newScaledHomeIcon);
-
         // Person Icon
         personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
         scaledPersonIcon = personIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
@@ -144,7 +151,12 @@ public class ViewRestaurants extends JFrame {
         // Menu bar
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        menuBar.add(btnHome);
+        
+        customerNameLabel = new JLabel();
+        customerNameLabel.setText("Hi, " + loggedInCustomer.getName() + "!");
+        customerNameLabel.setFont(new Font("Lucida Grande", Font.ITALIC, 30));
+        
+        menuBar.add(customerNameLabel);
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(btnUserMenu);
         menuBar.add(btnExit);
@@ -158,6 +170,17 @@ public class ViewRestaurants extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        
+
+        // Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener());
+        btnViewPastOrders.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
+        btnManagePassword.addActionListener(new Listener());
+        btnUpdatePhoneNumber.addActionListener(new Listener());
+        btnWriteAReview.addActionListener(new Listener());
         
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdateName.setBounds(16, 59, 260, 48);
@@ -215,8 +238,11 @@ public class ViewRestaurants extends JFrame {
         }
 		
 		list = new JList<>(listModel); // Initialize the list
-        list.setBounds(77, 81, 612, 487);
-        contentPane.add(list);
+        
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(131, 119, 490, 468);
+        scrollPane.setViewportView(list);
+        contentPane.add(scrollPane);
         
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -245,10 +271,6 @@ public class ViewRestaurants extends JFrame {
             if (source.equals(btnUserMenu)) {
                 handleUserMenu();
             }
-            // HomeIcon button
-            else if (source.equals(btnHome)) {
-
-            } 
             else if (source.equals(btnExit)) {
             	handleLogOut();
             } 
@@ -344,15 +366,140 @@ public class ViewRestaurants extends JFrame {
     }
 
     private void handleUpdateName() {
+    	
+    	try {
+            JFrame temp = new JFrame("Update name");
+            JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+            JTextField updateNameText = new JTextField();
 
+            int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            if (result == JOptionPane.OK_OPTION) {
+            		loggedInCustomer.setName(updateNameText.getText());
+            		JOptionPane.showMessageDialog(null,
+                            "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                            "Success",
+                            JOptionPane.OK_OPTION);
+            }
+
+            else {
+                JOptionPane.getRootFrame().dispose();
+            }
+
+        }
+        // Catch errors and return them
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void handleManageAddress() {
 
+    	try {
+			JFrame temp = new JFrame("Update address");
+			JLabel currentAddress = new JLabel();
+			
+			if(loggedInCustomer.getAddress() != null) {
+				currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+			}
+			
+			JLabel newAddressLabel = new JLabel("New address: ");
+			
+			JTextField newAddressText =  new JTextField();
+
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.OK_OPTION) {
+
+					loggedInCustomer.setAddress(newAddressText.getText());
+					
+					JOptionPane.showMessageDialog(null,
+							"Successfully changed delivery address!",
+							"Success",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+		}
+    	
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private void handleManagePreferredPayment() {
+    	try {
+			JFrame temp = new JFrame("Manage preferred payment method");
+			JLabel currentPreferredPaymentMethod = new JLabel();
+			
+			if(loggedInCustomer.getPreferredPaymentMethod() != null && !(loggedInCustomer.getPreferredPaymentMethod().equals(""))) {
+				currentPreferredPaymentMethod.setText("Your current preferred payment method is: " + loggedInCustomer.getPreferredPaymentMethod());
+			}
+			
+			JLabel newPreferredPaymentMethodLabel = new JLabel("New preferred payment method: ");
+			
+			JRadioButton newPreferredPaymentMethod1 =  new JRadioButton("Credit/Debit Card");
+			JRadioButton newPreferredPaymentMethod2 =  new JRadioButton("Cash on Delivery");
+			JRadioButton newPreferredPaymentMethod3 =  new JRadioButton("Gift Card");
 
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPreferredPaymentMethod, newPreferredPaymentMethodLabel, newPreferredPaymentMethod1, newPreferredPaymentMethod2, newPreferredPaymentMethod3 }, "Manage Preferred Payment Method",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.OK_OPTION) {
+
+					if(newPreferredPaymentMethod1.isSelected()) {
+						loggedInCustomer.setPreferredPaymentMethod("Credit/Debit Card");
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed your preferred payment method!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+					else if(newPreferredPaymentMethod2.isSelected()) {
+						loggedInCustomer.setPreferredPaymentMethod("Cash on Delivery");
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed your preferred payment method!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+					else if(newPreferredPaymentMethod3.isSelected()) {
+						loggedInCustomer.setPreferredPaymentMethod("Gift Card");
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed your preferred payment method!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+					else {
+						JOptionPane.showMessageDialog(null,
+								"You must select a new preferred payment method!",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+			
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+		}
+    	
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private void handleViewPastOrders() {
@@ -365,14 +512,88 @@ public class ViewRestaurants extends JFrame {
 
     private void handleManagePassword() {
 
+    	try {
+			JFrame temp = new JFrame("Confirm selection");
+			JLabel newPassLabel = new JLabel("New password: ");
+			JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+			
+			JPasswordField newPassText =  new JPasswordField();
+			String newPassTextString = new String(newPassText.getPassword());
+			JPasswordField confirmNewPassText = new JPasswordField();
+			String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.OK_OPTION) {
+				
+				if(newPassTextString.equals(confirmNewPassTextString)) {
+				
+					loggedInCustomer.setPassword(confirmNewPassTextString);
+					
+					JOptionPane.showMessageDialog(null,
+							"Successfully changed password!",
+							"Success",
+							JOptionPane.PLAIN_MESSAGE);
+					}
+			}
+
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+
+		}
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private void handleUpdatePhoneNumber() {
 
+    	try {
+			JFrame temp = new JFrame("Update phone number");
+			JLabel currentPhoneNumber = new JLabel();
+			
+			if(loggedInCustomer.getPhoneNumber() != null) {
+				currentPhoneNumber.setText("Your current phone number is: " + loggedInCustomer.getPhoneNumber());
+			}
+			
+			JLabel newPhoneNumberLabel = new JLabel("New phone number: ");
+			
+			JTextField newPhoneNumberText =  new JTextField();
+
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPhoneNumber, newPhoneNumberLabel, newPhoneNumberText }, "Update Phone Number",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.OK_OPTION) {
+
+					loggedInCustomer.setPhoneNumber(newPhoneNumberText.getText());
+					
+					JOptionPane.showMessageDialog(null,
+							"Successfully changed phone number!",
+							"Success",
+							JOptionPane.PLAIN_MESSAGE);
+				}
+			
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+		}
+    	
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private void handleWriteReview() {
 
     }
-
 }

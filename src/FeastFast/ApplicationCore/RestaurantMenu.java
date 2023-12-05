@@ -19,7 +19,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -29,12 +32,15 @@ import javax.swing.JScrollPane;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 
 public class RestaurantMenu extends JFrame {
     // Variables
     private FeastFastApplication ffa;
+    private Customer loggedInCustomer;
     private Order currentOrder;
+    private Restaurant selectedRestaurant;
 
     DefaultListModel<String> listModel;
 
@@ -98,6 +104,7 @@ public class RestaurantMenu extends JFrame {
                     Restaurant restaurant = new Restaurant();
 
                     RestaurantMenu frame = new RestaurantMenu(ffa, restaurant);
+                    
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -111,6 +118,7 @@ public class RestaurantMenu extends JFrame {
      */
     public RestaurantMenu(FeastFastApplication ffa, Restaurant restaurant) {
         this.ffa = ffa;
+        loggedInCustomer = ffa.getLoggedInCustomer();
         currentOrder = new Order();
         currentOrder.setRestaurant(restaurant);
 
@@ -177,6 +185,16 @@ public class RestaurantMenu extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        
+        // Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener());
+        btnViewPastOrders.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
+        btnManagePassword.addActionListener(new Listener());
+        btnUpdatePhoneNumber.addActionListener(new Listener());
+        btnWriteAReview.addActionListener(new Listener());
 
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         btnUpdateName.setBounds(16, 59, 260, 48);
@@ -257,7 +275,7 @@ public class RestaurantMenu extends JFrame {
         lblRestaurantName = new JLabel();
         lblRestaurantName.setText(restaurant.getName());
         lblRestaurantName.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
-        lblRestaurantName.setBounds(218, 20, 423, 48);
+        lblRestaurantName.setBounds(280, 20, 361, 48);
         contentPane.add(lblRestaurantName);
 
         // List code
@@ -299,13 +317,15 @@ public class RestaurantMenu extends JFrame {
                             // Add the selected menu item to the currentOrder with the specified quantity
                             currentOrder.addItem(selectedMenuItem, quantity);
 
-                            // Display a popup message
+                            // Display a pop up message
                             JOptionPane.showMessageDialog(
                                     RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
                                     quantity + " " + selectedMenuItem.getName() + "(s) have been added to your cart",
                                     "Item Added",
                                     JOptionPane.INFORMATION_MESSAGE);
-                        } catch (NumberFormatException ex) {
+                        } 
+                        
+                        catch (NumberFormatException ex) {
                             // Handle the case where the quantity is not a valid number
                             JOptionPane.showMessageDialog(
                                     RestaurantMenu.this,
@@ -337,7 +357,8 @@ public class RestaurantMenu extends JFrame {
             // HomeIcon button
             else if (source.equals(btnHome)) {
                 handleHomeIcon();
-            } else if (source.equals(btnExit)) {
+            } 
+            else if (source.equals(btnExit)) {
                 handleLogOut();
             }
             // Update Name button
@@ -383,6 +404,7 @@ public class RestaurantMenu extends JFrame {
         	ViewRestaurants viewRestaurants = new ViewRestaurants(ffa);
         	viewRestaurants.setVisible(true);
         }
+        
         private void handleUserMenu() {
             // Toggle the side panel visibility by adjusting the divider location
             int currentLocation = splitPane.getDividerLocation();
@@ -399,7 +421,7 @@ public class RestaurantMenu extends JFrame {
             if (currentOrder != null) {
                 // Create a new ShoppingCart instance and pass the currentOrder
                 ShoppingCart shoppingCart = new ShoppingCart(ffa, currentOrder);
-
+ 
                 // Set the visibility of the ShoppingCart window
                 shoppingCart.setVisible(true);
             } else {
@@ -472,16 +494,142 @@ public class RestaurantMenu extends JFrame {
 
         }
 
+        // Method to handle a customer updating their name
         private void handleUpdateName() {
-            // Implement your logic here
+        	try {
+                JFrame temp = new JFrame("Update name");
+                JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+                JTextField updateNameText = new JTextField();
+
+                int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (result == JOptionPane.OK_OPTION) {
+                		loggedInCustomer.setName(updateNameText.getText());
+                		JOptionPane.showMessageDialog(null,
+                                "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                                "Success",
+                                JOptionPane.OK_OPTION);
+                }
+
+                else {
+                    JOptionPane.getRootFrame().dispose();
+                }
+        	}
+        	
+            // Catch errors and return them
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        	
         }
 
+        // Method to handle a customer updating their delivery address
         private void handleManageAddress() {
-            // Implement your logic here
+        	try {
+    			JFrame temp = new JFrame("Update address");
+    			JLabel currentAddress = new JLabel();
+    			
+    			if(loggedInCustomer.getAddress() != null) {
+    				currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+    			}
+    			
+    			JLabel newAddressLabel = new JLabel("New address: ");
+    			
+    			JTextField newAddressText =  new JTextField();
+
+    			int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+    					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+    			if (result == JOptionPane.OK_OPTION) {
+
+    					loggedInCustomer.setAddress(newAddressText.getText());
+    					
+    					JOptionPane.showMessageDialog(null,
+    							"Successfully changed delivery address!",
+    							"Success",
+    							JOptionPane.PLAIN_MESSAGE);
+    				}
+    			
+    			else {
+    				JOptionPane.getRootFrame().dispose();
+    			}
+    		}
+        	
+    		// Catch errors and return them
+    		catch (Exception ex) {
+    			JOptionPane.showMessageDialog(null,
+    					"Error: " + ex.getMessage(),
+    					"Error",
+    					JOptionPane.ERROR_MESSAGE);
+    		}
         }
 
         private void handleManagePreferredPayment() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Manage preferred payment method");
+				JLabel currentPreferredPaymentMethod = new JLabel();
+				
+				if(loggedInCustomer.getPreferredPaymentMethod() != null && !(loggedInCustomer.getPreferredPaymentMethod().equals(""))) {
+					currentPreferredPaymentMethod.setText("Your current preferred payment method is: " + loggedInCustomer.getPreferredPaymentMethod());
+				}
+				
+				JLabel newPreferredPaymentMethodLabel = new JLabel("New preferred payment method: ");
+				
+				JRadioButton newPreferredPaymentMethod1 =  new JRadioButton("Credit/Debit Card");
+				JRadioButton newPreferredPaymentMethod2 =  new JRadioButton("Cash on Delivery");
+				JRadioButton newPreferredPaymentMethod3 =  new JRadioButton("Gift Card");
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPreferredPaymentMethod, newPreferredPaymentMethodLabel, newPreferredPaymentMethod1, newPreferredPaymentMethod2, newPreferredPaymentMethod3 }, "Manage Preferred Payment Method",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						if(newPreferredPaymentMethod1.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Credit/Debit Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod2.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Cash on Delivery");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod3.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Gift Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else {
+							JOptionPane.showMessageDialog(null,
+									"You must select a new preferred payment method!",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+	    	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
         private void handleViewPastOrders() {
@@ -493,11 +641,84 @@ public class RestaurantMenu extends JFrame {
         }
 
         private void handleManagePassword() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel newPassLabel = new JLabel("New password: ");
+				JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+				
+				JPasswordField newPassText =  new JPasswordField();
+				String newPassTextString = new String(newPassText.getPassword());
+				JPasswordField confirmNewPassText = new JPasswordField();
+				String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+					
+					if(newPassTextString.equals(confirmNewPassTextString)) {
+					
+						loggedInCustomer.setPassword(confirmNewPassTextString);
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed password!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
+        // Method to handle customer updating their phone number
         private void handleUpdatePhoneNumber() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Update phone number");
+				JLabel currentPhoneNumber = new JLabel();
+				
+				if(loggedInCustomer.getPhoneNumber() != null) {
+					currentPhoneNumber.setText("Your current phone number is: " + loggedInCustomer.getPhoneNumber());
+				}
+				
+				JLabel newPhoneNumberLabel = new JLabel("New phone number: ");
+				
+				JTextField newPhoneNumberText =  new JTextField();
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPhoneNumber, newPhoneNumberLabel, newPhoneNumberText }, "Update Phone Number",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setPhoneNumber(newPhoneNumberText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed phone number!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
         private void handleWriteReview() {

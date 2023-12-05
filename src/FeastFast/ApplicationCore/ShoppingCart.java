@@ -22,6 +22,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -33,7 +34,9 @@ import javax.swing.JScrollPane;
 
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
+//import FeastFast.ApplicationCore.ViewRestaurants.Listener;
 import FeastFast.RestaurantManagement.Menu;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import java.awt.TextField;
 
@@ -42,10 +45,13 @@ public class ShoppingCart extends JFrame {
 
 	private FeastFastApplication ffa;
 	private Order currentOrder;
+	private Customer loggedInCustomer;
+	private RestaurantMenu selectedRestaurantMenu;
+	private Restaurant selectedRestaurant;
 
 	private JPanel contentPane;
 
-	JButton btnNewButton1;
+	JButton btnUpdateName;
 	JButton btnManageAddress;
 	JButton btnManagePreferredPayment;
 	JButton btnViewPastOrders;
@@ -119,6 +125,8 @@ public class ShoppingCart extends JFrame {
 				try {
 					FeastFastApplication ffa = new FeastFastApplication();
 					Order order = new Order();
+					//Restaurant restaurant = new Restaurant();
+					//RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, restaurant);
 					ShoppingCart frame = new ShoppingCart(ffa, order);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -134,6 +142,9 @@ public class ShoppingCart extends JFrame {
 	public ShoppingCart(FeastFastApplication ffa, Order order) {
 		this.ffa = ffa;
 		this.currentOrder = order;
+		loggedInCustomer = ffa.getLoggedInCustomer();
+//		this.selectedRestaurantMenu = restaurantMenu;
+//		this.selectedRestaurant = restaurant;
 
 		contentPane = new JPanel();
 
@@ -161,6 +172,8 @@ public class ShoppingCart extends JFrame {
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		btnBack = new JButton(newScaledIcon4);
+		btnBack.addActionListener(new Listener());
 
 		// Log Out Icon
 		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
@@ -169,22 +182,30 @@ public class ShoppingCart extends JFrame {
 		btnExit = new JButton(newScaledIcon5);
 		btnExit.addActionListener(new Listener());
 
-		btnBack = new JButton(newScaledIcon4);
-
 		// Side panel
 		sidePanel = new JPanel();
 
 		accountLabel = new JLabel("Account");
 
 		// Side panel buttons
-		btnNewButton1 = new JButton("Update Name");
-		btnManageAddress = new JButton("Manage Address");
-		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-		btnViewPastOrders = new JButton("View Past Orders");
-		btnViewReviews = new JButton("View Reviews");
-		btnManagePassword = new JButton("Manage Password");
-		btnUpdatePhoneNumber = new JButton("Update Phone Number");
-		btnWriteAReview = new JButton("Write a Review");
+		btnUpdateName = new JButton("Update Name");
+        btnManageAddress = new JButton("Manage Address");
+        btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+        btnViewPastOrders = new JButton("View Past Orders");
+        btnViewReviews = new JButton("View Reviews");
+        btnManagePassword = new JButton("Manage Password");
+        btnUpdatePhoneNumber = new JButton("Update Phone Number");
+        btnWriteAReview = new JButton("Write a Review");
+		
+		// Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
+        btnManageAddress.addActionListener(new Listener());
+        btnManagePreferredPayment.addActionListener(new Listener());
+        btnViewPastOrders.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
+        btnManagePassword.addActionListener(new Listener());
+        btnUpdatePhoneNumber.addActionListener(new Listener());
+        btnWriteAReview.addActionListener(new Listener());
 
 		// Title
 
@@ -223,6 +244,7 @@ public class ShoppingCart extends JFrame {
 		totalLabel = new JLabel("Total:");
 
 		btnEmptyCart = new JButton("X    Empty cart");
+		btnEmptyCart.addActionListener(new Listener());
 
 		sidePanel.setBounds(518, 0, 282, 609);
 		sidePanel.setLayout(null);
@@ -238,9 +260,9 @@ public class ShoppingCart extends JFrame {
 		accountLabel.setBounds(16, 6, 116, 40);
 		sidePanel.add(accountLabel);
 
-		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton1.setBounds(16, 59, 260, 48);
-		sidePanel.add(btnNewButton1);
+		btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		btnUpdateName.setBounds(16, 59, 260, 48);
+		sidePanel.add(btnUpdateName);
 
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
@@ -278,10 +300,8 @@ public class ShoppingCart extends JFrame {
 
 		btnBack.setText("Back to Menu");
 		btnBack.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnBack.addActionListener(new Listener()); 
+		
 		btnBack.setBounds(42, 525, 195, 55);
 		contentPane.add(btnBack);
 
@@ -400,9 +420,13 @@ public class ShoppingCart extends JFrame {
 			// Button click events
 			JButton source = (JButton) e.getSource();
 
-			// PersonIcon button
+			// User Icon button
 			if (source.equals(btnUser)) {
 				handleUserMenu();
+			}
+			// Back to Menu Icon
+			else if(source.equals(btnBack)) {
+				handleBackIcon();
 			}
 			// HomeIcon button
 			else if (source.equals(btnHome)) {
@@ -415,7 +439,7 @@ public class ShoppingCart extends JFrame {
 				handleViewCheckout();
 			}
 			// Update Name button
-			else if (source.equals(btnNewButton1)) {
+			else if (source.equals(btnUpdateName)) {
 				handleUpdateName();
 			}
 			// Manage Address button
@@ -446,7 +470,39 @@ public class ShoppingCart extends JFrame {
 			else if (source.equals(btnWriteAReview)) {
 				handleWriteReview();
 			}
+			// Empty Cart
+			else if(source.equals(btnEmptyCart)) {
+				handleEmptyCart();
+			}
 
+		}
+		
+		// Method to handle emptying a customer's cart
+		private void handleEmptyCart() {
+			try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel confirmLabel = new JLabel(
+						"Are you sure you want to empty all of the items in your cart?");
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm selection",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.YES_OPTION) {
+					currentOrder.emptyOrder();
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleUserMenu() {
@@ -470,10 +526,15 @@ public class ShoppingCart extends JFrame {
 			} else {
 				// If the order is not placed, show a message
 				JOptionPane.showMessageDialog(null,
-						"Your cart is empty.",
+						"Your cart is empty. You must have items in your cart to proceed to checkout",
 						"Empty Cart",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+		}
+		
+		private void handleBackIcon() {
+			RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, currentOrder.getRestaurant());
+			restaurantMenu.setVisible(true);
 		}
 
 		// Home Icon: Return back to view restaurants
@@ -539,14 +600,138 @@ public class ShoppingCart extends JFrame {
 
 		private void handleUpdateName() {
 
+        	try {
+                JFrame temp = new JFrame("Update name");
+                JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+                JTextField updateNameText = new JTextField();
+
+                int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (result == JOptionPane.OK_OPTION) {
+                		loggedInCustomer.setName(updateNameText.getText());
+                		JOptionPane.showMessageDialog(null,
+                                "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                                "Success",
+                                JOptionPane.OK_OPTION);
+                }
+
+                else {
+                    JOptionPane.getRootFrame().dispose();
+                }
+        	}
+        	
+            // Catch errors and return them
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 		}
 
 		private void handleManageAddress() {
+			try {
+				JFrame temp = new JFrame("Update address");
+				JLabel currentAddress = new JLabel();
+				
+				if(loggedInCustomer.getAddress() != null) {
+					currentAddress.setText("Your current address is: " + loggedInCustomer.getAddress());
+				}
+				
+				JLabel newAddressLabel = new JLabel("New address: ");
+				
+				JTextField newAddressText =  new JTextField();
 
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentAddress, newAddressLabel, newAddressText }, "Update Delivery Address",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setAddress(newAddressText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed delivery address!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+	    	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleManagePreferredPayment() {
+			try {
+				JFrame temp = new JFrame("Manage preferred payment method");
+				JLabel currentPreferredPaymentMethod = new JLabel();
+				
+				if(loggedInCustomer.getPreferredPaymentMethod() != null && !(loggedInCustomer.getPreferredPaymentMethod().equals(""))) {
+					currentPreferredPaymentMethod.setText("Your current preferred payment method is: " + loggedInCustomer.getPreferredPaymentMethod());
+				}
+				
+				JLabel newPreferredPaymentMethodLabel = new JLabel("New preferred payment method: ");
+				
+				JRadioButton newPreferredPaymentMethod1 =  new JRadioButton("Credit/Debit Card");
+				JRadioButton newPreferredPaymentMethod2 =  new JRadioButton("Cash on Delivery");
+				JRadioButton newPreferredPaymentMethod3 =  new JRadioButton("Gift Card");
 
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPreferredPaymentMethod, newPreferredPaymentMethodLabel, newPreferredPaymentMethod1, newPreferredPaymentMethod2, newPreferredPaymentMethod3 }, "Manage Preferred Payment Method",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						if(newPreferredPaymentMethod1.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Credit/Debit Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod2.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Cash on Delivery");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod3.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Gift Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else {
+							JOptionPane.showMessageDialog(null,
+									"You must select a new preferred payment method!",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+	    	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleViewPastOrders() {
@@ -576,6 +761,8 @@ public class ShoppingCart extends JFrame {
 					
 					if(newPassTextString.equals(confirmNewPassTextString)) {
 					
+						loggedInCustomer.setPassword(confirmNewPassTextString);
+						
 						JOptionPane.showMessageDialog(null,
 								"Successfully changed password!",
 								"Success",
@@ -602,6 +789,43 @@ public class ShoppingCart extends JFrame {
 
 		private void handleUpdatePhoneNumber() {
 
+			try {
+				JFrame temp = new JFrame("Update phone number");
+				JLabel currentPhoneNumber = new JLabel();
+				
+				if(loggedInCustomer.getPhoneNumber() != null) {
+					currentPhoneNumber.setText("Your current phone number is: " + loggedInCustomer.getPhoneNumber());
+				}
+				
+				JLabel newPhoneNumberLabel = new JLabel("New phone number: ");
+				
+				JTextField newPhoneNumberText =  new JTextField();
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPhoneNumber, newPhoneNumberLabel, newPhoneNumberText }, "Update Phone Number",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						loggedInCustomer.setPhoneNumber(newPhoneNumberText.getText());
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed phone number!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleWriteReview() {

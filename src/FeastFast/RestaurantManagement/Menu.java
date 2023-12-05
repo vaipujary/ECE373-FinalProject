@@ -3,11 +3,14 @@ package FeastFast.RestaurantManagement;
 import java.util.ArrayList;
 import java.util.List;
 
+import FeastFast.UserManagement.Restaurant;
+
 // This class handles restaurants' menus that are viewed by customers
 public class Menu {
 
 	// Attributes
     private ArrayList<MenuItem> menuItems;
+    private Restaurant selectedRestaurant;
 
     public Menu() {
         this.menuItems = new ArrayList<>();
