@@ -111,12 +111,6 @@ public class ViewRestaurants extends JFrame {
         setBounds(100, 100, 800, 700);
         
         //ICONS
-        // Home Icon
-        homeIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-        scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-        newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
-        btnHome = new JButton(newScaledHomeIcon);
-
         // Person Icon
         personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
         scaledPersonIcon = personIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
@@ -149,7 +143,6 @@ public class ViewRestaurants extends JFrame {
         // Menu bar
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
-        menuBar.add(btnHome);
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(btnUserMenu);
         menuBar.add(btnExit);
@@ -253,10 +246,6 @@ public class ViewRestaurants extends JFrame {
             if (source.equals(btnUserMenu)) {
                 handleUserMenu();
             }
-            // HomeIcon button
-            else if (source.equals(btnHome)) {
-
-            } 
             else if (source.equals(btnExit)) {
             	handleLogOut();
             } 

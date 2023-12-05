@@ -100,6 +100,7 @@ public class FeastFastApplication {
 		Restaurant restaurant18 = new Restaurant("China Pasta House");
 		Restaurant restaurant19 = new Restaurant("Iguana Cafe & Bar");
 		Restaurant restaurant20 = new Restaurant("Bison Witches");
+		Restaurant restaurant21 = new Restaurant("Empire Pizza & Pub");
 		
 		// Adding menu items to restaurant menus
 		restaurant1.getMenu().addItem(burger);
@@ -130,6 +131,7 @@ public class FeastFastApplication {
 		this.addRestaurant(restaurant18);
 		this.addRestaurant(restaurant19);
 		this.addRestaurant(restaurant20);
+		this.addRestaurant(restaurant21);
 		
     }
     

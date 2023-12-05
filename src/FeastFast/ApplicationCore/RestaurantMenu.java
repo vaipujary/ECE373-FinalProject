@@ -35,6 +35,7 @@ public class RestaurantMenu extends JFrame {
     // Variables
     private FeastFastApplication ffa;
     private Order currentOrder;
+    private Restaurant selectedRestaurant;
 
     DefaultListModel<String> listModel;
 
@@ -98,6 +99,7 @@ public class RestaurantMenu extends JFrame {
                     Restaurant restaurant = new Restaurant();
 
                     RestaurantMenu frame = new RestaurantMenu(ffa, restaurant);
+                    
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -257,7 +259,7 @@ public class RestaurantMenu extends JFrame {
         lblRestaurantName = new JLabel();
         lblRestaurantName.setText(restaurant.getName());
         lblRestaurantName.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
-        lblRestaurantName.setBounds(218, 20, 423, 48);
+        lblRestaurantName.setBounds(280, 20, 361, 48);
         contentPane.add(lblRestaurantName);
 
         // List code
@@ -299,13 +301,15 @@ public class RestaurantMenu extends JFrame {
                             // Add the selected menu item to the currentOrder with the specified quantity
                             currentOrder.addItem(selectedMenuItem, quantity);
 
-                            // Display a popup message
+                            // Display a pop up message
                             JOptionPane.showMessageDialog(
                                     RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
                                     quantity + " " + selectedMenuItem.getName() + "(s) have been added to your cart",
                                     "Item Added",
                                     JOptionPane.INFORMATION_MESSAGE);
-                        } catch (NumberFormatException ex) {
+                        } 
+                        
+                        catch (NumberFormatException ex) {
                             // Handle the case where the quantity is not a valid number
                             JOptionPane.showMessageDialog(
                                     RestaurantMenu.this,
@@ -337,7 +341,8 @@ public class RestaurantMenu extends JFrame {
             // HomeIcon button
             else if (source.equals(btnHome)) {
                 handleHomeIcon();
-            } else if (source.equals(btnExit)) {
+            } 
+            else if (source.equals(btnExit)) {
                 handleLogOut();
             }
             // Update Name button
@@ -383,6 +388,7 @@ public class RestaurantMenu extends JFrame {
         	ViewRestaurants viewRestaurants = new ViewRestaurants(ffa);
         	viewRestaurants.setVisible(true);
         }
+        
         private void handleUserMenu() {
             // Toggle the side panel visibility by adjusting the divider location
             int currentLocation = splitPane.getDividerLocation();
@@ -399,7 +405,7 @@ public class RestaurantMenu extends JFrame {
             if (currentOrder != null) {
                 // Create a new ShoppingCart instance and pass the currentOrder
                 ShoppingCart shoppingCart = new ShoppingCart(ffa, currentOrder);
-
+ 
                 // Set the visibility of the ShoppingCart window
                 shoppingCart.setVisible(true);
             } else {

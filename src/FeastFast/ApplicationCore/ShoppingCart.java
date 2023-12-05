@@ -42,6 +42,8 @@ public class ShoppingCart extends JFrame {
 
 	private FeastFastApplication ffa;
 	private Order currentOrder;
+	private RestaurantMenu selectedRestaurantMenu;
+	private Restaurant selectedRestaurant;
 
 	private JPanel contentPane;
 
@@ -119,6 +121,8 @@ public class ShoppingCart extends JFrame {
 				try {
 					FeastFastApplication ffa = new FeastFastApplication();
 					Order order = new Order();
+					//Restaurant restaurant = new Restaurant();
+					//RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, restaurant);
 					ShoppingCart frame = new ShoppingCart(ffa, order);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -134,6 +138,8 @@ public class ShoppingCart extends JFrame {
 	public ShoppingCart(FeastFastApplication ffa, Order order) {
 		this.ffa = ffa;
 		this.currentOrder = order;
+//		this.selectedRestaurantMenu = restaurantMenu;
+//		this.selectedRestaurant = restaurant;
 
 		contentPane = new JPanel();
 
@@ -161,6 +167,8 @@ public class ShoppingCart extends JFrame {
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
+		btnBack = new JButton(newScaledIcon4);
+		btnBack.addActionListener(new Listener());
 
 		// Log Out Icon
 		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
@@ -168,8 +176,6 @@ public class ShoppingCart extends JFrame {
 		newScaledIcon5 = new ImageIcon(scaledIcon5);
 		btnExit = new JButton(newScaledIcon5);
 		btnExit.addActionListener(new Listener());
-
-		btnBack = new JButton(newScaledIcon4);
 
 		// Side panel
 		sidePanel = new JPanel();
@@ -223,6 +229,7 @@ public class ShoppingCart extends JFrame {
 		totalLabel = new JLabel("Total:");
 
 		btnEmptyCart = new JButton("X    Empty cart");
+		btnEmptyCart.addActionListener(new Listener());
 
 		sidePanel.setBounds(518, 0, 282, 609);
 		sidePanel.setLayout(null);
@@ -278,10 +285,8 @@ public class ShoppingCart extends JFrame {
 
 		btnBack.setText("Back to Menu");
 		btnBack.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		btnBack.addActionListener(new Listener()); 
+		
 		btnBack.setBounds(42, 525, 195, 55);
 		contentPane.add(btnBack);
 
@@ -400,9 +405,13 @@ public class ShoppingCart extends JFrame {
 			// Button click events
 			JButton source = (JButton) e.getSource();
 
-			// PersonIcon button
+			// User Icon button
 			if (source.equals(btnUser)) {
 				handleUserMenu();
+			}
+			// Back to Menu Icon
+			else if(source.equals(btnBack)) {
+				handleBackIcon();
 			}
 			// HomeIcon button
 			else if (source.equals(btnHome)) {
@@ -446,7 +455,39 @@ public class ShoppingCart extends JFrame {
 			else if (source.equals(btnWriteAReview)) {
 				handleWriteReview();
 			}
+			// Empty Cart
+			else if(source.equals(btnEmptyCart)) {
+				handleEmptyCart();
+			}
 
+		}
+		
+		// Method to handle emptying a customer's cart
+		private void handleEmptyCart() {
+			try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel confirmLabel = new JLabel(
+						"Are you sure you want to empty all of the items in your cart?");
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm selection",
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.YES_OPTION) {
+					currentOrder.emptyOrder();
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleUserMenu() {
@@ -474,6 +515,11 @@ public class ShoppingCart extends JFrame {
 						"Empty Cart",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
+		}
+		
+		private void handleBackIcon() {
+			RestaurantMenu restaurantMenu = new RestaurantMenu(ffa, currentOrder.getRestaurant());
+			restaurantMenu.setVisible(true);
 		}
 
 		// Home Icon: Return back to view restaurants

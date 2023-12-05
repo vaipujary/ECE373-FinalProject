@@ -242,6 +242,10 @@ public class Order {
         this.pickUpTime = s;
     }
     
+    public void emptyOrder() {
+    	foodOrder.clear();
+    }
+    
 //    public String getIssueReported() {
 //    	
 //    	return this.getComments();
