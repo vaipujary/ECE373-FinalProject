@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
@@ -154,6 +155,7 @@ public class ViewRestaurants extends JFrame {
         scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledIcon3 = new ImageIcon(scaledIcon3);
         exit = new JButton(newScaledIcon3);
+        exit.addActionListener(new Listener());
 
         userMenu = new JButton(newScaledIcon);
         userMenu.addActionListener(new Listener());
@@ -357,9 +359,35 @@ public class ViewRestaurants extends JFrame {
         }
     }
 
-    private void handleLogOut() {
+	// Log Out button: return to main page
+	private void handleLogOut() {
+		try {
+			JFrame temp = new JFrame("Confirm selection");
+			JLabel confirmLabel = new JLabel("Are you sure you want to log out?");
 
-    }
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm log out",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.YES_OPTION) {
+				MainPage mainPage = new MainPage(ffa);
+				mainPage.setVisible(true);
+			}
+
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+
+		}
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		
+		
+	}
 
     private void handleUpdateName() {
 

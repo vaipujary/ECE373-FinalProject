@@ -24,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginPage extends JFrame {
+	
 	private FeastFastApplication ffa;
 	private JFrame frame;
 	private JPasswordField passwordField;
@@ -56,7 +57,7 @@ public class LoginPage extends JFrame {
 	 */
 	public LoginPage(FeastFastApplication ffa) {
 		this.ffa = ffa;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(250, 128, 114));

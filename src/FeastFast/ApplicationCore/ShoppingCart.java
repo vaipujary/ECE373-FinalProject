@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -166,6 +167,7 @@ public class ShoppingCart extends JFrame {
 		scaledIcon5 = icon5.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon5 = new ImageIcon(scaledIcon5);
 		btnExit = new JButton(newScaledIcon5);
+		btnExit.addActionListener(new Listener());
 
 		btnBack = new JButton(newScaledIcon4);
 
@@ -292,7 +294,7 @@ public class ShoppingCart extends JFrame {
 		contentPane.add(salesTaxLabel);
 
 		serviceFeeLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-		serviceFeeLabel.setBounds(106, 298, 94, 29);
+		serviceFeeLabel.setBounds(106, 298, 114, 29);
 		contentPane.add(serviceFeeLabel);
 
 		totalLabel.setFont(new Font("Lucida Grande", Font.BOLD, 18));
@@ -405,9 +407,11 @@ public class ShoppingCart extends JFrame {
 			// HomeIcon button
 			else if (source.equals(btnHome)) {
 				handleHomeIcon();
-			} else if (source.equals(btnExit)) {
+			} 
+			else if (source.equals(btnExit)) {
 				handleLogOut();
-			} else if (source.equals(btnCheckout)) {
+			} 
+			else if (source.equals(btnCheckout)) {
 				handleViewCheckout();
 			}
 			// Update Name button
@@ -481,9 +485,9 @@ public class ShoppingCart extends JFrame {
 						"Are you sure you want to view other restaurants? Your selections will not be saved.");
 
 				int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm selection",
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-				if (result == JOptionPane.OK_OPTION) {
+				if (result == JOptionPane.YES_OPTION) {
 					ViewRestaurants viewRestaurantsFrame = new ViewRestaurants(ffa);
 					viewRestaurantsFrame.setVisible(true);
 				}
@@ -503,8 +507,34 @@ public class ShoppingCart extends JFrame {
 
 		}
 
+		// Log Out button: return to main page
 		private void handleLogOut() {
+			try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel confirmLabel = new JLabel("Are you sure you want to log out?");
 
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { confirmLabel }, "Confirm log out",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+					MainPage mainPage = new MainPage(ffa);
+					mainPage.setVisible(true);
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
+			
+			
 		}
 
 		private void handleUpdateName() {
@@ -529,6 +559,45 @@ public class ShoppingCart extends JFrame {
 
 		private void handleManagePassword() {
 
+			try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel newPassLabel = new JLabel("New password: ");
+				JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+				
+				JPasswordField newPassText =  new JPasswordField();
+				String newPassTextString = new String(newPassText.getPassword());
+				JPasswordField confirmNewPassText = new JPasswordField();
+				String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+					
+					if(newPassTextString.equals(confirmNewPassTextString)) {
+					
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed password!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+					
+					
+					
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
 		}
 
 		private void handleUpdatePhoneNumber() {

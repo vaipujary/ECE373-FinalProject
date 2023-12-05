@@ -65,9 +65,7 @@ public class FeastFastApplication {
     	restaurants = new ArrayList<Restaurant>();
     	drivers = new ArrayList<DeliveryDriver>();
     	customers = new ArrayList<Customer>();
-    	
-//		LoginPage loginFrame = new LoginPage();
-//		loginFrame.setVisible(true);
+
     }
     
     public void addCustomer(Customer c) {
