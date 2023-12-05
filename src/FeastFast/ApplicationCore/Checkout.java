@@ -91,7 +91,7 @@ public class Checkout extends JFrame {
 	JLabel paymentLabel;
 	
 	// Payment type Combo box
-	JComboBox comboBox;
+	JComboBox<String> comboBox;
 	
 	JLabel titleLabel;
 	
@@ -140,6 +140,7 @@ public class Checkout extends JFrame {
         scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledIcon2 = new ImageIcon(scaledIcon2);
 		btnHome = new JButton(newScaledIcon2);
+		btnHome.addActionListener(new Listener());
 
 		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
 		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
@@ -152,11 +153,13 @@ public class Checkout extends JFrame {
 		scaledIcon3 = icon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon3 = new ImageIcon(scaledIcon3);
 		btnExit = new JButton(newScaledIcon3);
+		btnExit.addActionListener(new Listener());
 
 		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
 		scaledIcon4 = icon4.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
 		newScaledIcon4 = new ImageIcon(scaledIcon4);
 		btnBack = new JButton(newScaledIcon4);
+		btnBack.addActionListener(new Listener());
 		
 		accountLabel = new JLabel("Account");
 		
@@ -176,7 +179,17 @@ public class Checkout extends JFrame {
 		paymentLabel = new JLabel("Choose payment method:");
 		
 		// Payment type Combo box
-		comboBox = new JComboBox();
+		comboBox = new JComboBox<String>();
+		
+		// Combo box options
+		String option1 = "Credit/Debit Card";
+		String option2 = "Cash on Delivery";
+		String option3 = "Gift Card";
+		
+		// Add items to the payment method combo box
+		comboBox.addItem(option1);
+		comboBox.addItem(option2);
+		comboBox.addItem(option3);
 		
 		titleLabel = new JLabel("Checkout\n");
 		

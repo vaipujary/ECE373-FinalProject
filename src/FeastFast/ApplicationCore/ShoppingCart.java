@@ -511,7 +511,7 @@ public class ShoppingCart extends JFrame {
 			} else {
 				// If the order is not placed, show a message
 				JOptionPane.showMessageDialog(null,
-						"Your cart is empty.",
+						"Your cart is empty. You must have items in your cart to proceed to checkout",
 						"Empty Cart",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
