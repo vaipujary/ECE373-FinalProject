@@ -20,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -493,6 +494,7 @@ public class RestaurantMenu extends JFrame {
 
         }
 
+        // Method to handle a customer updating their name
         private void handleUpdateName() {
         	try {
                 JFrame temp = new JFrame("Update name");
@@ -525,6 +527,7 @@ public class RestaurantMenu extends JFrame {
         	
         }
 
+        // Method to handle a customer updating their delivery address
         private void handleManageAddress() {
         	try {
     			JFrame temp = new JFrame("Update address");
@@ -566,7 +569,67 @@ public class RestaurantMenu extends JFrame {
         }
 
         private void handleManagePreferredPayment() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Manage preferred payment method");
+				JLabel currentPreferredPaymentMethod = new JLabel();
+				
+				if(loggedInCustomer.getPreferredPaymentMethod() != null && !(loggedInCustomer.getPreferredPaymentMethod().equals(""))) {
+					currentPreferredPaymentMethod.setText("Your current preferred payment method is: " + loggedInCustomer.getPreferredPaymentMethod());
+				}
+				
+				JLabel newPreferredPaymentMethodLabel = new JLabel("New preferred payment method: ");
+				
+				JRadioButton newPreferredPaymentMethod1 =  new JRadioButton("Credit/Debit Card");
+				JRadioButton newPreferredPaymentMethod2 =  new JRadioButton("Cash on Delivery");
+				JRadioButton newPreferredPaymentMethod3 =  new JRadioButton("Gift Card");
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPreferredPaymentMethod, newPreferredPaymentMethodLabel, newPreferredPaymentMethod1, newPreferredPaymentMethod2, newPreferredPaymentMethod3 }, "Manage Preferred Payment Method",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						if(newPreferredPaymentMethod1.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Credit/Debit Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod2.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Cash on Delivery");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else if(newPreferredPaymentMethod3.isSelected()) {
+							loggedInCustomer.setPreferredPaymentMethod("Gift Card");
+							JOptionPane.showMessageDialog(null,
+									"Successfully changed your preferred payment method!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						else {
+							JOptionPane.showMessageDialog(null,
+									"You must select a new preferred payment method!",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+	    	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
         private void handleViewPastOrders() {

@@ -11,12 +11,14 @@ public class Customer extends User {
     private Order order;
     private Restaurant restaurantInView;
     private String Address;
+    private String preferredPaymentMethod;
     
     // Constructors
     public Customer() {
         this.Address = "";
         this.phoneNumber = "";
         this.email = "";
+        this.preferredPaymentMethod = "";
         this.order = new Order();
         restaurantInView = new Restaurant();
     }
@@ -26,8 +28,10 @@ public class Customer extends User {
         this.Address = "";
         this.email =  "";
         this.order = new Order();
+        this.preferredPaymentMethod = "";
     }
 
+    // Method to cancel a customer's order
     public boolean cancelOrder(Order order) {
 
         order.setStatus(Order.Status.Cancelled);
@@ -40,6 +44,16 @@ public class Customer extends User {
         }
     }
 
+ // Method to set the customer's preferred payment method
+    public void setPreferredPaymentMethod(String ppm) {
+    	this.preferredPaymentMethod = ppm;
+    }
+    
+    // Method to get the customer's preferred payment method
+    public String getPreferredPaymentMethod() {
+    	return this.preferredPaymentMethod;
+    }
+    
     // Method to place an order from the shopping cart
     public Order placeOrder() {
         order.setStatus(Order.Status.SubmittedToRestaurant);

@@ -169,24 +169,24 @@ public class Checkout extends JFrame {
 		accountLabel = new JLabel("Account");
 		
 		// Side panel buttons
-				btnUpdateName = new JButton("Update Name");
-		        btnManageAddress = new JButton("Manage Address");
-		        btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-		        btnViewPastOrders = new JButton("View Past Orders");
-		        btnViewReviews = new JButton("View Reviews");
-		        btnManagePassword = new JButton("Manage Password");
-		        btnUpdatePhoneNumber = new JButton("Update Phone Number");
-		        btnWriteAReview = new JButton("Write a Review");
+		btnUpdateName = new JButton("Update Name");
+		btnManageAddress = new JButton("Manage Address");
+		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+		btnViewPastOrders = new JButton("View Past Orders");
+		btnViewReviews = new JButton("View Reviews");
+		btnManagePassword = new JButton("Manage Password");
+		btnUpdatePhoneNumber = new JButton("Update Phone Number");
+		btnWriteAReview = new JButton("Write a Review");
 				
-				// Side Panel Button Action Listeners
-		        btnUpdateName.addActionListener(new Listener());
-		        btnManageAddress.addActionListener(new Listener());
-		        btnManagePreferredPayment.addActionListener(new Listener());
-		        btnViewPastOrders.addActionListener(new Listener());
-		        btnViewReviews.addActionListener(new Listener());
-		        btnManagePassword.addActionListener(new Listener());
-		        btnUpdatePhoneNumber.addActionListener(new Listener());
-		        btnWriteAReview.addActionListener(new Listener());
+		// Side Panel Button Action Listeners
+		btnUpdateName.addActionListener(new Listener());
+		btnManageAddress.addActionListener(new Listener());
+		btnManagePreferredPayment.addActionListener(new Listener());
+		btnViewPastOrders.addActionListener(new Listener());
+		btnViewReviews.addActionListener(new Listener());
+		btnManagePassword.addActionListener(new Listener());
+		btnUpdatePhoneNumber.addActionListener(new Listener());
+		btnWriteAReview.addActionListener(new Listener());
 		
 		// Order type label
 		orderTypeLabel = new JLabel("Pickup or Home Delivery?");
@@ -548,7 +548,67 @@ public class Checkout extends JFrame {
 			}
 			
 			private void handleManagePreferredPayment() {
-				
+				try {
+					JFrame temp = new JFrame("Manage preferred payment method");
+					JLabel currentPreferredPaymentMethod = new JLabel();
+					
+					if(loggedInCustomer.getPreferredPaymentMethod() != null && !(loggedInCustomer.getPreferredPaymentMethod().equals(""))) {
+						currentPreferredPaymentMethod.setText("Your current preferred payment method is: " + loggedInCustomer.getPreferredPaymentMethod());
+					}
+					
+					JLabel newPreferredPaymentMethodLabel = new JLabel("New preferred payment method: ");
+					
+					JRadioButton newPreferredPaymentMethod1 =  new JRadioButton("Credit/Debit Card");
+					JRadioButton newPreferredPaymentMethod2 =  new JRadioButton("Cash on Delivery");
+					JRadioButton newPreferredPaymentMethod3 =  new JRadioButton("Gift Card");
+
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { currentPreferredPaymentMethod, newPreferredPaymentMethodLabel, newPreferredPaymentMethod1, newPreferredPaymentMethod2, newPreferredPaymentMethod3 }, "Manage Preferred Payment Method",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.OK_OPTION) {
+
+							if(newPreferredPaymentMethod1.isSelected()) {
+								loggedInCustomer.setPreferredPaymentMethod("Credit/Debit Card");
+								JOptionPane.showMessageDialog(null,
+										"Successfully changed your preferred payment method!",
+										"Success",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+							else if(newPreferredPaymentMethod2.isSelected()) {
+								loggedInCustomer.setPreferredPaymentMethod("Cash on Delivery");
+								JOptionPane.showMessageDialog(null,
+										"Successfully changed your preferred payment method!",
+										"Success",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+							else if(newPreferredPaymentMethod3.isSelected()) {
+								loggedInCustomer.setPreferredPaymentMethod("Gift Card");
+								JOptionPane.showMessageDialog(null,
+										"Successfully changed your preferred payment method!",
+										"Success",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(null,
+										"You must select a new preferred payment method!",
+										"Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+							
+						}
+					
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+				}
+		    	
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
 			private void handleViewPastOrders() {
