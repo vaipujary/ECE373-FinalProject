@@ -19,7 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -29,11 +31,13 @@ import javax.swing.JScrollPane;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 
 public class RestaurantMenu extends JFrame {
     // Variables
     private FeastFastApplication ffa;
+    private Customer loggedInCustomer;
     private Order currentOrder;
     private Restaurant selectedRestaurant;
 
@@ -113,6 +117,7 @@ public class RestaurantMenu extends JFrame {
      */
     public RestaurantMenu(FeastFastApplication ffa, Restaurant restaurant) {
         this.ffa = ffa;
+        loggedInCustomer = ffa.getLoggedInCustomer();
         currentOrder = new Order();
         currentOrder.setRestaurant(restaurant);
 
@@ -479,7 +484,35 @@ public class RestaurantMenu extends JFrame {
         }
 
         private void handleUpdateName() {
-            // Implement your logic here
+        	try {
+                JFrame temp = new JFrame("Update name");
+                JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+                JTextField updateNameText = new JTextField();
+
+                int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (result == JOptionPane.OK_OPTION) {
+                		loggedInCustomer.setName(updateNameText.getText());
+                		JOptionPane.showMessageDialog(null,
+                                "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                                "Success",
+                                JOptionPane.OK_OPTION);
+                }
+
+                else {
+                    JOptionPane.getRootFrame().dispose();
+                }
+        	}
+        	
+            // Catch errors and return them
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        	
         }
 
         private void handleManageAddress() {
@@ -499,7 +532,43 @@ public class RestaurantMenu extends JFrame {
         }
 
         private void handleManagePassword() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Confirm selection");
+				JLabel newPassLabel = new JLabel("New password: ");
+				JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+				
+				JPasswordField newPassText =  new JPasswordField();
+				String newPassTextString = new String(newPassText.getPassword());
+				JPasswordField confirmNewPassText = new JPasswordField();
+				String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+					
+					if(newPassTextString.equals(confirmNewPassTextString)) {
+					
+						loggedInCustomer.setPassword(confirmNewPassTextString);
+						
+						JOptionPane.showMessageDialog(null,
+								"Successfully changed password!",
+								"Success",
+								JOptionPane.PLAIN_MESSAGE);
+					}
+				}
+
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
 
         private void handleUpdatePhoneNumber() {

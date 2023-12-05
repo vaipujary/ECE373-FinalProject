@@ -20,14 +20,17 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 
 import FeastFast.UserManagement.Restaurant;
@@ -36,6 +39,7 @@ import javax.swing.ListSelectionModel;
 public class ViewRestaurants extends JFrame {
 	//Variables
 		private FeastFastApplication ffa;
+		private Customer loggedInCustomer;
 		
 		//Image Icons
 		ImageIcon homeIcon;
@@ -83,6 +87,7 @@ public class ViewRestaurants extends JFrame {
 	    
 	    // Scroll Pane
 	    JScrollPane scrollPane;
+	    private JLabel customerNameLabel;
 
     /**
      * Launch the application.
@@ -107,6 +112,7 @@ public class ViewRestaurants extends JFrame {
      */
     public ViewRestaurants(FeastFastApplication ffa) {
     	this.ffa = ffa;
+    	loggedInCustomer = ffa.getLoggedInCustomer();
         
         setBounds(100, 100, 800, 700);
         
@@ -143,6 +149,12 @@ public class ViewRestaurants extends JFrame {
         // Menu bar
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
+        
+        customerNameLabel = new JLabel();
+        customerNameLabel.setText("Hi, " + loggedInCustomer.getName() + "!");
+        customerNameLabel.setFont(new Font("Lucida Grande", Font.ITALIC, 30));
+        
+        menuBar.add(customerNameLabel);
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(btnUserMenu);
         menuBar.add(btnExit);
@@ -156,6 +168,9 @@ public class ViewRestaurants extends JFrame {
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        
+        // Side Panel Button Action Listeners
+        btnUpdateName.addActionListener(new Listener());
         
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdateName.setBounds(16, 59, 260, 48);
@@ -341,7 +356,35 @@ public class ViewRestaurants extends JFrame {
     }
 
     private void handleUpdateName() {
+    	
+    	try {
+            JFrame temp = new JFrame("Update name");
+            JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+            JTextField updateNameText = new JTextField();
 
+            int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+            if (result == JOptionPane.OK_OPTION) {
+            		loggedInCustomer.setName(updateNameText.getText());
+            		JOptionPane.showMessageDialog(null,
+                            "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                            "Success",
+                            JOptionPane.OK_OPTION);
+            }
+
+            else {
+                JOptionPane.getRootFrame().dispose();
+            }
+
+        }
+        // Catch errors and return them
+        catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Error: " + ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void handleManageAddress() {
@@ -362,6 +405,44 @@ public class ViewRestaurants extends JFrame {
 
     private void handleManagePassword() {
 
+    	try {
+			JFrame temp = new JFrame("Confirm selection");
+			JLabel newPassLabel = new JLabel("New password: ");
+			JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
+			
+			JPasswordField newPassText =  new JPasswordField();
+			String newPassTextString = new String(newPassText.getPassword());
+			JPasswordField confirmNewPassText = new JPasswordField();
+			String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
+
+			int result = JOptionPane.showOptionDialog(temp, new Object[] { newPassLabel, newPassText, confirmNewPassLabel, confirmNewPassText }, "Set new password",
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+			if (result == JOptionPane.OK_OPTION) {
+				
+				if(newPassTextString.equals(confirmNewPassTextString)) {
+				
+					loggedInCustomer.setPassword(confirmNewPassTextString);
+					
+					JOptionPane.showMessageDialog(null,
+							"Successfully changed password!",
+							"Success",
+							JOptionPane.PLAIN_MESSAGE);
+					}
+			}
+
+			else {
+				JOptionPane.getRootFrame().dispose();
+			}
+
+		}
+		// Catch errors and return them
+		catch (Exception ex) {
+			JOptionPane.showMessageDialog(null,
+					"Error: " + ex.getMessage(),
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
     }
 
     private void handleUpdatePhoneNumber() {

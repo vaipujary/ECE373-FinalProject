@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.RestaurantManagement.Menu;
+import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import java.awt.TextField;
 
@@ -42,6 +43,7 @@ public class ShoppingCart extends JFrame {
 
 	private FeastFastApplication ffa;
 	private Order currentOrder;
+	private Customer loggedInCustomer;
 	private RestaurantMenu selectedRestaurantMenu;
 	private Restaurant selectedRestaurant;
 
@@ -138,6 +140,7 @@ public class ShoppingCart extends JFrame {
 	public ShoppingCart(FeastFastApplication ffa, Order order) {
 		this.ffa = ffa;
 		this.currentOrder = order;
+		loggedInCustomer = ffa.getLoggedInCustomer();
 //		this.selectedRestaurantMenu = restaurantMenu;
 //		this.selectedRestaurant = restaurant;
 
@@ -585,6 +588,34 @@ public class ShoppingCart extends JFrame {
 
 		private void handleUpdateName() {
 
+        	try {
+                JFrame temp = new JFrame("Update name");
+                JLabel updateNameLabel = new JLabel("What do you want to update your name to?");
+                JTextField updateNameText = new JTextField();
+
+                int result = JOptionPane.showOptionDialog(temp, new Object[] { updateNameLabel, updateNameText }, "Update Name",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (result == JOptionPane.OK_OPTION) {
+                		loggedInCustomer.setName(updateNameText.getText());
+                		JOptionPane.showMessageDialog(null,
+                                "Your name has been updated successfully, " + loggedInCustomer.getName() + ".",
+                                "Success",
+                                JOptionPane.OK_OPTION);
+                }
+
+                else {
+                    JOptionPane.getRootFrame().dispose();
+                }
+        	}
+        	
+            // Catch errors and return them
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null,
+                        "Error: " + ex.getMessage(),
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
 		}
 
 		private void handleManageAddress() {
@@ -622,6 +653,8 @@ public class ShoppingCart extends JFrame {
 					
 					if(newPassTextString.equals(confirmNewPassTextString)) {
 					
+						loggedInCustomer.setPassword(confirmNewPassTextString);
+						
 						JOptionPane.showMessageDialog(null,
 								"Successfully changed password!",
 								"Success",

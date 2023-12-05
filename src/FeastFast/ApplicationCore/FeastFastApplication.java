@@ -139,6 +139,18 @@ public class FeastFastApplication {
     	customers.add(c);
     }
     
+    public Customer getLoggedInCustomer() {
+    	Customer nonExistentCustomer = new Customer();
+    	
+    	for(int i = 0; i < customers.size(); i++) {
+    		if(customers.get(i).isLoggedIn() == true) {
+    			return customers.get(i);
+    		}
+    	}
+    	
+    	return nonExistentCustomer;
+    }
+    
     public ArrayList<Customer> getCustomers(){
     	return this.customers;
     }

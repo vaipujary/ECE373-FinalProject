@@ -212,6 +212,7 @@ public class SignUpPage extends JFrame {
 	            	newCustomer.setEmail(email);
 	                // Add the new customer to the application
 	                ffa.addCustomer(newCustomer);
+	                newCustomer.setLoggedIn(true);
 
 		                JOptionPane.showMessageDialog(null,
 		                		"Welcome " + name + ", you have been signed up for Feast Fast!",
