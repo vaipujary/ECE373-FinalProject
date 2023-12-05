@@ -1,376 +1,456 @@
 package FeastFast.ApplicationCore;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import javax.swing.UIManager;
-import javax.swing.JList;
-import javax.swing.JMenuBar;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
+import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.DefaultListModel;
+import javax.swing.JScrollPane;
 
-// // Restaurant Menu Frame
+import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
+import FeastFast.RestaurantManagement.Menu;
+import FeastFast.UserManagement.Restaurant;
+
 public class RestaurantMenu extends JFrame {
 
-	FeastFastApplication ffa;
-	
-	private JPanel contentPane;
-	
-	JPanel panel;
-	
-	JLabel lblNewLabel1;
-	
-	JButton btnNewButton1;
-	
-	JButton btnManageAddress;
-	
-	JButton btnManagePreferredPayment;
-	
-	JButton btnViewPastOrders;
-	JButton btnViewReviews;
-	JButton btnManagePassword;
-	JButton btnUpdatePhoneNumber;
-	JButton btnWriteAReview;
-	JMenuBar menuBar;
-	
-	ImageIcon icon2;
-	Image scaledIcon2;
-	ImageIcon newScaledIcon2;
-	JButton item2;
-	
-	
-	ImageIcon icon;
-	Image scaledIcon;
-	ImageIcon newScaledIcon;
-	
-	ImageIcon icon5;
-	Image scaledIcon5;
-	ImageIcon newScaledIcon5;
-	JButton item5;
-	
-	JButton item;
-	
-	JLabel lblNewLabel;
-	
-	JList list;
-	
-	ImageIcon icon3;
-	Image scaledIcon3;
-	ImageIcon newScaledIcon3;
-	
-	
-	JButton btnNewButton;
-	
-	ImageIcon icon4;
-	Image scaledIcon4;
-	ImageIcon newScaledIcon4;
-	
-	JButton btnBackToView;
-	
-	// TODO: display restaurant name of the menu the customer is viewing
-	JLabel lblNewLabel_1;
-	
-	JLabel lblNewLabel_2;
-	
-	JLabel lblNewLabel_3;
+    private FeastFastApplication ffa;
+    private Order currentOrder;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RestaurantMenu frame = new RestaurantMenu();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private JPanel contentPane;
+
+    JMenuBar menuBar;
+
+    ImageIcon homeIcon;
+    Image scaledHomeIcon;
+    ImageIcon newScaledHomeIcon;
+    JButton homeMenu;
+
+    ImageIcon personIcon;
+    Image scaledPersonIcon;
+    ImageIcon newScaledPersonIcon;
+    JButton userMenu;
+
+    ImageIcon logOutIcon;
+    Image scaledLogOutIcon;
+    ImageIcon newScaledLogOutIcon;
+    JButton exit;
+
+    JPanel sidePanel;
+
+    JLabel accountLabel;
+
+    JButton btnUpdateName;
+    JButton btnManageAddress;
+    JButton btnManagePreferredPayment;
+    JButton btnViewPastOrders;
+    JButton btnViewReviews;
+    JButton btnManagePassword;
+    JButton btnUpdatePhoneNumber;
+    JButton btnWriteAReview;
+
+    JLabel restaurantNameLabel; 
+
+    JLabel ratingLabel;
+
+    JLabel ratingValueLabel;
+
+    JButton btnViewCart;
+
+    JButton btnBackToView;
+    JSplitPane splitPane;
+    JList<String> list;
+    DefaultListModel<String> listModel;
+    JLabel menuLabel;
+    JLabel lblRestaurant;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    FeastFastApplication ffa = new FeastFastApplication();
+                    Restaurant restaurant = new Restaurant();
+                    RestaurantMenu frame = new RestaurantMenu(ffa, restaurant);
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
 	/**
 	 * Create the frame.
 	 */
-	public RestaurantMenu() {
-		
-		contentPane = new JPanel();
-		
-		panel = new JPanel();
-		
-		lblNewLabel1 = new JLabel("Account");
-		
-		btnNewButton1 = new JButton("Update Name");
-		
-		btnManageAddress = new JButton("Manage Address");
-		
-		btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
-		
-		btnViewPastOrders = new JButton("View Past Orders");
-		btnViewReviews = new JButton("View Reviews");
-		btnManagePassword = new JButton("Manage Password");
-		btnUpdatePhoneNumber = new JButton("Update Phone Number");
-		btnWriteAReview = new JButton("Write a Review");
-		menuBar = new JMenuBar();
-		
-		icon2 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
-		scaledIcon2 = icon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-		newScaledIcon2 = new ImageIcon(scaledIcon2);
-		item2 = new JButton(newScaledIcon2);
-		
-		
-		icon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
-		scaledIcon = icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-		newScaledIcon = new ImageIcon(scaledIcon);
-		
-		// Log Out Icon
-		icon5 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
-		scaledIcon5 = icon5.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
-		newScaledIcon5 = new ImageIcon(scaledIcon5);
-		item5 = new JButton(newScaledIcon5);
-		
-		item = new JButton(newScaledIcon);
-		
-		lblNewLabel = new JLabel("Menu\n");
-		
-		list = new JList();
-		
-		icon3 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/CartIcon.png"));
-		scaledIcon3 = icon3.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-		newScaledIcon3 = new ImageIcon(scaledIcon3);
-		
-		
-		btnNewButton = new JButton(newScaledIcon3);
-		
-		icon4 = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/BackIcon.png"));
-		scaledIcon4 = icon4.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-		newScaledIcon4 = new ImageIcon(scaledIcon4);
-		
-		btnBackToView = new JButton(newScaledIcon4);
-		
-		// TODO: display restaurant name of the menu the customer is viewing
-		lblNewLabel_1 = new JLabel("- Restaurant Name - ");
-		
-		lblNewLabel_2 = new JLabel("Rating: ");
-		
-		lblNewLabel_3 = new JLabel("Rating placeholder\n");
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 700);
-		
-		contentPane.setBackground(new Color(250, 128, 114));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    public RestaurantMenu(FeastFastApplication ffa, Restaurant restaurant) {
+        this.ffa = ffa;
+        currentOrder = new Order();
+        currentOrder.setRestaurant(restaurant);
+        contentPane = new JPanel();
+ 
+        // Menu bar
+        menuBar = new JMenuBar();
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		
-		panel.setBounds(518, 0, 282, 609);
-		contentPane.add(panel);
-		panel.setLayout(null);
-		
-		
-		lblNewLabel1.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
-		lblNewLabel1.setBounds(16, 6, 116, 40);
-		panel.add(lblNewLabel1);
-		
-		
-		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton1.setBounds(16, 59, 260, 48);
-		panel.add(btnNewButton1);
-		
-		
-		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnManageAddress.setBounds(16, 275, 260, 48);
-		panel.add(btnManageAddress);
-		
-		
-		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
-		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-		panel.add(btnManagePreferredPayment);
-		
-		
-		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnViewPastOrders.setBounds(16, 406, 260, 48);
-		panel.add(btnViewPastOrders);
-		
-		
-		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnViewReviews.setBounds(16, 544, 260, 48);
-		panel.add(btnViewReviews);
-		
-		
-		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnManagePassword.setBounds(16, 204, 260, 48);
-		panel.add(btnManagePassword);
-		
-		
-		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-		panel.add(btnUpdatePhoneNumber);
-		
-		
-		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnWriteAReview.setBounds(16, 473, 260, 48);
-		panel.add(btnWriteAReview);
-		
-		setJMenuBar(menuBar);
-		
-		menuBar.add(item2);
-		menuBar.add(Box.createHorizontalGlue());
-		menuBar.add(item);
-		menuBar.add(item5);
-		
-		
-		lblNewLabel.setFont(new Font("Bangla MN", Font.PLAIN, 30));
-		lblNewLabel.setBounds(148, 91, 104, 56);
-		contentPane.add(lblNewLabel);
-		
-		
-		list.setBounds(148, 146, 553, 351);
-		contentPane.add(list);
-		
-		
-		btnNewButton.setText("View Cart");
-		btnNewButton.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnNewButton.setBounds(503, 525, 206, 52);
-		contentPane.add(btnNewButton);
-		
-		
-		btnBackToView.setText("Back to View Restaurants");
-		btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		btnBackToView.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnBackToView.setBounds(131, 525, 304, 52);
-		contentPane.add(btnBackToView);
-		
+        // Home Icon
+        homeIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/HomeIcon.png"));
+        scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
+        homeMenu = new JButton(newScaledHomeIcon);
 
-		lblNewLabel_1.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
-		lblNewLabel_1.setBounds(218, 20, 423, 48);
-		contentPane.add(lblNewLabel_1);
+        // Person Icon
+        personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
+        scaledPersonIcon = personIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledPersonIcon = new ImageIcon(scaledPersonIcon);
+        userMenu = new JButton(newScaledPersonIcon);
+        userMenu.addActionListener(new Listener());
+
+        // Log Out Icon
+        logOutIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/LogOutIcon.png"));
+        scaledLogOutIcon = logOutIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
+        newScaledLogOutIcon = new ImageIcon(scaledLogOutIcon);
+        exit = new JButton(newScaledLogOutIcon);
+
+        // Side panel
+        sidePanel = new JPanel();
+
+        accountLabel = new JLabel("Account");
+
+        btnUpdateName = new JButton("Update Name");
+        btnManageAddress = new JButton("Manage Address");
+        btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
+        btnViewPastOrders = new JButton("View Past Orders");
+        btnViewReviews = new JButton("View Reviews");
+        btnManagePassword = new JButton("Manage Password");
+        btnUpdatePhoneNumber = new JButton("Update Phone Number");
+        btnWriteAReview = new JButton("Write a Review");
+
+        //Dynamic restaurant name
+        restaurantNameLabel = new JLabel();
+        restaurantNameLabel.setText(restaurant.getName());
+        restaurantNameLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
+        restaurantNameLabel.setBounds(218, 20, 423, 48);
+        contentPane.add(restaurantNameLabel);
+        
+        listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
+
+        // Add restaurants to the list model
+        Menu menu = restaurant.getMenu();
+        for (MenuItem food : menu.getItems()) {
+        	String menuInfo = "<html>Name: " + food.getName() +
+                    "<br>Price: " + food.getPrice() +
+                    "<br>__________________________________________________________________________________________________________________" + "</html>";
+            listModel.addElement(menuInfo);
+        }
 		
-		
-		lblNewLabel_2.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblNewLabel_2.setBounds(534, 69, 96, 32);
-		contentPane.add(lblNewLabel_2);
-		
-		
-		lblNewLabel_3.setBounds(612, 80, 140, 16);
-		contentPane.add(lblNewLabel_3);
-	}
-	
+		list = new JList<>(listModel); // Initialize the list
+        list.setBounds(77, 81, 612, 487);
+        contentPane.add(list);
+
+        ratingLabel = new JLabel("Rating: ");
+
+        ratingValueLabel = new JLabel("Rating placeholder");
+
+        btnViewCart = new JButton("View Cart");
+
+        btnBackToView = new JButton("Back to View Restaurants");
+
+        menuLabel = new JLabel("Menu");
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane);
+        setContentPane(splitPane); // Set the content pane to the split pane
+        contentPane.setLayout(null);
+        splitPane.setDividerLocation(0); // Set initial divider location
+        
+        setBounds(100, 100, 800, 700);
+        
+        setJMenuBar(menuBar);
+
+        menuBar.add(homeMenu);
+        menuBar.add(Box.createHorizontalGlue());
+        menuBar.add(userMenu);
+        menuBar.add(exit);
+               
+        contentPane.setBackground(new Color(250, 128, 114));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        
+        sidePanel.setBounds(518, 0, 282, 609);
+        //contentPane.add(sidePanel);
+        sidePanel.setLayout(null);
+
+        accountLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
+        accountLabel.setBounds(16, 6, 116, 40);
+        sidePanel.add(accountLabel);
+
+        btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnUpdateName.setBounds(16, 59, 260, 48);
+        sidePanel.add(btnUpdateName);
+
+        btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnManageAddress.setBounds(16, 275, 260, 48);
+        sidePanel.add(btnManageAddress);
+
+        btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
+        btnManagePreferredPayment.setBounds(16, 346, 260, 48);
+        sidePanel.add(btnManagePreferredPayment);
+
+        btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewPastOrders.setBounds(16, 406, 260, 48);
+        sidePanel.add(btnViewPastOrders);
+
+        btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewReviews.setBounds(16, 544, 260, 48);
+        sidePanel.add(btnViewReviews);
+
+        btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnManagePassword.setBounds(16, 204, 260, 48);
+        sidePanel.add(btnManagePassword);
+
+        btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
+        sidePanel.add(btnUpdatePhoneNumber);
+
+        btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnWriteAReview.setBounds(16, 473, 260, 48);
+        sidePanel.add(btnWriteAReview);
+
+        ratingLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        ratingLabel.setBounds(534, 69, 96, 32);
+        contentPane.add(ratingLabel);
+
+        ratingValueLabel.setBounds(612, 80, 140, 16);
+        contentPane.add(ratingValueLabel);
+
+        btnViewCart.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewCart.setBounds(503, 525, 206, 52);
+        contentPane.add(btnViewCart);
+        
+
+        btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnBackToView.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        btnBackToView.setBounds(131, 525, 304, 52);
+        contentPane.add(btnBackToView);
+
+        menuLabel.setFont(new Font("Bangla MN", Font.PLAIN, 30));
+        menuLabel.setBounds(94, 92, 104, 56);
+        contentPane.add(menuLabel);
+
+        list.setBounds(87, 146, 614, 351);
+        contentPane.add(list);
+
+        btnViewCart.setText("View Cart");
+        btnViewCart.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        btnViewCart.addActionListener(new Listener());
+
+        btnBackToView.setText("Back to View Restaurants");
+        btnBackToView.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+
+        ratingLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+        ratingLabel.setBounds(534, 69, 96, 32);
+        contentPane.add(ratingLabel);
+
+        ratingValueLabel.setBounds(612, 80, 140, 16);
+        contentPane.add(ratingValueLabel);
+
+    
+        list.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedIndex = list.getSelectedIndex();
+                    if (selectedIndex != -1) {
+                        // Get the selected menu item
+                        MenuItem selectedMenuItem = restaurant.getMenu().getItems().get(selectedIndex);
+
+                        // Prompt the user for quantity (you can customize this part)
+                        String quantityString = JOptionPane.showInputDialog(
+                                RestaurantMenu.this,
+                                "Enter quantity for " + selectedMenuItem.getName() + ":",
+                                "Quantity",
+                                JOptionPane.QUESTION_MESSAGE
+                        );
+
+                        try {
+                            // Parse the quantity as an integer
+                            int quantity = Integer.parseInt(quantityString);
+
+                            // Add the selected menu item to the currentOrder with the specified quantity
+                            currentOrder.addItem(selectedMenuItem, quantity);
+
+                            // Display a popup message
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenu.this, // Use 'RestaurantMenu.this' as the parent component
+                                    quantity + " " + selectedMenuItem.getName() + "(s) have been added to your cart",
+                                    "Item Added",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                        } catch (NumberFormatException ex) {
+                            // Handle the case where the quantity is not a valid number
+                            JOptionPane.showMessageDialog(
+                                    RestaurantMenu.this,
+                                    "Invalid quantity. Please enter a valid number.",
+                                    "Error",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        }
+                    }
+                }
+            }
+        });
+
+    }
 	// Event listener
 		private class Listener implements ActionListener {
 			
 			public void actionPerformed(ActionEvent e) {
-				JButton source = (JButton) e.getSource();
-				
-				// PersonIcon button
-				if(source.equals(item)) {
-					handlePersonIcon();
-				}
-				// HomeIcon button
-				else if(source.equals(item2)) {
-					handleHomeIcon();
-				}
-				
-				else if(source.equals(item5)) {
-					handleLogOut();
-				}
-				// Update Name button
-				else if(source.equals(btnNewButton1)) {
-					handleUpdateName();
-				}
-				// Manage Address button
-				else if(source.equals(btnManageAddress)){
-					handleManageAddress();
-				}
-				// Manage Preferred Payment button
-				else if(source.equals(btnManagePreferredPayment)) {
-					handleManagePreferredPayment();
-				}
-				// View Past Orders button
-				else if(source.equals(btnViewPastOrders)) {
-					handleViewPastOrders();
-				}
-				// View Reviews button
-				else if(source.equals(btnViewReviews)) {
-					handleViewReviews();
-				}
-				// Manage Password button
-				else if(source.equals(btnManagePassword)) {
-					handleManagePassword();
-				}
-				// Update Phone Number button
-				else if(source.equals(btnUpdatePhoneNumber)) {
-					handleUpdatePhoneNumber();
-				}
-				// Write a Review button
-				else if(source.equals(btnWriteAReview)) {
-					handleWriteReview();
-				}
+	            JButton source = (JButton) e.getSource();
+	            	
+	            // PersonIcon button
+	            if (source.equals(userMenu)) {
+	            	handleUserMenu();
+	            }
+	            // HomeIcon button
+	            else if (source.equals(btnViewCart)) {
+	                handleViewCart();
+	            }
+	            // HomeIcon button
+	            else if (source.equals(homeMenu)) {
+	                handleHomeIcon();
+	            } 
+	            else if (source.equals(exit)) {
+	                handleLogOut();
+	            }
+	            // Update Name button
+	            else if (source.equals(btnUpdateName)) {
+	                handleUpdateName();
+	            }
+	            // Manage Address button
+	            else if (source.equals(btnManageAddress)) {
+	                handleManageAddress();
+	            }
+	            // Manage Preferred Payment button
+	            else if (source.equals(btnManagePreferredPayment)) {
+	                handleManagePreferredPayment();
+	            }
+	            // View Past Orders button
+	            else if (source.equals(btnViewPastOrders)) {
+	                handleViewPastOrders();
+	            }
+	            // View Reviews button
+	            else if (source.equals(btnViewReviews)) {
+	                handleViewReviews();
+	            }
+	            // Manage Password button
+	            else if (source.equals(btnManagePassword)) {
+	                handleManagePassword();
+	            }
+	            // Update Phone Number button
+	            else if (source.equals(btnUpdatePhoneNumber)) {
+	                handleUpdatePhoneNumber();
+	            }
+	            // Write a Review button
+	            else if (source.equals(btnWriteAReview)) {
+	                handleWriteReview();
+	            }
 
 				
+			}			
+			
+			private void handleUserMenu() {
+		        // Toggle the side panel visibility by adjusting the divider location
+		        int currentLocation = splitPane.getDividerLocation();
+		        if (currentLocation < 10) {
+		            // Show the side panel
+		            splitPane.setDividerLocation(282);
+		        } else {
+		            // Hide the side panel
+		            splitPane.setDividerLocation(0);
+		        }
+		    }
+			
+			private void handleViewCart() {
+			    if (currentOrder != null) {
+			        // Create a new ShoppingCart instance and pass the currentOrder
+			        ShoppingCart shoppingCart = new ShoppingCart(ffa, currentOrder);
+
+			        // Set the visibility of the ShoppingCart window
+			        shoppingCart.setVisible(true);
+			    } else {
+			        // If the order is not placed, show a message
+			        JOptionPane.showMessageDialog(
+			                RestaurantMenu.this,
+			                "Your cart is empty.",
+			                "Empty Cart",
+			                JOptionPane.INFORMATION_MESSAGE
+			        );
+			    }
 			}
+
+
 			
-			private void handlePersonIcon() {
-				
-				
-			}
-			
-			private void handleHomeIcon() {
-				
-			}
-			
-			private void handleLogOut() {
-				
-			}
-			
-			private void handleUpdateName() {
-				
-			}
-			
-			private void handleManageAddress() {
-				
-			}
-			
-			private void handleManagePreferredPayment() {
-				
-			}
-			
-			private void handleViewPastOrders() {
-				
-			
-			
-			}
-			
-			private void handleViewReviews() {
-				
-			}
-			
-			private void handleManagePassword() {
-				
-			}
-			
-			private void handleUpdatePhoneNumber() {
-				
-			}
-			
-			private void handleWriteReview() {
-				
-			}
-		}
+
+	        private void handleHomeIcon() {
+	            // Implement your logic here
+	        }
+
+	        private void handleLogOut() {
+	            // Implement your logic here
+	        }
+
+	        private void handleUpdateName() {
+	            // Implement your logic here
+	        }
+
+	        private void handleManageAddress() {
+	            // Implement your logic here
+	        }
+
+	        private void handleManagePreferredPayment() {
+	            // Implement your logic here
+	        }
+
+	        private void handleViewPastOrders() {
+	            // Implement your logic here
+	        }
+
+	        private void handleViewReviews() {
+	            // Implement your logic here
+	        }
+
+	        private void handleManagePassword() {
+	            // Implement your logic here
+	        }
+
+	        private void handleUpdatePhoneNumber() {
+	            // Implement your logic here
+	        }
+
+	        private void handleWriteReview() {
+	            // Implement your logic here
+	        }
+	    }
 }

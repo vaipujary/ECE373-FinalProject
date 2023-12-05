@@ -96,7 +96,7 @@ class CustomerTestCases {
     	 order.addItem(menuItem, 3); // Adding three quantities of menuItem to the cart
          //order = customer.placeOrder();
          double expectedTotal = menuItem.getPrice() * 3;
-         assertEquals(expectedTotal, order.getTotalPrice(), "Order total should be correctly calculated based on the cart items.");
+         assertEquals(expectedTotal, order.getOrderPrice(), "Order total should be correctly calculated based on the cart items.");
      }
 
      @Test

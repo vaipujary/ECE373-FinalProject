@@ -3,16 +3,25 @@ package FeastFast.ApplicationCore;
 import java.awt.EventQueue;
 
 import javax.swing.Box;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
+
+import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
+
 import javax.swing.UIManager;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -23,9 +32,10 @@ import javax.swing.JList;
 
 public class Receipt extends JFrame {
 
-	FeastFastApplication ffa;
+	private FeastFastApplication ffa;
+	private Order currentOrder;
 	
-	private JPanel contentPane;
+	JPanel contentPane;
 	JMenuBar menuBar;
 	
 	ImageIcon icon2;
@@ -43,9 +53,9 @@ public class Receipt extends JFrame {
 	ImageIcon newScaledIcon3;
 	JButton item3;
 	
-	JButton item;
+	JButton btnUserMenu;
 	
-	JPanel panel;
+	JPanel sidePanel;
 	
 	JLabel lblNewLabel1;
 	
@@ -69,7 +79,10 @@ public class Receipt extends JFrame {
 	
 	JLabel lblItems;
 	
-	JList list;
+	JList<String> list;
+	DefaultListModel<String> listModel;
+
+    JSplitPane splitPane; // Added JSplitPane
 
 	/**
 	 * Launch the application.
@@ -78,7 +91,9 @@ public class Receipt extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Receipt frame = new Receipt();
+					FeastFastApplication ffa = new FeastFastApplication();
+					Order order = new Order();
+					Receipt frame = new Receipt(ffa,order);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -86,12 +101,14 @@ public class Receipt extends JFrame {
 			}
 		});
 	}
-
+	
 	/**
 	 * Create the frame.
 	 */
-	public Receipt() {
-		
+	public Receipt(FeastFastApplication ffa, Order order) {
+        this.ffa = ffa;
+        this.currentOrder = order;
+        
 		contentPane = new JPanel();
 		menuBar = new JMenuBar();
 		
@@ -110,9 +127,16 @@ public class Receipt extends JFrame {
 		newScaledIcon3 = new ImageIcon(scaledIcon3);
 		item3 = new JButton(newScaledIcon3);
 		
-		item = new JButton(newScaledIcon);
+		btnUserMenu = new JButton(newScaledIcon);
+		btnUserMenu.addActionListener(new Listener());
 		
-		panel = new JPanel();
+		sidePanel = new JPanel();
+		
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, sidePanel, contentPane); // SplitPane
+
+        setContentPane(splitPane); // Set the content pane to the split pane
+        contentPane.setLayout(null);
+        splitPane.setDividerLocation(0); // Set initial divider location
 		
 		lblNewLabel1 = new JLabel("Account");
 		
@@ -135,16 +159,13 @@ public class Receipt extends JFrame {
 		lblNewLabel = new JLabel("Order Summary");
 		
 		lblItems = new JLabel("Items: ");
-		
-		list = new JList();
+			
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 700);
 		contentPane.setBackground(new Color(250, 128, 114));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		setJMenuBar(menuBar);
 	
@@ -152,48 +173,47 @@ public class Receipt extends JFrame {
 		
 		menuBar.add(Box.createHorizontalGlue());
 		
-		menuBar.add(item);
+		menuBar.add(btnUserMenu);
 		menuBar.add(item3);
 		
-		panel.setBounds(518, 0, 282, 609);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		sidePanel.setBounds(518, 0, 282, 609);
+		sidePanel.setLayout(null);
 		
 		lblNewLabel1.setFont(new Font("Lucida Grande", Font.PLAIN, 25));
 		lblNewLabel1.setBounds(16, 6, 116, 40);
-		panel.add(lblNewLabel1);
+		sidePanel.add(lblNewLabel1);
 		
 		btnNewButton1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnNewButton1.setBounds(16, 59, 260, 48);
-		panel.add(btnNewButton1);
+		sidePanel.add(btnNewButton1);
 		
 		btnManageAddress.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManageAddress.setBounds(16, 275, 260, 48);
-		panel.add(btnManageAddress);
+		sidePanel.add(btnManageAddress);
 		
 		btnManagePreferredPayment.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		btnManagePreferredPayment.setBounds(16, 346, 260, 48);
-		panel.add(btnManagePreferredPayment);
+		sidePanel.add(btnManagePreferredPayment);
 		
 		btnViewPastOrders.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewPastOrders.setBounds(16, 406, 260, 48);
-		panel.add(btnViewPastOrders);
+		sidePanel.add(btnViewPastOrders);
 		
 		btnViewReviews.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnViewReviews.setBounds(16, 544, 260, 48);
-		panel.add(btnViewReviews);
+		sidePanel.add(btnViewReviews);
 		
 		btnManagePassword.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnManagePassword.setBounds(16, 204, 260, 48);
-		panel.add(btnManagePassword);
+		sidePanel.add(btnManagePassword);
 		
 		btnUpdatePhoneNumber.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdatePhoneNumber.setBounds(16, 134, 260, 48);
-		panel.add(btnUpdatePhoneNumber);
+		sidePanel.add(btnUpdatePhoneNumber);
 		
 		btnWriteAReview.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnWriteAReview.setBounds(16, 473, 260, 48);
-		panel.add(btnWriteAReview);
+		sidePanel.add(btnWriteAReview);
 		
 		lblNewLabel.setFont(new Font("Bangla MN", Font.PLAIN, 35));
 		lblNewLabel.setBounds(51, 6, 322, 82);
@@ -203,8 +223,28 @@ public class Receipt extends JFrame {
 		lblItems.setBounds(51, 87, 595, 37);
 		contentPane.add(lblItems);
 		
-		list.setBounds(51, 118, 595, 243);
-		contentPane.add(list);
+		listModel = new DefaultListModel<>();
+		
+		if (currentOrder != null) {
+	        HashMap<MenuItem, Integer> orderItems = currentOrder.getItems();
+
+	        if (!orderItems.isEmpty()) {
+	            for (Map.Entry<MenuItem, Integer> entry : orderItems.entrySet()) {
+	                MenuItem item = entry.getKey();
+	                int quantity = entry.getValue();
+	                listModel.addElement(quantity + " x " + item.getName());
+	            }
+	        } else {
+	            System.out.println("Order is empty.");
+	        }
+	    } else {
+	        System.out.println("Order is null.");
+	    }
+		
+		list = new JList<>(listModel); // Initialize the list
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setBounds(106, 83, 595, 171);
+        contentPane.add(scrollPane);
 	}
 	
 	// Event listener
@@ -214,8 +254,8 @@ public class Receipt extends JFrame {
 			JButton source = (JButton) e.getSource();
 			
 			// PersonIcon button
-			if(source.equals(item)) {
-				handlePersonIcon();
+			if(source.equals(btnUserMenu)) {
+				handleUserMenu();
 			}
 			// HomeIcon button
 			else if(source.equals(item2)) {
@@ -261,10 +301,17 @@ public class Receipt extends JFrame {
 			
 		}
 		
-private void handlePersonIcon() {
-			
-			
-		}
+		private void handleUserMenu() {
+	        // Toggle the side panel visibility by adjusting the divider location
+	        int currentLocation = splitPane.getDividerLocation();
+	        if (currentLocation < 10) {
+	            // Show the side panel
+	            splitPane.setDividerLocation(282);
+	        } else {
+	            // Hide the side panel
+	            splitPane.setDividerLocation(0);
+	        }
+	    }
 		
 		private void handleHomeIcon() {
 			
