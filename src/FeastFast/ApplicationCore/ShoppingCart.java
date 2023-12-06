@@ -924,6 +924,7 @@ public class ShoppingCart extends JFrame {
 				if (result == JOptionPane.OK_OPTION) {
 
 						Restaurant restaurant = ffa.getRestaurant(restaurantName);
+						restaurant.addRating((int)rating.getValue());
 						Review customerReview = new Review();
 						customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
 						

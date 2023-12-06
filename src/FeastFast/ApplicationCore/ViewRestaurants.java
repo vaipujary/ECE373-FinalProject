@@ -87,17 +87,17 @@ public class ViewRestaurants extends JFrame {
 		
 	    //Class Specific Buttons
 	    
-	    //Labels
+	    // Labels
 	    JLabel lblAccount;
 	    JLabel lblRestaurants;
 	    
-	    //Menu Components
+	    // Menu Components
 	    JMenuBar menuBar;
 	    JPanel sidePanel;
 	    JPanel contentPane;
 	    JSplitPane splitPane;
 	    
-	    //List Components
+	    // List Components
 	    JList<String> list;
 	    DefaultListModel<String> listModel;
 	    
@@ -175,7 +175,7 @@ public class ViewRestaurants extends JFrame {
         menuBar.add(btnUserMenu);
         menuBar.add(btnExit);
        
-        //Side Panel Buttons
+        // Side Panel Buttons
         btnUpdateName = new JButton("Update Name");
         btnManageAddress = new JButton("Manage Address");
         btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
@@ -251,7 +251,7 @@ public class ViewRestaurants extends JFrame {
             listModel.addElement(restaurantInfo);
         }
 		
-		list = new JList<>(listModel); // Initialize the list
+		list = new JList<String>(listModel); // Initialize the list
         
         scrollPane = new JScrollPane();
         scrollPane.setBounds(131, 119, 490, 468);
@@ -692,6 +692,7 @@ public class ViewRestaurants extends JFrame {
 			
 			JLabel ratingLabel = new JLabel("Rating");
 			JSpinner rating = new JSpinner(spinnerModel);
+			
 			restaurantNames = new JComboBox<String>();
 			restaurantNames.setModel(new DefaultComboBoxModel<String>(restaurantNamesArrayList.toArray(new String[0])));
 			String restaurantName = String.valueOf(restaurantNames.getSelectedItem());
@@ -704,6 +705,8 @@ public class ViewRestaurants extends JFrame {
 			if (result == JOptionPane.OK_OPTION) {
 
 					Restaurant restaurant = ffa.getRestaurant(restaurantName);
+					restaurant.addRating((int)rating.getValue());
+					
 					Review customerReview = new Review();
 					customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
 					

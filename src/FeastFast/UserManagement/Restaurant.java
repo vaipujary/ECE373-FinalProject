@@ -16,7 +16,9 @@ public class Restaurant extends User {
 
 	// Attributes
     private String restaurantId;
-    private boolean isOpen; // TODO
+    private boolean isOpen; 
+    private double averageRating;
+    private int totalRating;
     private String contactNumber;
     private String address;
     private Menu menu;
@@ -26,6 +28,8 @@ public class Restaurant extends User {
     public Restaurant(String name) {
     	super(name);
     	this.menu = new Menu();
+    	averageRating = 0.0;
+    	totalRating = 0;
     	this.restaurantReviews = new ArrayList<Review>();
     }
     
@@ -38,6 +42,8 @@ public class Restaurant extends User {
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
         this.restaurantReviews = new ArrayList<Review>();
+        averageRating = 0.0;
+        totalRating = 0;
     }
     
     public Restaurant() {
@@ -49,9 +55,27 @@ public class Restaurant extends User {
         this.Orders = new ArrayList<>();
         this.menu = new Menu();
         this.restaurantReviews = new ArrayList<Review>();
+        averageRating = 0.0;
+        totalRating = 0;
     }
 
     // Getters and setters for restaurant attributes
+    public void addRating(int customerRating) {
+    	this.totalRating += customerRating;
+    }
+    
+    public int getTotalRating() {
+    	return this.totalRating;
+    }
+    
+    public double getAverageRating() {
+    	return this.averageRating;
+    }
+    
+    public void setAverageRating(double avgRating) {
+    	this.averageRating = avgRating;
+    }
+    
     public String getRestaurantId() {
         return restaurantId;
     }

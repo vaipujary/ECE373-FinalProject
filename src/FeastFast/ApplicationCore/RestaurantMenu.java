@@ -50,6 +50,7 @@ public class RestaurantMenu extends JFrame {
     private FeastFastApplication ffa;
     private Customer loggedInCustomer;
     private Order currentOrder;
+    private int numCustomerReviews;
     private Restaurant selectedRestaurant;
     private JComboBox<String> restaurantNames;
 
@@ -100,9 +101,11 @@ public class RestaurantMenu extends JFrame {
     JPanel sidePanel;
     JSplitPane splitPane;
     JPanel contentPane;
-
-    // List Components
+    
+    String key;
+    String output;
     JList<String> list;
+    private JScrollPane scrollPane;
 
     /**
      * Launch the application.
@@ -132,6 +135,8 @@ public class RestaurantMenu extends JFrame {
         loggedInCustomer = ffa.getLoggedInCustomer();
         currentOrder = new Order();
         currentOrder.setRestaurant(restaurant);
+        numCustomerReviews = 0;
+        output = "";
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 700);
@@ -267,14 +272,59 @@ public class RestaurantMenu extends JFrame {
 
         // Content Pane Labels
         lblRating = new JLabel("Rating: ");
-        lblRatingVal = new JLabel("Rating placeholder");
+        lblRatingVal = new JLabel();
+        
+        // Find number of customers who have written reviews for the restaurant
+        ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+        List<ReviewEntry> value;
+        
+        // Search through all the customers in the application
+        for(int i = 0; i < ffa.getCustomers().size(); i++) {
+        	customerPastReviews = ffa.getCustomers().get(i).getPastReviews();
+        	
+        	// Get all the reviews of a specific customer
+        	for(int j = 0; j < customerPastReviews.size(); j++) {
+        	 
+        		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(j).getReviewRestaurantReviews();
+        	
+        		// Get the restaurant reviews for a specific review
+        		for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+        			key = entry.getKey();
+        			value = entry.getValue();
+        			
+        			// Get the past orders for a specific customer
+        			for(int k = 0; k < ffa.getCustomers().get(i).getPastOrders().size(); k++) {
+        				
+        				if(key.equals(ffa.getCustomers().get(i).getPastOrders().get(k).getRestaurant().getName())) {
+        					
+        					numCustomerReviews += 1;
+        				}
+	            	}
+	            }
+	        }
+        	
+        }
+    	
+        if(numCustomerReviews != 0) {
+        
+        // Display average rating of restaurant
+        restaurant.setAverageRating((restaurant.getTotalRating())/numCustomerReviews);
+        double restaurantAvgRating = restaurant.getAverageRating();
+        String restaurantAvgRatingString = String.valueOf(restaurantAvgRating);
+        lblRatingVal.setText(restaurantAvgRatingString);
+        }
+        
+        else {
+        	lblRatingVal.setText("No ratings yet");
+        }
+        
         lblMenu = new JLabel("Menu");
 
         lblRating.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         lblRating.setBounds(534, 69, 96, 32);
         contentPane.add(lblRating);
 
-        lblRatingVal.setBounds(612, 80, 140, 16);
+        lblRatingVal.setBounds(612, 80, 169, 16);
         contentPane.add(lblRatingVal);
 
         lblMenu.setFont(new Font("Bangla MN", Font.PLAIN, 30));
@@ -288,6 +338,10 @@ public class RestaurantMenu extends JFrame {
         lblRestaurantName.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
         lblRestaurantName.setBounds(280, 20, 361, 48);
         contentPane.add(lblRestaurantName);
+        
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(94, 142, 589, 346);
+        
 
         // List code
         listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
@@ -301,10 +355,8 @@ public class RestaurantMenu extends JFrame {
             listModel.addElement(menuInfo);
         }
 
-        list = new JList<>(listModel); // Initialize the list
-        list.setBounds(87, 146, 614, 351);
-        contentPane.add(list);
-
+        list = new JList<String>(listModel); // Initialize the list
+        
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -348,7 +400,10 @@ public class RestaurantMenu extends JFrame {
                 }
             }
         });
-
+        
+        
+        scrollPane.setViewportView(list);
+        contentPane.add(scrollPane);
     }
 
     // Event listener
@@ -670,8 +725,8 @@ public class RestaurantMenu extends JFrame {
 
      // Method to handle customer viewing their past reviews
         private void handleViewReviews() {
-        	String output = "";
-        	String key;
+        	
+        	
         	List<ReviewEntry> value;
         	ArrayList<Review> customerPastReviews = new ArrayList<Review>();
         	customerPastReviews = loggedInCustomer.getPastReviews();
@@ -822,6 +877,7 @@ public class RestaurantMenu extends JFrame {
 				if (result == JOptionPane.OK_OPTION) {
 
 						Restaurant restaurant = ffa.getRestaurant(restaurantName);
+						restaurant.addRating((int)(rating.getValue()));
 						Review customerReview = new Review();
 						customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
 						
