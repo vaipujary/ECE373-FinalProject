@@ -679,6 +679,7 @@ public class ShoppingCart extends JFrame {
 			}
 		}
 
+		// Method to manage a customer's preferred payment method
 		private void handleManagePreferredPayment() {
 			try {
 				JFrame temp = new JFrame("Manage preferred payment method");
@@ -798,6 +799,7 @@ public class ShoppingCart extends JFrame {
 	    	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
 		}
 
+		// Method to handle a customer managing their password
 		private void handleManagePassword() {
 
 			try {
@@ -848,6 +850,7 @@ public class ShoppingCart extends JFrame {
 			}
 		}
 
+		// Method to handle customer updating their phone number
 		private void handleUpdatePhoneNumber() {
 
 			try {

@@ -456,7 +456,7 @@ public class ViewRestaurants extends JFrame {
 		}
     }
 
-    // Method to manage a customer's preferred payemnt method
+    // Method to manage a customer's preferred payment method
     private void handleManagePreferredPayment() {
     	try {
 			JFrame temp = new JFrame("Manage preferred payment method");

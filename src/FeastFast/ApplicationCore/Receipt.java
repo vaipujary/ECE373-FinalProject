@@ -466,6 +466,7 @@ public class Receipt extends JFrame {
 			}
 		}
 		
+		// Method to manage a customer's preferred payment method
 		private void handleManagePreferredPayment() {
 			try {
 				JFrame temp = new JFrame("Manage preferred payment method");
@@ -530,6 +531,7 @@ public class Receipt extends JFrame {
 			}
 		}
 		
+		// Method to handle customer viewing past orders
 		private void handleViewPastOrders() {
 			String output = "";
 			MenuItem menuItem = new MenuItem();
@@ -555,6 +557,7 @@ public class Receipt extends JFrame {
 		
 		}
 		
+		// Method to handle customer viewing their past reviews
 		private void handleViewReviews() {
 			String output = "";
 	    	String key;
@@ -585,6 +588,7 @@ public class Receipt extends JFrame {
 	    	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
+		// Method to handle a customer managing their password
 		private void handleManagePassword() {
 			try {
 				JFrame temp = new JFrame("Confirm selection");
@@ -634,6 +638,7 @@ public class Receipt extends JFrame {
 			}
 		}
 		
+		// Method to handle customer updating their phone number
 		private void handleUpdatePhoneNumber() {
 			try {
 				JFrame temp = new JFrame("Update phone number");
