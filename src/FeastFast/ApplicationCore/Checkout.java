@@ -412,11 +412,14 @@ public class Checkout extends JFrame {
 		        }
 		    }
 			
+			// Method to handle a customer placing an order
 			private void handlePlaceOrder() {
 				if (currentOrder != null) {
 					
+					// Checking if a radio button is selected
 					if(rdbtnNewRadioButton.isSelected() || rdbtnHomeDelivery.isSelected()) {
 						
+						// Checking if a combo box element is selected
 						if(comboBox.getSelectedIndex() > -1) {
 							currentOrder.isPlaced(); //Place the order		    	
 							Receipt receipt = new Receipt(ffa, currentOrder);			     
