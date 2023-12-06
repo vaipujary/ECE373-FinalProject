@@ -414,9 +414,35 @@ public class Checkout extends JFrame {
 			
 			private void handlePlaceOrder() {
 				if (currentOrder != null) {
-					currentOrder.isPlaced(); //Place the order		    	
-			    	Receipt receipt = new Receipt(ffa, currentOrder);			     
-			        receipt.setVisible(true);
+					
+					if(rdbtnNewRadioButton.isSelected() || rdbtnHomeDelivery.isSelected()) {
+						
+						if(comboBox.getSelectedIndex() > -1) {
+							currentOrder.isPlaced(); //Place the order		    	
+							Receipt receipt = new Receipt(ffa, currentOrder);			     
+							receipt.setVisible(true);
+						}
+						
+						else {
+							JOptionPane.showMessageDialog(null,
+					                "You must choose a payment method.",
+					                "Error",
+					                JOptionPane.ERROR_MESSAGE
+					        );
+						}
+					}
+					
+					else {
+						JOptionPane.showMessageDialog(null,
+				                "You must choose whether you want Pickup or Home Delivery.",
+				                "Error",
+				                JOptionPane.ERROR_MESSAGE
+				        );
+					}
+					
+					
+					
+					
 			    } else {
 			        // If the order is not placed, show a message
 			        JOptionPane.showMessageDialog(null,
@@ -690,7 +716,7 @@ public class Checkout extends JFrame {
 					JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
 					
 					JPasswordField newPassText =  new JPasswordField();
-					String newPassTextString = new String(newPassText.getPassword());
+					//String newPassTextString = new String(newPassText.getPassword());
 					JPasswordField confirmNewPassText = new JPasswordField();
 					String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
 
