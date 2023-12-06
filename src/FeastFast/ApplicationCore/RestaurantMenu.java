@@ -6,14 +6,18 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JLabel;
@@ -23,15 +27,20 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
+import FeastFast.OrderingAndTransactions.Review;
+import FeastFast.OrderingAndTransactions.Review.ReviewEntry;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
@@ -41,7 +50,9 @@ public class RestaurantMenu extends JFrame {
     private FeastFastApplication ffa;
     private Customer loggedInCustomer;
     private Order currentOrder;
+    private int numCustomerReviews;
     private Restaurant selectedRestaurant;
+    private JComboBox<String> restaurantNames;
 
     DefaultListModel<String> listModel;
 
@@ -90,9 +101,11 @@ public class RestaurantMenu extends JFrame {
     JPanel sidePanel;
     JSplitPane splitPane;
     JPanel contentPane;
-
-    // List Components
+    
+    String key;
+    String output;
     JList<String> list;
+    private JScrollPane scrollPane;
 
     /**
      * Launch the application.
@@ -122,6 +135,8 @@ public class RestaurantMenu extends JFrame {
         loggedInCustomer = ffa.getLoggedInCustomer();
         currentOrder = new Order();
         currentOrder.setRestaurant(restaurant);
+        numCustomerReviews = 0;
+        output = "";
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 800, 700);
@@ -257,14 +272,59 @@ public class RestaurantMenu extends JFrame {
 
         // Content Pane Labels
         lblRating = new JLabel("Rating: ");
-        lblRatingVal = new JLabel("Rating placeholder");
+        lblRatingVal = new JLabel();
+        
+        // Find number of customers who have written reviews for the restaurant
+        ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+        List<ReviewEntry> value;
+        
+        // Search through all the customers in the application
+        for(int i = 0; i < ffa.getCustomers().size(); i++) {
+        	customerPastReviews = ffa.getCustomers().get(i).getPastReviews();
+        	
+        	// Get all the reviews of a specific customer
+        	for(int j = 0; j < customerPastReviews.size(); j++) {
+        	 
+        		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(j).getReviewRestaurantReviews();
+        	
+        		// Get the restaurant reviews for a specific review
+        		for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+        			key = entry.getKey();
+        			value = entry.getValue();
+        			
+        			// Get the past orders for a specific customer
+        			for(int k = 0; k < ffa.getCustomers().get(i).getPastOrders().size(); k++) {
+        				
+        				if(key.equals(ffa.getCustomers().get(i).getPastOrders().get(k).getRestaurant().getName())) {
+        					
+        					numCustomerReviews += 1;
+        				}
+	            	}
+	            }
+	        }
+        	
+        }
+    	
+        if(numCustomerReviews != 0) {
+        
+        // Display average rating of restaurant
+        restaurant.setAverageRating((restaurant.getTotalRating())/numCustomerReviews);
+        double restaurantAvgRating = restaurant.getAverageRating();
+        String restaurantAvgRatingString = String.valueOf(restaurantAvgRating);
+        lblRatingVal.setText(restaurantAvgRatingString);
+        }
+        
+        else {
+        	lblRatingVal.setText("No ratings yet");
+        }
+        
         lblMenu = new JLabel("Menu");
 
         lblRating.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
         lblRating.setBounds(534, 69, 96, 32);
         contentPane.add(lblRating);
 
-        lblRatingVal.setBounds(612, 80, 140, 16);
+        lblRatingVal.setBounds(612, 80, 169, 16);
         contentPane.add(lblRatingVal);
 
         lblMenu.setFont(new Font("Bangla MN", Font.PLAIN, 30));
@@ -278,6 +338,10 @@ public class RestaurantMenu extends JFrame {
         lblRestaurantName.setFont(new Font("Lucida Grande", Font.PLAIN, 40));
         lblRestaurantName.setBounds(280, 20, 361, 48);
         contentPane.add(lblRestaurantName);
+        
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(94, 142, 589, 346);
+        
 
         // List code
         listModel = new DefaultListModel<>(); // Initialize the DefaultListModel
@@ -291,10 +355,8 @@ public class RestaurantMenu extends JFrame {
             listModel.addElement(menuInfo);
         }
 
-        list = new JList<>(listModel); // Initialize the list
-        list.setBounds(87, 146, 614, 351);
-        contentPane.add(list);
-
+        list = new JList<String>(listModel); // Initialize the list
+        
         list.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -338,7 +400,10 @@ public class RestaurantMenu extends JFrame {
                 }
             }
         });
-
+        
+        
+        scrollPane.setViewportView(list);
+        contentPane.add(scrollPane);
     }
 
     // Event listener
@@ -569,6 +634,7 @@ public class RestaurantMenu extends JFrame {
     		}
         }
 
+     // Method to manage a customer's preferred payment method
         private void handleManagePreferredPayment() {
         	try {
 				JFrame temp = new JFrame("Manage preferred payment method");
@@ -633,14 +699,62 @@ public class RestaurantMenu extends JFrame {
 			}
         }
 
+     // Method to handle customer viewing past orders
         private void handleViewPastOrders() {
-            // Implement your logic here
+        	String output = "";
+			MenuItem menuItem = new MenuItem();
+			Integer quantity; 
+			ArrayList<Order> customerPastOrders = new ArrayList<Order>();
+			customerPastOrders = loggedInCustomer.getPastOrders();
+			HashMap<MenuItem, Integer> orderFoodItems = new HashMap<MenuItem, Integer>();
+			
+			for(int i = 0; i < customerPastOrders.size(); i++) {
+				orderFoodItems = customerPastOrders.get(i).getFoodItems();
+				
+				output += customerPastOrders.get(i).getRestaurant().getName() + ": \n";
+				
+				for (Entry<MenuItem, Integer> entry : orderFoodItems.entrySet()) {
+					menuItem = entry.getKey();
+					quantity = entry.getValue();
+					output += quantity.toString() + "x " + menuItem.getName() + "\n";
+				}
+			}
+			
+			JOptionPane.showMessageDialog(null, output, "Your Past Orders", JOptionPane.INFORMATION_MESSAGE);
         }
 
+     // Method to handle customer viewing their past reviews
         private void handleViewReviews() {
-            // Implement your logic here
+        	
+        	
+        	List<ReviewEntry> value;
+        	ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+        	customerPastReviews = loggedInCustomer.getPastReviews();
+        	
+        	for(int i = 0; i < customerPastReviews.size(); i++) {
+        		
+        		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(i).getReviewRestaurantReviews();
+       
+        			for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+        	            key = entry.getKey();
+        	            value = entry.getValue();
+        	            for(int j = 0; j < loggedInCustomer.getPastOrders().size(); j++) {
+        	            	if(key.equals(loggedInCustomer.getPastOrders().get(j).getRestaurant().getName())) {
+        	            		for(int k = 0; k < value.size(); k++) {
+        	            			if(value.get(k).getCustomerName().equals(loggedInCustomer.getName())) {
+        	            				output += key + ": \n";
+        	    	            		output += value.get(k).getReviewText() + "\n";
+        	            			}
+        	            		}
+        	            	}
+        	            }
+        	        }
+        	}
+        	
+        	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
         }
 
+     // Method to handle a customer managing their password
         private void handleManagePassword() {
         	try {
     			JFrame temp = new JFrame("Confirm selection");
@@ -731,8 +845,79 @@ public class RestaurantMenu extends JFrame {
 			}
         }
 
+     // Method to handle customer updating their phone number
         private void handleWriteReview() {
-            // Implement your logic here
+        	try {
+				JFrame temp = new JFrame("Write Review");
+				ArrayList<String> restaurantNamesArrayList = new ArrayList<String>();
+				
+				for(int i = 0; i < ffa.getRestaurants().size(); i++) {
+					restaurantNamesArrayList.add(ffa.getRestaurants().get(i).getName());
+				}
+				
+				JLabel restaurantNameLabel = new JLabel("Which restaurant do you want to write a review for?");
+				boolean hasOrderedFromRestaurant = false;
+				
+				SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, //initial value
+				         1, //min
+				         5, //max
+				         1);//step
+				
+				JLabel ratingLabel = new JLabel("Rating");
+				JSpinner rating = new JSpinner(spinnerModel);
+				restaurantNames = new JComboBox<String>();
+				restaurantNames.setModel(new DefaultComboBoxModel<String>(restaurantNamesArrayList.toArray(new String[0])));
+				String restaurantName = String.valueOf(restaurantNames.getSelectedItem());
+
+				JTextArea review = new JTextArea(5, 10);
+				
+				int result = JOptionPane.showOptionDialog(temp, new Object[] { restaurantNameLabel, restaurantNames, ratingLabel, rating, review }, "Write a Review",
+						JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+				if (result == JOptionPane.OK_OPTION) {
+
+						Restaurant restaurant = ffa.getRestaurant(restaurantName);
+						restaurant.addRating((int)(rating.getValue()));
+						Review customerReview = new Review();
+						customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
+						
+						// Check if customer has ordered from restaurant
+						for(int i = 0; i < loggedInCustomer.getPastOrders().size(); i++) {
+							if(loggedInCustomer.getPastOrders().get(i).getRestaurant().getName().equals(restaurantName)) {
+								hasOrderedFromRestaurant = true;
+							}
+						}
+						
+						if(hasOrderedFromRestaurant) {
+							restaurant.addRestaurantReview(customerReview);
+							loggedInCustomer.addPastReview(customerReview);
+							
+							JOptionPane.showMessageDialog(null,
+									"Successfully submitted restaurant review!",
+									"Success",
+									JOptionPane.PLAIN_MESSAGE);
+						}
+						
+						else {
+							JOptionPane.showMessageDialog(null,
+									"You cannot submit a review for this restaurant because you have not ordered from this restaurant before.",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				
+				else {
+					JOptionPane.getRootFrame().dispose();
+				}
+			}
+        	
+			// Catch errors and return them
+			catch (Exception ex) {
+				JOptionPane.showMessageDialog(null,
+						"Error: " + ex.getMessage(),
+						"Error",
+						JOptionPane.ERROR_MESSAGE);
+			}
         }
     }
 }

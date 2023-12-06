@@ -6,10 +6,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,24 +27,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import FeastFast.OrderingAndTransactions.Review;
+import FeastFast.OrderingAndTransactions.Review.ReviewEntry;
 // import FeastFast.ApplicationCore.ShoppingCart.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 public class Checkout extends JFrame {
 
 	private FeastFastApplication ffa;
 	private Order currentOrder;
 	private Customer loggedInCustomer;
+	private JComboBox<String> restaurantNames;
 	
     // Content pane
     private JPanel contentPane;
@@ -401,11 +412,40 @@ public class Checkout extends JFrame {
 		        }
 		    }
 			
+			// Method to handle a customer placing an order
 			private void handlePlaceOrder() {
 				if (currentOrder != null) {
-					currentOrder.isPlaced(); //Place the order		    	
-			    	Receipt receipt = new Receipt(ffa, currentOrder);			     
-			        receipt.setVisible(true);
+					
+					// Checking if a radio button is selected
+					if(rdbtnNewRadioButton.isSelected() || rdbtnHomeDelivery.isSelected()) {
+						
+						// Checking if a combo box element is selected
+						if(comboBox.getSelectedIndex() > -1) {
+							currentOrder.isPlaced(); //Place the order		    	
+							Receipt receipt = new Receipt(ffa, currentOrder);			     
+							receipt.setVisible(true);
+						}
+						
+						else {
+							JOptionPane.showMessageDialog(null,
+					                "You must choose a payment method.",
+					                "Error",
+					                JOptionPane.ERROR_MESSAGE
+					        );
+						}
+					}
+					
+					else {
+						JOptionPane.showMessageDialog(null,
+				                "You must choose whether you want Pickup or Home Delivery.",
+				                "Error",
+				                JOptionPane.ERROR_MESSAGE
+				        );
+					}
+					
+					
+					
+					
 			    } else {
 			        // If the order is not placed, show a message
 			        JOptionPane.showMessageDialog(null,
@@ -549,6 +589,7 @@ public class Checkout extends JFrame {
 				}
 			}
 			
+			// Method to manage a customer's preferred payment method
 			private void handleManagePreferredPayment() {
 				try {
 					JFrame temp = new JFrame("Manage preferred payment method");
@@ -613,16 +654,64 @@ public class Checkout extends JFrame {
 				}
 			}
 			
+			// Method to handle customer viewing past orders
 			private void handleViewPastOrders() {
+				String output = "";
+				MenuItem menuItem = new MenuItem();
+				Integer quantity; 
+				ArrayList<Order> customerPastOrders = new ArrayList<Order>();
+				customerPastOrders = loggedInCustomer.getPastOrders();
+				HashMap<MenuItem, Integer> orderFoodItems = new HashMap<MenuItem, Integer>();
 				
+				for(int i = 0; i < customerPastOrders.size(); i++) {
+					orderFoodItems = customerPastOrders.get(i).getFoodItems();
+					
+					output += customerPastOrders.get(i).getRestaurant().getName() + ": \n";
+					
+					for (Entry<MenuItem, Integer> entry : orderFoodItems.entrySet()) {
+						menuItem = entry.getKey();
+						quantity = entry.getValue();
+						output += quantity.toString() + "x " + menuItem.getName() + "\n";
+					}
+				}
+				
+				JOptionPane.showMessageDialog(null, output, "Your Past Orders", JOptionPane.INFORMATION_MESSAGE);
 			
 			
 			}
 			
+			// Method to handle customer viewing their past reviews
 			private void handleViewReviews() {
-				
+				String output = "";
+		    	String key;
+		    	List<ReviewEntry> value;
+		    	ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+		    	customerPastReviews = loggedInCustomer.getPastReviews();
+		    	
+		    	for(int i = 0; i < customerPastReviews.size(); i++) {
+		    		
+		    		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(i).getReviewRestaurantReviews();
+		   
+		    			for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+		    	            key = entry.getKey();
+		    	            value = entry.getValue();
+		    	            for(int j = 0; j < loggedInCustomer.getPastOrders().size(); j++) {
+		    	            	if(key.equals(loggedInCustomer.getPastOrders().get(j).getRestaurant().getName())) {
+		    	            		for(int k = 0; k < value.size(); k++) {
+		    	            			if(value.get(k).getCustomerName().equals(loggedInCustomer.getName())) {
+		    	            				output += key + ": \n";
+		    	    	            		output += value.get(k).getReviewText() + "\n";
+		    	            			}
+		    	            		}
+		    	            	}
+		    	            }
+		    	        }
+		    	}
+		    	
+		    	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
 			}
 			
+			// Method to handle a customer managing their password
 			private void handleManagePassword() {
 				try {
 					JFrame temp = new JFrame("Confirm selection");
@@ -630,7 +719,7 @@ public class Checkout extends JFrame {
 					JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
 					
 					JPasswordField newPassText =  new JPasswordField();
-					String newPassTextString = new String(newPassText.getPassword());
+					//String newPassTextString = new String(newPassText.getPassword());
 					JPasswordField confirmNewPassText = new JPasswordField();
 					String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
 
@@ -672,6 +761,7 @@ public class Checkout extends JFrame {
 				}
 			}
 			
+			// Method to handle customer updating their phone number
 			private void handleUpdatePhoneNumber() {
 				try {
 					JFrame temp = new JFrame("Update phone number");
@@ -714,6 +804,77 @@ public class Checkout extends JFrame {
 			}
 			
 			private void handleWriteReview() {
+				try {
+					JFrame temp = new JFrame("Write Review");
+					ArrayList<String> restaurantNamesArrayList = new ArrayList<String>();
+					
+					for(int i = 0; i < ffa.getRestaurants().size(); i++) {
+						restaurantNamesArrayList.add(ffa.getRestaurants().get(i).getName());
+					}
+					
+					JLabel restaurantNameLabel = new JLabel("Which restaurant do you want to write a review for?");
+					boolean hasOrderedFromRestaurant = false;
+					
+					SpinnerNumberModel spinnerModel = new SpinnerNumberModel(1, //initial value
+					         1, //min
+					         5, //max
+					         1);//step
+					
+					JLabel ratingLabel = new JLabel("Rating");
+					JSpinner rating = new JSpinner(spinnerModel);
+					restaurantNames = new JComboBox<String>();
+					restaurantNames.setModel(new DefaultComboBoxModel<String>(restaurantNamesArrayList.toArray(new String[0])));
+					String restaurantName = String.valueOf(restaurantNames.getSelectedItem());
+
+					JTextArea review = new JTextArea(5, 10);
+					
+					int result = JOptionPane.showOptionDialog(temp, new Object[] { restaurantNameLabel, restaurantNames, ratingLabel, rating, review }, "Write a Review",
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+					if (result == JOptionPane.OK_OPTION) {
+
+							Restaurant restaurant = ffa.getRestaurant(restaurantName);
+							restaurant.addRating((int)rating.getValue());
+							Review customerReview = new Review();
+							customerReview.submitReview(restaurantName, loggedInCustomer.getName(), result, review.getText());
+							
+							// Check if customer has ordered from restaurant
+							for(int i = 0; i < loggedInCustomer.getPastOrders().size(); i++) {
+								if(loggedInCustomer.getPastOrders().get(i).getRestaurant().getName().equals(restaurantName)) {
+									hasOrderedFromRestaurant = true;
+								}
+							}
+							
+							if(hasOrderedFromRestaurant) {
+								restaurant.addRestaurantReview(customerReview);
+								loggedInCustomer.addPastReview(customerReview);
+								
+								JOptionPane.showMessageDialog(null,
+										"Successfully submitted restaurant review!",
+										"Success",
+										JOptionPane.PLAIN_MESSAGE);
+							}
+							
+							else {
+								JOptionPane.showMessageDialog(null,
+										"You cannot submit a review for this restaurant because you have not ordered from this restaurant before.",
+										"Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					
+					else {
+						JOptionPane.getRootFrame().dispose();
+					}
+				}
+	        	
+				// Catch errors and return them
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null,
+							"Error: " + ex.getMessage(),
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		}
