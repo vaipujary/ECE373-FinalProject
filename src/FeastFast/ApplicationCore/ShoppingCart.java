@@ -743,10 +743,31 @@ public class ShoppingCart extends JFrame {
 			}
 		}
 
+		// Method to handle customer viewing past orders
 		private void handleViewPastOrders() {
-
+			String output = "";
+			MenuItem menuItem = new MenuItem();
+			Integer quantity; 
+			ArrayList<Order> customerPastOrders = new ArrayList<Order>();
+			customerPastOrders = loggedInCustomer.getPastOrders();
+			HashMap<MenuItem, Integer> orderFoodItems = new HashMap<MenuItem, Integer>();
+			
+			for(int i = 0; i < customerPastOrders.size(); i++) {
+				orderFoodItems = customerPastOrders.get(i).getFoodItems();
+				
+				output += customerPastOrders.get(i).getRestaurant().getName() + ": \n";
+				
+				for (Entry<MenuItem, Integer> entry : orderFoodItems.entrySet()) {
+					menuItem = entry.getKey();
+					quantity = entry.getValue();
+					output += quantity.toString() + "x " + menuItem.getName() + "\n";
+				}
+			}
+			
+			JOptionPane.showMessageDialog(null, output, "Your Past Orders", JOptionPane.INFORMATION_MESSAGE);
 		}
 
+		// Method to handle customer viewing their past reviews
 		private void handleViewReviews() {
 			String output = "";
 	    	String key;

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -42,6 +43,7 @@ import FeastFast.OrderingAndTransactions.Review;
 import FeastFast.OrderingAndTransactions.Review.ReviewEntry;
 //import FeastFast.ApplicationCore.RestaurantMenu.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
+import FeastFast.RestaurantManagement.Order;
 import FeastFast.UserManagement.Customer;
 import FeastFast.UserManagement.Restaurant;
 
@@ -521,7 +523,28 @@ public class ViewRestaurants extends JFrame {
 
     // Method to view a customer's past orders
     private void handleViewPastOrders() {
-
+    	String output = "";
+		MenuItem menuItem = new MenuItem();
+		Integer quantity; 
+		ArrayList<Order> customerPastOrders = new ArrayList<Order>();
+		customerPastOrders = loggedInCustomer.getPastOrders();
+		HashMap<MenuItem, Integer> orderFoodItems = new HashMap<MenuItem, Integer>();
+		
+		for(int i = 0; i < customerPastOrders.size(); i++) {
+			orderFoodItems = customerPastOrders.get(i).getFoodItems();
+			
+			output += customerPastOrders.get(i).getRestaurant().getName() + ": \n";
+			
+			for (Entry<MenuItem, Integer> entry : orderFoodItems.entrySet()) {
+				menuItem = entry.getKey();
+				quantity = entry.getValue();
+				output += quantity.toString() + "x " + menuItem.getName() + "\n";
+			}
+		}
+		
+		JOptionPane.showMessageDialog(null, output, "Your Past Orders", JOptionPane.INFORMATION_MESSAGE);
+    	
+    	
     }
 
 //    // Method to view a customer's reviews
@@ -565,7 +588,7 @@ public class ViewRestaurants extends JFrame {
 			JLabel confirmNewPassLabel = new JLabel("Confirm new password: ");
 			
 			JPasswordField newPassText =  new JPasswordField();
-			String newPassTextString = new String(newPassText.getPassword());
+			//String newPassTextString = new String(newPassText.getPassword());
 			JPasswordField confirmNewPassText = new JPasswordField();
 			String confirmNewPassTextString = new String(confirmNewPassText.getPassword());
 
