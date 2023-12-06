@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -41,6 +42,7 @@ import javax.swing.JSpinner;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.RestaurantManagement.Order;
 import FeastFast.OrderingAndTransactions.Review;
+import FeastFast.OrderingAndTransactions.Review.ReviewEntry;
 //import FeastFast.ApplicationCore.ViewRestaurants.Listener;
 import FeastFast.RestaurantManagement.Menu;
 import FeastFast.UserManagement.Customer;
@@ -420,7 +422,6 @@ public class ShoppingCart extends JFrame {
 	}
 
 	// Event listener
-	// Event listener
 	private class Listener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
@@ -747,7 +748,33 @@ public class ShoppingCart extends JFrame {
 		}
 
 		private void handleViewReviews() {
-
+			String output = "";
+	    	String key;
+	    	List<ReviewEntry> value;
+	    	ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+	    	customerPastReviews = loggedInCustomer.getPastReviews();
+	    	
+	    	for(int i = 0; i < customerPastReviews.size(); i++) {
+	    		
+	    		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(i).getReviewRestaurantReviews();
+	   
+	    			for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+	    	            key = entry.getKey();
+	    	            value = entry.getValue();
+	    	            for(int j = 0; j < loggedInCustomer.getPastOrders().size(); j++) {
+	    	            	if(key.equals(loggedInCustomer.getPastOrders().get(j).getRestaurant().getName())) {
+	    	            		for(int k = 0; k < value.size(); k++) {
+	    	            			if(value.get(k).getCustomerName().equals(loggedInCustomer.getName())) {
+	    	            				output += key + ": \n";
+	    	    	            		output += value.get(k).getReviewText() + "\n";
+	    	            			}
+	    	            		}
+	    	            	}
+	    	            }
+	    	        }
+	    	}
+	    	
+	    	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		private void handleManagePassword() {

@@ -38,9 +38,16 @@ public class Review {
         }
     }
     
+    public Map<String, List<ReviewEntry>> getReviewRestaurantReviews(){
+    	return this.restaurantReviews;
+    }
     // Method to retrieve reviews for a specific restaurant
     public List<ReviewEntry> getRestaurantReviews(String restaurantName) {
         return restaurantReviews.get(restaurantName);
+    }
+    
+    public String getReviewText(ReviewEntry reviewEntry) {
+    	return reviewEntry.getReviewText();
     }
 
     // Static class to handle customer review entries

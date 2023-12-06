@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
@@ -37,6 +39,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import FeastFast.OrderingAndTransactions.Review;
+import FeastFast.OrderingAndTransactions.Review.ReviewEntry;
 //import FeastFast.ApplicationCore.RestaurantMenu.Listener;
 import FeastFast.RestaurantManagement.MenuItem;
 import FeastFast.UserManagement.Customer;
@@ -74,11 +77,11 @@ public class ViewRestaurants extends JFrame {
 	    JButton btnUpdateName;
 	    JButton btnUpdatePhoneNumber;
 	    JButton btnViewPastOrders;
-	    JButton btnViewReviews;
 	    JButton btnWriteAReview;
 	    JButton btnExit;
 	    JButton btnHome;
 	    JButton btnUserMenu;
+	    JButton btnViewReviews;
 		
 	    //Class Specific Buttons
 	    
@@ -175,10 +178,10 @@ public class ViewRestaurants extends JFrame {
         btnManageAddress = new JButton("Manage Address");
         btnManagePreferredPayment = new JButton("Manage Preferred Payment Method");
         btnViewPastOrders = new JButton("View Past Orders");
-        btnViewReviews = new JButton("View Reviews");
         btnManagePassword = new JButton("Manage Password");
         btnUpdatePhoneNumber = new JButton("Update Phone Number");
         btnWriteAReview = new JButton("Write a Review");
+        btnViewReviews = new JButton("View Past Reviews");
         
 
         // Side Panel Button Action Listeners
@@ -186,10 +189,10 @@ public class ViewRestaurants extends JFrame {
         btnManageAddress.addActionListener(new Listener());
         btnManagePreferredPayment.addActionListener(new Listener());
         btnViewPastOrders.addActionListener(new Listener());
-        btnViewReviews.addActionListener(new Listener());
         btnManagePassword.addActionListener(new Listener());
         btnUpdatePhoneNumber.addActionListener(new Listener());
         btnWriteAReview.addActionListener(new Listener());
+        btnViewReviews.addActionListener(new Listener());
         
         btnUpdateName.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		btnUpdateName.setBounds(16, 59, 260, 48);
@@ -521,8 +524,35 @@ public class ViewRestaurants extends JFrame {
 
     }
 
-    // Method to view a customer's reviews
+//    // Method to view a customer's reviews
     private void handleViewReviews() {
+    	String output = "";
+    	String key;
+    	List<ReviewEntry> value;
+    	ArrayList<Review> customerPastReviews = new ArrayList<Review>();
+    	customerPastReviews = loggedInCustomer.getPastReviews();
+    	
+    	for(int i = 0; i < customerPastReviews.size(); i++) {
+    		
+    		Map<String, List<ReviewEntry>> allRestaurantReviews = customerPastReviews.get(i).getReviewRestaurantReviews();
+   
+    			for (Entry<String, List<ReviewEntry>> entry : allRestaurantReviews.entrySet()) {
+    	            key = entry.getKey();
+    	            value = entry.getValue();
+    	            for(int j = 0; j < loggedInCustomer.getPastOrders().size(); j++) {
+    	            	if(key.equals(loggedInCustomer.getPastOrders().get(j).getRestaurant().getName())) {
+    	            		for(int k = 0; k < value.size(); k++) {
+    	            			if(value.get(k).getCustomerName().equals(loggedInCustomer.getName())) {
+    	            				output += key + ": \n";
+    	    	            		output += value.get(k).getReviewText() + "\n";
+    	            			}
+    	            		}
+    	            	}
+    	            }
+    	        }
+    	}
+    	
+    	JOptionPane.showMessageDialog(null, output, "Your Past Reviews", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
