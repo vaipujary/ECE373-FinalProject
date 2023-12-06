@@ -147,6 +147,7 @@ public class RestaurantMenu extends JFrame {
         scaledHomeIcon = homeIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT);
         newScaledHomeIcon = new ImageIcon(scaledHomeIcon);
         btnHome = new JButton(newScaledHomeIcon);
+        btnHome.addActionListener(new Listener());
 
         // Person Icon
         personIcon = new ImageIcon(Checkout.class.getResource("/FeastFast/ApplicationCore/PersonIcon.jpg"));
