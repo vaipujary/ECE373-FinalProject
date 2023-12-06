@@ -77,16 +77,22 @@ public class FeastFastApplication {
     	MenuItem shrimp = new MenuItem("Shrimp Cocktail", 16.00);
     	MenuItem salad = new MenuItem("Spinach Salad", 9.50);
     	MenuItem salad2 = new MenuItem("Caprese Salad", 7.50);
+    	MenuItem veganBurger = new MenuItem("Vegan Burger", 6.00);
+    	MenuItem veggieBurger = new MenuItem("Veggie Burger", 5.00);
+    	MenuItem lasagna = new MenuItem("Lasagna", 18.99);
     	
     	// Drinks
     	MenuItem latte = new MenuItem("Latte", 4.50);
     	MenuItem cappucino = new MenuItem("Cappucino", 5.50);
     	MenuItem americano = new MenuItem("Americano", 4.49);
     	MenuItem mojito = new MenuItem("Mojito", 7.00);
+    	MenuItem originalLemonade = new MenuItem("Original Lemonda", 2.00);
+    	MenuItem fountainSoda = new MenuItem("Fountain Soda", 1.75);
     	
     	// Pastries
     	MenuItem croissant = new MenuItem("Croissant", 10.49);
     	MenuItem cookie = new MenuItem("Cookie", 2.99);
+    	MenuItem focaccia = new MenuItem("Focaccia", 7.50);
     	
     	
     	// Creating restaurants
@@ -111,6 +117,15 @@ public class FeastFastApplication {
 		Restaurant restaurant19 = new Restaurant("Iguana Cafe & Bar");
 		Restaurant restaurant20 = new Restaurant("Bison Witches");
 		Restaurant restaurant21 = new Restaurant("Empire Pizza & Pub");
+		Restaurant restaurant22 = new Restaurant("Panda House Restaurant");
+		Restaurant restaurant23 = new Restaurant("Nico's Mexican Food");
+		Restaurant restaurant24 = new Restaurant("OBON Sushi Bar Ramen");
+		Restaurant restaurant25 = new Restaurant("Miss Saigon");
+		Restaurant restaurant26 = new Restaurant("Jaime's Pizza Kitchen");
+		Restaurant restaurant27 = new Restaurant("Waffle House");
+		Restaurant restaurant28 = new Restaurant("Cafe Desta");
+		Restaurant restaurant29 = new Restaurant("Oriental Express Restaurant");
+		Restaurant restaurant30 = new Restaurant("La Indita");
 		
 		// Adding menu items to restaurant menus
 		restaurant1.getMenu().addItem(burger);
@@ -152,6 +167,15 @@ public class FeastFastApplication {
 		this.addRestaurant(restaurant19);
 		this.addRestaurant(restaurant20);
 		this.addRestaurant(restaurant21);
+		this.addRestaurant(restaurant22);
+		this.addRestaurant(restaurant23);
+		this.addRestaurant(restaurant24);
+		this.addRestaurant(restaurant25);
+		this.addRestaurant(restaurant26);
+		this.addRestaurant(restaurant27);
+		this.addRestaurant(restaurant28);
+		this.addRestaurant(restaurant29);
+		this.addRestaurant(restaurant30);
 		
     }
     
